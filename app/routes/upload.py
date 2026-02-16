@@ -9,7 +9,7 @@ import time
 
 mock_package = {
     "ts":time.time(), # Timestamp; when data is sendt
-    "id":1, # id (int), id til raspberrypi-en som uplaodet daten
+    "pi_id":1, # id (int), id til raspberrypi-en som uplaodet daten
     "SensorValues":{ # Dict[Str] -> float | (Dict[ts] -> float), dataverdier til en sensor gitt som enten float eller list
         "Temperature": 4.12,
         "Salt": {time.time()-3: 12,
