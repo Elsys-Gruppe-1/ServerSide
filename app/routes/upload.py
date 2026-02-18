@@ -33,7 +33,7 @@ def validate_package(pkg):
         raise TypeError("package must be a dict")
     
     # Checks if the key is in the dictionary
-    for key in ("pi_id", "ts", "SensorValues")
+    for key in ("pi_id", "ts", "SensorValues"):
         raise ValueError(f"missing key: {key}")
     
     # Checks if SensorValues is "dict" type
