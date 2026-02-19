@@ -1,5 +1,9 @@
 import time
-from app.db_gammel import create_table, save_measurement, get_measurements
+from app.db import session
+from flask import Blueprint, redirect, url_for, render_template
+
+
+upload_bp = Blueprint("uplaod", __name__)
 
 # MOCK DATASE SENSOR TABELL OPPSET
 # raspberrypi_id   -    sensor_id   - sensor_verdi  - ts
@@ -39,42 +43,25 @@ def validate_package(pkg):
     # Checks if SensorValues is "dict" type
     if not isinstance(pkg["SensorValues"], dict):
         raise TypeError("SensorValues must be a dict")
-
-
-# Convert data to list
-def data_to_list(pkg):
-    pi_id = int(pkg["pi_id"])
-    package_ts = float(pkg)
-
-    measurement = []
-
-    for sensor_name, sensor_value in pkg["SensorValues"].items():
-        if isinstance(sensor_value, (int, float)):
-            measurement.append((pi_id, sensor_name, package_ts, float(sensor_value)))
-
-        elif isinstance(sensor_value, dict):
-            for ts, value in sensor_value.items():
-                measurement.append((pi_id, sensor_name, float(ts), float(value)))
-
-        else:
-            raise TypeError(f"Unsupported sensor value type for {sensor_name}: {type(sensor_value)}")
-
-    return measurement   
+ 
     
 
-def save_all(measurement):
-    for (pi_id, sensor, ts, value) in measurement:
-        save_measurement(pi_id, sensor, ts, value)
+def add_to_database(pi_id, sensor_name, ts, sensor_value, depth = None):
 
+    session.add
+    """
+    Save values to the database
+    """
 
-def run():
-    create_table()
+@upload_bp.route("/api/upload")
+def upload():
+    """
+    Funksjon du kan nå fra api som tar inn en pakke
+    """
 
-    validate_package(mock_package)
-    measurement = data_to_list(mock_package)
-    save_all(measurement)
+    # validate_package(..)
+    # add_to_database(...)
 
-    print(f"Insert OK: lagret {len(measurement)} målinger")
 
 
 

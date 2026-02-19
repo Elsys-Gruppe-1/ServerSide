@@ -1,5 +1,5 @@
 from app import create_app
-import app.db_gammel
+import app.db
 
 app = create_app()
 
