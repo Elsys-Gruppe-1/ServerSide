@@ -3,7 +3,7 @@ from app.db import session
 from flask import Blueprint, redirect, url_for, render_template
 
 
-upload_bp = Blueprint("uplaod", __name__)
+upload_bp = Blueprint("upload", __name__)
 
 # MOCK DATASE SENSOR TABELL OPPSET
 # raspberrypi_id   -    sensor_id   - sensor_verdi  - ts
