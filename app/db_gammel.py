@@ -1,5 +1,12 @@
+"""
 import os
 import sqlite3
+import sqlalchemy as sa
+
+
+
+engine = sa.create_engine("sqlite:///instance/database.db")
+connection = engine.connect()
 
 DB_PATH = "instance/database.db"
 
@@ -18,15 +25,7 @@ def get_connection():
     return conn
 
 
-def create_table():
-    sql = """
-    CREATE TABLE IF NOT EXISTS measurement (
-    id INTEGER PRIMARY KEY,
-    pi_id INTEGER,
-    sensor TEXT,
-    ts REAL,
-    value REAL);
-    """
+
 
     conn = get_connection() # Open database
     cur = conn.cursor()     # Create tool to run SQL
@@ -57,3 +56,4 @@ def get_measurements(limit: int = 20):
 
     conn.close()
     return rows
+    """

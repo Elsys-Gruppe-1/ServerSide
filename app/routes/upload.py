@@ -1,5 +1,5 @@
 import time
-from app.db import create_table, save_measurement, get_measurements
+from app.db_gammel import create_table, save_measurement, get_measurements
 
 # MOCK DATASE SENSOR TABELL OPPSET
 # raspberrypi_id   -    sensor_id   - sensor_verdi  - ts
