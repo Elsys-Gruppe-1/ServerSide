@@ -1,59 +1,50 @@
-import os
-import sqlite3
+from sqlalchemy import create_engine, JSON, Column, Integer, String, Float
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
-DB_PATH = "instance/database.db"
+engine = create_engine("sqlite:///database.db")
+Base = declarative_base()
 
-try:
-    conn = sqlite3.connect(DB_PATH)
-    print("Klarte å åpne databasen")
-    conn.close()
-except Exception as e:
-    print("Feil ved åpning av database", e)
+class Measurements(Base):
+    __tablename__ = "measurements"
+
+    id = Column(Integer, primary_key = True)
+    pi_id = Column(Integer, primary_key= True)
+    sensor_name = Column(String, nullable = False)
+
+    ts = Column(Float, nullable = False)
+    sensor_value = Column(Float, nullable = False)
+    depth = Column(Float, nullable = True)
+
+    #values = Column(JSON, nullable = False)
 
 
-def get_connection():
-    #Open new connection every time
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    return conn
+"""
+TYPISK ENTERY I DATABSEN
+
+id: x
+pi_id: 1
+sensor_name: TDS
+
+ts: 23.91.21.23:23:23
+sensor_value: 0.13
+depth: 100
 
 
-def create_table():
-    sql = """
-    CREATE TABLE IF NOT EXISTS measurement (
-    id INTEGER PRIMARY KEY,
-    pi_id INTEGER,
-    sensor TEXT,
-    ts REAL,
-    value REAL);
-    """
+en annen entry:
 
-    conn = get_connection() # Open database
-    cur = conn.cursor()     # Create tool to run SQL
+TYPISK ENTERY I DATABSEN
 
-    cur.execute(sql)        # Run SQL
-    conn.commit()           # Save changes
-    conn.close()            # Close database
+id: x
+pi_id: 1
+sensor_name: Temrmistor
 
-def save_measurement(pi_id, sensor: str, ts: float, value: float):
-    sql = "INSERT INTO measurement (pi_id, sensor, ts, value) VALUES (?, ?, ?, ?);"
+ts: 23.91.21.23:23:23
+sensor_value: 0.13
+depth: 100
+"""
 
-    conn = get_connection()
-    cur = conn.cursor()
-    cur.execute(sql, (pi_id, sensor, ts, value))
-    conn.commit()
-    conn.close()
+Base.metadata.create_all(engine)
 
-#TEST printer database
-
-def get_measurements(limit: int = 20):
-    sql = "SELECT * FROM measurement ORDER BY ts DESC LIMIT ?;"
-    
-    conn = get_connection()
-    cur = conn.cursor()
-
-    cur.execute(sql, (limit,))
-    rows = cur.fetchall()
-
-    conn.close()
-    return rows
+Session = sessionmaker(bind=engine)
+session = Session() #Selve session objektet. Kan brukes videre med feks. session.add() og session.commit()
