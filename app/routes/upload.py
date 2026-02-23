@@ -1,6 +1,7 @@
 import time
-from app.db import session
+from app.db import Session
 from flask import Blueprint, redirect, url_for, render_template
+from app.db import Measurements
 
 
 upload_bp = Blueprint("upload", __name__)
@@ -48,10 +49,24 @@ def validate_package(pkg):
 
 def add_to_database(pi_id, sensor_name, ts, sensor_value, depth = None):
 
-    session.add
+    sensor_package = Measurements(pi_id, sensor_name, ts, sensor_value, depth)
+
+
+    session.add(sensor_package)
+    session.commit()
+
     """
     Save values to the database
     """
+
+
+    """
+    Ta inn 5 argumenter
+    Lage dette om til 1 measurement-objekt
+    Legge til i session
+    Commit session
+    """
+    
 
 @upload_bp.route("/api/upload")
 def upload():
@@ -62,6 +77,12 @@ def upload():
     # validate_package(..)
     # add_to_database(...)
 
+    """
+    Ta imot request
+    Lese JSON?
+    Sjekke med validate_package()
+    Trekke ut verdier og sende videre med add_to_database()
+    """
 
 
 
