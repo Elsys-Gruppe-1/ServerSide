@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
-    <title>Stimle hjemmeside</title>
-</head>
-    <body>
-        <h1>Stimle hjemmeside!</h1>
-        <p>Velkommen til Stimle </p>
+<!--Sier at vi skal arve fra base.html:-->
+{% extends "base.html" %}
 
-    </body>
-</html>
+<!--Lager blokk for tittelen-->
+<link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+{% block title %}Stimle hjemmeside{% endblock %}
+
+<!--Blokk for content-->
+{% block content %}
+<h1>Stimle hjemmeside!</h1>
+<p>Velkommen til Stimle </p>
+
+{% endblock %}
