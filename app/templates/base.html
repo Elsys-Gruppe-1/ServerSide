@@ -8,10 +8,28 @@
             <!--lager ny variabel av type block som heter title-->
             {% block title %} {% endblock %}
         </title>
+
+        <style>
+            .navbar-custom {
+                background-color: cadetblue;
+            }
+            .navbar-custom .nav-link {
+                color: deeppink;
+            }
+            .navbar-custom .nav-link:hover {
+                color: pink;
+            }
+
+            body {
+                background-color: rgb(195, 230, 227);
+            }
+        </style>
+
     </head>
     <body>
+
         <!--Her er kode tatt fra bootstrap som gir navigation bar-->
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <nav class="navbar navbar-expand-lg navbar-custom">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">Navbar</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,10 +41,10 @@
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
+                    <a class="nav-link" href="#">Fisk</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
+                    <a class="nav-link" href="#">Stimling</a>
                     </li>
                     <li class="nav-item">
                     <a class="nav-link disabled" aria-disabled="true">Disabled</a>
