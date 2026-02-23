@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine, JSON, Column, Integer, String, Float
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
 
 engine = create_engine("sqlite:///database.db")
 Base = declarative_base()
@@ -8,8 +8,8 @@ Base = declarative_base()
 class Measurements(Base):
     __tablename__ = "measurements"
 
-    id = Column(Integer, primary_key = True)
-    pi_id = Column(Integer, primary_key= True)
+    id = Column(Integer, primary_key = True, autoincrement = True)
+    pi_id = Column(Integer, nullable=False)
     sensor_name = Column(String, nullable = False)
 
     ts = Column(Float, nullable = False)
@@ -46,5 +46,4 @@ depth: 100
 
 Base.metadata.create_all(engine)
 
-Session = sessionmaker(bind=engine)
-session = Session() #Selve session objektet. Kan brukes videre med feks. session.add() og session.commit()
+Session = scoped_session(sessionmaker(bind=engine))
