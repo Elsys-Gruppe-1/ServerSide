@@ -8,8 +8,8 @@ Base = declarative_base()
 class Measurements(Base):
     __tablename__ = "measurements"
 
-    id = Column(Integer, primary_key = True)
-    pi_id = Column(Integer, primary_key= True)
+    id = Column(Integer, primary_key = True, autoincrement = True)
+    pi_id = Column(Integer, nullable=False)
     sensor_name = Column(String, nullable = False)
 
     ts = Column(Float, nullable = False)
