@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine, JSON, Column, Integer, String, Float
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.orm import sessionmaker
 
 engine = create_engine("sqlite:///database.db")
 Base = declarative_base()
@@ -46,4 +46,4 @@ depth: 100
 
 Base.metadata.create_all(engine)
 
-Session = scoped_session(sessionmaker(bind=engine))
+Session = sessionmaker(bind=engine)

@@ -49,11 +49,18 @@ def validate_package(pkg):
 
 def add_to_database(pi_id, sensor_name, ts, sensor_value, depth = None):
 
-    sensor_package = Measurements(pi_id, sensor_name, ts, sensor_value, depth)
+    sensor_package = Measurements(
+        pi_id=pi_id, 
+        sensor_name=sensor_name,
+        ts=ts, 
+        sensor_value=sensor_value, 
+        depth=depth)
 
+    session = Session()
 
     session.add(sensor_package)
     session.commit()
+    session.close()
 
     """
     Save values to the database
