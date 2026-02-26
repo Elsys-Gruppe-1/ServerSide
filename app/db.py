@@ -6,7 +6,7 @@ engine = create_engine("sqlite:///database.db")
 Base = declarative_base()
 
 class Measurements(Base):
-    __tablename__ = "measurements"
+    __tablename__ = "measurements_test"
 
     id = Column(Integer, primary_key = True, autoincrement = True)
     pi_id = Column(Integer, nullable=False)

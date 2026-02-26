@@ -2,6 +2,7 @@ import time
 from app.db import Session
 from flask import Blueprint, redirect, url_for, render_template
 from app.db import Measurements
+from flask import request, jsonify
 
 
 upload_bp = Blueprint("upload", __name__)
@@ -39,7 +40,8 @@ def validate_package(pkg):
     
     # Checks if the key is in the dictionary
     for key in ("pi_id", "ts", "SensorValues"):
-        raise ValueError(f"missing key: {key}")
+        if key not in pkg:
+            raise ValueError(f"missing key: {key}")
     
     # Checks if SensorValues is "dict" type
     if not isinstance(pkg["SensorValues"], dict):
@@ -81,6 +83,27 @@ def upload():
     Funksjon du kan nå fra api som tar inn en pakke
     """
 
+    #lese data sendt fra raspberry pi:
+    pkg = request.get_json()
+    validate_package(pkg)
+
+    #"extract" verdiene:
+    pi_id = pkg["pi_id"]
+    ts = pkg["ts"]
+    sensor_values = pkg["SensorValues"]
+
+    #legger til i database basert på typen på instance
+    for sensor_name, value in sensor_values.items():
+        if isinstance(value, dict):
+            for timestamp, sensor_value in value.items():
+                add_to_database(pi_id, sensor_name, timestamp, sensor_value)
+        
+        else:
+            add_to_database(pi_id, sensor_name, ts, value)
+    
+    #returnerer respons
+    return {"status": "success"}
+
     # validate_package(..)
     # add_to_database(...)
 
@@ -107,11 +130,11 @@ def run():
     for sensor_name, sensor_val in mock_package["SensorValues"].items():
         if isinstance(sensor_val, (int, float)):
             # 1 måling, bruker pakke-ts
-            save_measurement(pi_id, sensor_name, package_ts, float(sensor_val))
+            add_to_database(pi_id, sensor_name, package_ts, float(sensor_val))
         elif isinstance(sensor_val, dict):
             # mange målinger, bruker egne ts
             for ts, val in sensor_val.items():
-                save_measurement(pi_id, sensor_name, float(ts), float(val))
+                add_to_database(pi_id, sensor_name, float(ts), float(val))
 
     print("Insert OK")
     rows = get_measurements(20)
@@ -122,3 +145,37 @@ if __name__ == "__main__":
     run()
 
 """
+# TEST
+
+def run():
+
+    pi_id = mock_package["pi_id"]
+    package_ts = mock_package["ts"]
+
+    for sensor_name, sensor_val in mock_package["SensorValues"].items():
+
+        if isinstance(sensor_val, (int, float)):
+
+            add_to_database(
+                pi_id,
+                sensor_name,
+                package_ts,
+                float(sensor_val)
+            )
+
+        elif isinstance(sensor_val, dict):
+
+            for ts, val in sensor_val.items():
+
+                add_to_database(
+                    pi_id,
+                    sensor_name,
+                    float(ts),
+                    float(val)
+                )
+
+    print("Insert OK")
+
+
+if __name__ == "__main__":
+    run()
