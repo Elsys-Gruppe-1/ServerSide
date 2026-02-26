@@ -2,11 +2,11 @@ from sqlalchemy import create_engine, JSON, Column, Integer, String, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-engine = create_engine("sqlite:///database.db")
+engine = create_engine("sqlite:///instance/database.db")
 Base = declarative_base()
 
 class Measurements(Base):
-    __tablename__ = "measurements_test"
+    __tablename__ = "measurements"
 
     id = Column(Integer, primary_key = True, autoincrement = True)
     pi_id = Column(Integer, nullable=False)

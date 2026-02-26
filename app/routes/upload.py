@@ -148,14 +148,14 @@ if __name__ == "__main__":
 # TEST
 
 def run():
-
+    validate_package(mock_package)
     pi_id = mock_package["pi_id"]
     package_ts = mock_package["ts"]
 
     for sensor_name, sensor_val in mock_package["SensorValues"].items():
 
         if isinstance(sensor_val, (int, float)):
-
+            print("Trying to add to database", pi_id, sensor_name, package_ts, sensor_val)
             add_to_database(
                 pi_id,
                 sensor_name,
