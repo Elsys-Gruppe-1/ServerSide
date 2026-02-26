@@ -44,12 +44,12 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
-                    Stimler forbi
+                    Fiskepassering
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{{ url_for('siste_passert.siste_passert') }}">Siste passert fisk</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#section2">Ukas fisk</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('oversikt_passering.oversikt_passering') }}">Ukas fisk</a></li>
                     </ul>
                 
                 </li>
@@ -59,13 +59,13 @@
                     Sensor profil
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Temperatur</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('temperatur.temperatur') }}">Temperatur</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">Strømning</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('strømning.strømning') }}">Strømning</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">Total dissolved solids</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('totalt_oppløst.totalt_oppløst') }}">Totalt oppløste faste stoffer</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">Dybde</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('dybde.dybde') }}">Dybde</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="#">Turbiditet</a></li>
                 </ul>
