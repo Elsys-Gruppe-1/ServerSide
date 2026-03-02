@@ -1,5 +1,6 @@
 from flask import Flask
 import sqlalchemy
+from .socket_events import socketio, init_socket_events
 
 def create_app():
     app = Flask(__name__)
@@ -27,6 +28,9 @@ def create_app():
     app.register_blueprint(strømning_bp)
     app.register_blueprint(totalt_oppløst_bp)
     app.register_blueprint(dybde_bp)
+
+    socketio.init_app(app)  
+    init_socket_events()
 
     return app
 

@@ -1,0 +1,9 @@
+Flask
+Flask-SocketIO
+eventlet
+SQLAlchemy
+Flask-SQLAlchemy
+python-socketio[client]
+websocket-client
+Pillow
+numpy
