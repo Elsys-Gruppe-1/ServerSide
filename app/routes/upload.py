@@ -24,6 +24,13 @@ mock_package = {
     }
     }
 
+ny_mock_package = {
+    'pi_id': 1, 
+     'depth': 1, 
+     'sensor_value': {'Tmp': -1000, 'TDS': -1.50478}, 
+     'ts': '2026-02-23 11:55:43'
+}
+
 # Eksempel plan
 # Finne ut av hvordan man setter opp database og kobler den til flask
 # Lage en funskjon som tar inn "mock_package" og lagrer denne i databasen
@@ -39,13 +46,13 @@ def validate_package(pkg):
         raise TypeError("package must be a dict")
     
     # Checks if the key is in the dictionary
-    for key in ("pi_id", "ts", "SensorValues"):
+    for key in ("pi_id", "ts", "sensor_value"):
         if key not in pkg:
             raise ValueError(f"missing key: {key}")
     
     # Checks if SensorValues is "dict" type
-    if not isinstance(pkg["SensorValues"], dict):
-        raise TypeError("SensorValues must be a dict")
+    if not isinstance(pkg["sensor_value"], dict):
+        raise TypeError("sensor_value must be a dict")
  
     
 
@@ -91,15 +98,16 @@ def upload():
     pi_id = pkg["pi_id"]
     ts = pkg["ts"]
     sensor_values = pkg["SensorValues"]
+    depth = pkg["depth"]
 
     #legger til i database basert på typen på instance
-    for sensor_name, value in sensor_values.items():
+    for value in sensor_values.items():
         if isinstance(value, dict):
             for timestamp, sensor_value in value.items():
-                add_to_database(pi_id, sensor_name, timestamp, sensor_value)
+                add_to_database(pi_id, timestamp, sensor_value, depth)
         
         else:
-            add_to_database(pi_id, sensor_name, ts, value)
+            add_to_database(pi_id, ts, value, depth)
     
     #returnerer respons
     return {"status": "success"}
@@ -159,17 +167,16 @@ if __name__ == "__main__":
 # TEST
 
 def run():
-    validate_package(mock_package)
-    pi_id = mock_package["pi_id"]
-    package_ts = mock_package["ts"]
+    validate_package(ny_mock_package)
+    pi_id = ny_mock_package["pi_id"]
+    package_ts = ny_mock_package["ts"]
 
-    for sensor_name, sensor_val in mock_package["SensorValues"].items():
+    for sensor_val in ny_mock_package["sensor_value"].items():
 
         if isinstance(sensor_val, (int, float)):
-            print("Trying to add to database", pi_id, sensor_name, package_ts, sensor_val)
+            print("Trying to add to database", pi_id, package_ts, sensor_val)
             add_to_database(
                 pi_id,
-                sensor_name,
                 package_ts,
                 float(sensor_val)
             )
@@ -180,7 +187,6 @@ def run():
 
                 add_to_database(
                     pi_id,
-                    sensor_name,
                     float(ts),
                     float(val)
                 )
