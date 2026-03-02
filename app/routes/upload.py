@@ -124,17 +124,17 @@ def upload():
 
 
 def get_data():
-    session = Session()
-    measurements = session.query(Measurements).all()
-    result = []
+    with Session() as session:
+        measurements = session.query(Measurements).all()
+        result = []
     
-    for m in measurements:
-        result.append({"pi_id":m.pi_id,
-                      "sensor_name":m.sensor_name,
-                      "ts":m.ts,
-                      "sensor_value":m.sensor_value,
-                      "depth":m.depth})
-    return result
+        for m in measurements:
+            result.append({"pi_id":m.pi_id,
+                        "sensor_name":m.sensor_name,
+                        "ts":m.ts,
+                        "sensor_value":m.sensor_value,
+                        "depth":m.depth})
+        return result
 
 
 
