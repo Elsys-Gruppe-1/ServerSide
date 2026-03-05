@@ -28,14 +28,70 @@ ny_mock_package = {
     'pi_id': -1, 
      'depth': 1, 
      'sensor_value': {'Tmp': -1000, 'TDS': -1.50478}, 
-     'ts': time.time() -90
+     'ts': time.time() -270,
 }
 
 ny_mock_package_2 = {
     'pi_id': -1, 
      'depth': 2, 
      'sensor_value': {'Tmp': -10, 'TDS': -0.5}, 
-     'ts': time.time() -60 ,
+     'ts': time.time() -240,
+}
+
+ny_mock_package_3 = {
+    'pi_id': -1, 
+     'depth': 3, 
+     'sensor_value': {'Tmp': -5, 'TDS': -0.01}, 
+     'ts': time.time() -210,
+}
+
+ny_mock_package_4 = {
+    'pi_id': -1, 
+     'depth': 5, 
+     'sensor_value': {'Tmp': 10, 'TDS': 0.5}, 
+     'ts': time.time() -180,
+}
+
+ny_mock_package_5 = {
+    'pi_id': -1, 
+     'depth': 9, 
+     'sensor_value': {'Tmp': 100, 'TDS': 5}, 
+     'ts': time.time() -150,
+}
+
+ny_mock_package_6 = {
+    'pi_id': -1, 
+     'depth': 9, 
+     'sensor_value': {'Tmp': 110, 'TDS': 55}, 
+     'ts': time.time() -120,
+}
+
+ny_mock_package_7 = {
+    'pi_id': -1, 
+     'depth': 11, 
+     'sensor_value': {'Tmp': 15, 'TDS': 10}, 
+     'ts': time.time() -90,
+}
+
+ny_mock_package_8 = {
+    'pi_id': -1, 
+     'depth': 8, 
+     'sensor_value': {'Tmp': 12, 'TDS': 7}, 
+     'ts': time.time() -60,
+}
+
+ny_mock_package_9 = {
+    'pi_id': -1, 
+     'depth': 7, 
+     'sensor_value': {'Tmp': 67, 'TDS': 96}, 
+     'ts': time.time() -30,
+}
+
+ny_mock_package_10 = {
+    'pi_id': -1, 
+     'depth': 9, 
+     'sensor_value': {'Tmp': 100, 'TDS': 13}, 
+     'ts': time.time(),
 }
 
 # Eksempel plan
@@ -179,7 +235,7 @@ if __name__ == "__main__":
 
 def run():
 
-    packages = [ny_mock_package, ny_mock_package_2]
+    packages = [ny_mock_package, ny_mock_package_2, ny_mock_package_3, ny_mock_package_4]
 
     for pkg in packages:
 
