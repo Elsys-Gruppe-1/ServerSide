@@ -28,7 +28,7 @@ ny_mock_package = {
     'pi_id': 1, 
      'depth': 1, 
      'sensor_value': {'Tmp': -1000, 'TDS': -1.50478}, 
-     'ts': '2026-02-23 11:55:43'
+     'ts': time.time()
 }
 
 # Eksempel plan
@@ -54,6 +54,10 @@ def validate_package(pkg):
     if not isinstance(pkg["sensor_value"], dict):
         raise TypeError("sensor_value must be a dict")
  
+    if not isinstance(pkg["sensor_value"], (int, float, dict)):
+        raise TypeError("Sensor value was of unknow type", type(pkg["sensor_value"]))
+    
+    return True
     
 
 def add_to_database(pi_id, sensor_name, ts, sensor_value, depth = None):
@@ -92,7 +96,7 @@ def upload():
 
     #lese data sendt fra raspberry pi:
     pkg = request.get_json()
-    validate_package(pkg)
+    
 
     #"extract" verdiene:
     pi_id = pkg["pi_id"]
@@ -171,27 +175,29 @@ def run():
     pi_id = ny_mock_package["pi_id"]
     package_ts = ny_mock_package["ts"]
 
-    for sensor_val in ny_mock_package["sensor_value"].items():
-
+    for sensor_name, sensor_val in ny_mock_package["sensor_value"].items():
         if isinstance(sensor_val, (int, float)):
             print("Trying to add to database", pi_id, package_ts, sensor_val)
             add_to_database(
-                pi_id,
-                package_ts,
-                float(sensor_val)
+                pi_id = pi_id,
+                ts = package_ts,
+                sensor_name=sensor_name,
+                sensor_value=float(sensor_val)
             )
 
         elif isinstance(sensor_val, dict):
 
-            for ts, val in sensor_val.items():
-
+            for name, val in sensor_val.items():
+                print("Trying to add to database", pi_id, package_ts, sensor_val)
                 add_to_database(
-                    pi_id,
-                    float(ts),
-                    float(val)
+                    pi_id = pi_id,
+                    sensor_name= name,
+                    ts=package_ts,
+                    sensor_value=float(val)
                 )
 
     print("Insert OK")
+    print("\n==============================================\n".join([str(d) for d in get_data()]))
 
 
 if __name__ == "__main__":
