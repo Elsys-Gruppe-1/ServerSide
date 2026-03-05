@@ -97,17 +97,17 @@ def upload():
     #"extract" verdiene:
     pi_id = pkg["pi_id"]
     ts = pkg["ts"]
-    sensor_values = pkg["SensorValues"]
+    sensor_values = pkg["sensor_value"]
     depth = pkg["depth"]
 
     #legger til i database basert på typen på instance
     for value in sensor_values.items():
         if isinstance(value, dict):
-            for timestamp, sensor_value in value.items():
-                add_to_database(pi_id, timestamp, sensor_value, depth)
+            for timeStamp, sensorValue in value.items():
+                add_to_database(pi_id, timeStamp, sensorValue, depth)
         
         else:
-            add_to_database(pi_id, ts, value, depth)
+            add_to_database(pi_id, timeStamp, sensorValue, depth)
     
     #returnerer respons
     return {"status": "success"}
