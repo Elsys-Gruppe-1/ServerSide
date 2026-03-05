@@ -1,11 +1,76 @@
-<!--Sier at vi skal arve fra base.html:-->
 {% extends "base.html" %}
 
-<!--Lager blokk for tittelen-->
 {% block title %}Home Page{% endblock %}
 
-<!--Blokk for content-->
 {% block content %}
-<p> Number of active slaves {{ slave_count }}</p>
+<div class="container">
+    <h2>Media Processing</h2>
+    <p>Aktive prosesseringsenheter: <strong id="unit-count">{{ slave_count }}</strong></p>
 
+    <hr>
+
+    <div class="upload-section">
+        <h3>Last opp bilde eller video</h3>
+        <input type="file" id="mediaInput" accept="image/*,video/*">
+        <button onclick="uploadMedia()" id="submitBtn">Send til prosessering</button>
+    </div>
+
+    <div id="statusUpdate" style="margin-top: 20px; font-style: italic; color: #555;"></div>
+    <div id="resultDisplay" style="margin-top: 20px; padding: 10px; border: 1px solid #ddd; display: none;">
+        <h4>Resultat:</h4>
+        <pre id="resultText"></pre>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+<script>
+    const socket = io();
+    const statusDiv = document.getElementById('statusUpdate');
+
+    // Update the unit count live
+    socket.on('station_count_update', function(data) {
+        document.getElementById('unit-count').innerText = data.count;
+    });
+
+    function uploadMedia() {
+        const fileInput = document.getElementById('mediaInput');
+        const file = fileInput.files[0];
+        
+        if (!file) {
+            alert("Vennligst velg en fil først.");
+            return;
+        }
+
+        statusDiv.innerText = "Konverterer fil...";
+        const reader = new FileReader();
+
+        reader.onload = function() {
+            const base64Data = reader.result;
+            statusDiv.innerText = "Sender til prosessering...";
+            
+            // Send to your Flask route via fetch
+            fetch('/upload-and-process', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    media: base64Data,
+                    filename: file.name,
+                    filetype: file.type 
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                statusDiv.innerText = "Ferdig!";
+                document.getElementById('resultDisplay').style.display = 'block';
+                document.getElementById('resultText').innerText = JSON.stringify(data.slave_output, null, 2);
+            })
+            .catch(err => {
+                statusDiv.innerText = "Feil under opplasting.";
+                console.error(err);
+            });
+        };
+
+        reader.readAsDataURL(file);
+    }
+</script>
 {% endblock %}
