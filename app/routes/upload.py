@@ -235,7 +235,7 @@ if __name__ == "__main__":
 
 def run():
 
-    packages = [ny_mock_package, ny_mock_package_2, ny_mock_package_3, ny_mock_package_4]
+    packages = [ny_mock_package, ny_mock_package_2, ny_mock_package_3, ny_mock_package_4, ny_mock_package_5, ny_mock_package_6, ny_mock_package_7, ny_mock_package_8, ny_mock_package_9, ny_mock_package_10]
 
     for pkg in packages:
 
