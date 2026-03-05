@@ -25,10 +25,17 @@ mock_package = {
     }
 
 ny_mock_package = {
-    'pi_id': 1, 
+    'pi_id': -1, 
      'depth': 1, 
      'sensor_value': {'Tmp': -1000, 'TDS': -1.50478}, 
-     'ts': time.time()
+     'ts': time.time() -90
+}
+
+ny_mock_package_2 = {
+    'pi_id': -1, 
+     'depth': 2, 
+     'sensor_value': {'Tmp': -10, 'TDS': -0.5}, 
+     'ts': time.time() -60 ,
 }
 
 # Eksempel plan
@@ -171,33 +178,38 @@ if __name__ == "__main__":
 # TEST
 
 def run():
-    validate_package(ny_mock_package)
-    pi_id = ny_mock_package["pi_id"]
-    package_ts = ny_mock_package["ts"]
 
-    for sensor_name, sensor_val in ny_mock_package["sensor_value"].items():
-        if isinstance(sensor_val, (int, float)):
-            print("Trying to add to database", pi_id, package_ts, sensor_val)
-            add_to_database(
-                pi_id = pi_id,
-                ts = package_ts,
-                sensor_name=sensor_name,
-                sensor_value=float(sensor_val)
-            )
+    packages = [ny_mock_package, ny_mock_package_2]
 
-        elif isinstance(sensor_val, dict):
+    for pkg in packages:
 
-            for name, val in sensor_val.items():
+        validate_package(pkg)
+        pi_id = pkg["pi_id"]
+        package_ts = pkg["ts"]
+
+        for sensor_name, sensor_val in pkg["sensor_value"].items():
+            if isinstance(sensor_val, (int, float)):
                 print("Trying to add to database", pi_id, package_ts, sensor_val)
                 add_to_database(
                     pi_id = pi_id,
-                    sensor_name= name,
-                    ts=package_ts,
-                    sensor_value=float(val)
+                    ts = package_ts,
+                    sensor_name=sensor_name,
+                    sensor_value=float(sensor_val)
                 )
 
-    print("Insert OK")
-    print("\n==============================================\n".join([str(d) for d in get_data()]))
+            elif isinstance(sensor_val, dict):
+
+                for name, val in sensor_val.items():
+                    print("Trying to add to database", pi_id, package_ts, sensor_val)
+                    add_to_database(
+                        pi_id = pi_id,
+                        sensor_name= name,
+                        ts=package_ts,
+                        sensor_value=float(val)
+                    )
+
+        print("Insert OK")
+        print("\n==============================================\n".join([str(d) for d in get_data()]))
 
 
 if __name__ == "__main__":
