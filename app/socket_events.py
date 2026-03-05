@@ -1,7 +1,7 @@
 from flask import request
 from flask_socketio import SocketIO, emit
 
-socketio = SocketIO(cors_allowed_origins="*")
+socketio = SocketIO(cors_allowed_origins="*", ping_timeout=20, ping_interval=10)
 connected_slaves = set()
 
 def get_active_slaves_count():
