@@ -17,6 +17,9 @@ def create_app():
     from app.routes.totalt_oppløst import totalt_oppløst_bp
     from app.routes.dybde import dybde_bp
 
+    from app.routes.upload import upload_bp
+    from app.routes.system_functions import system_bp
+
     app.register_blueprint(health_bp)
     app.register_blueprint(home_bp)
     app.register_blueprint(index_bp)
@@ -28,6 +31,9 @@ def create_app():
     app.register_blueprint(strømning_bp)
     app.register_blueprint(totalt_oppløst_bp)
     app.register_blueprint(dybde_bp)
+
+    app.register_blueprint(upload_bp)
+    app.register_blueprint(system_bp)
 
     socketio.init_app(app)  
     init_socket_events()
