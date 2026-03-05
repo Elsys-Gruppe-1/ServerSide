@@ -20,6 +20,8 @@ def create_app():
     from app.routes.upload import upload_bp
     from app.routes.system_functions import system_bp
 
+    from app.routes.manual_tests.analyse import analyse_bp
+
     app.register_blueprint(health_bp)
     app.register_blueprint(home_bp)
     app.register_blueprint(index_bp)
@@ -34,6 +36,8 @@ def create_app():
 
     app.register_blueprint(upload_bp)
     app.register_blueprint(system_bp)
+
+    app.register_blueprint(analyse_bp)
 
     socketio.init_app(app)  
     init_socket_events()

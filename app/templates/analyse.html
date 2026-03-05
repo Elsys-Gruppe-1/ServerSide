@@ -1,0 +1,11 @@
+<!--Sier at vi skal arve fra base.html:-->
+{% extends "base.html" %}
+
+<!--Lager blokk for tittelen-->
+{% block title %}Home Page{% endblock %}
+
+<!--Blokk for content-->
+{% block content %}
+<p> Number of active slaves {{ slave_count }}</p>
+
+{% endblock %}

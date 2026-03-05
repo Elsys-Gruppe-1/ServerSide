@@ -19,7 +19,7 @@ def on_result(data):
 
 def process_image(image_data):
     if not sio.connected:
-        sio.connect('http://localhost:5600')
+        sio.connect('http://localhost:5555')
     
     if active_units == 0:
         print("Offline: No slaves available to process image. Still trying")
@@ -31,13 +31,3 @@ def process_image(image_data):
         return result_container.get('data')
     return "Error: Timeout"
 
-if __name__ == '__main__':
-    # Give the connection a moment to receive the initial slave count
-    sio.connect('http://localhost:5600')
-    
-    # Example usage
-    import time
-    time.sleep(1) # Wait for count update
-    print(f"Current Units: {active_units}")
-    
-    print(process_image("sample_image_data"))

@@ -14,5 +14,5 @@ def on_process(data):
     sio.emit('slave_response', {'result': result})
 
 if __name__ == '__main__':
-    sio.connect('http://localhost:5600')
+    sio.connect('http://stimle.elektra.io')
     sio.wait()
