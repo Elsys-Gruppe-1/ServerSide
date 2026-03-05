@@ -28,7 +28,7 @@ def process_image(image_data):
     socketio.emit('process_this', image_data)
     
     # Wait for the 'slave_response' event to trigger the response_event
-    success = response_event.wait(timeout=10)
+    success = response_event.wait(timeout=20)
     
     if success:
         return result_container.get('data')
