@@ -264,8 +264,8 @@ def run():
                         sensor_value=float(val)
                     )
 
-        print("Insert OK")
-        print("\n==============================================\n".join([str(d) for d in get_data()]))
+    print("Insert OK")
+    print("\n==============================================\n".join([str(d) for d in get_data()]))
 
 
 if __name__ == "__main__":
