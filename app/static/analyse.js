@@ -317,11 +317,34 @@ function renderDetailsPanel(fishId, specificFrameData = null) {
     speciesHtml = "<li>Ingen data</li>";
   }
 
+  let bestAvgSpecies = "Unknown";
+  let bestAvgConf = 0;
+  
+  if (fish.frames.length > 0) {
+      let sums = { "Pink Salmon": 0, "Sea Trout": 0, "Salmon": 0, "Brown Trout": 0 };
+      
+      // Summer opp all sikkerhet
+      fish.frames.forEach(frame => {
+          ALL_SPECIES.forEach(sp => {
+              sums[sp] += (frame.Species_data && frame.Species_data[sp]) ? frame.Species_data[sp] : 0;
+          });
+      });
+
+      // Finn snittet og den vinnende arten
+      ALL_SPECIES.forEach(sp => {
+          let avg = sums[sp] / fish.frames.length;
+          if (avg > bestAvgConf) {
+              bestAvgConf = avg;
+              bestAvgSpecies = sp;
+          }
+      });
+  }
+
   const statsDiv = document.getElementById('detail-stats');
   statsDiv.innerHTML = `
     <div style="background: #f7fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0;">
       <strong style="color: #2d3748;">ID:</strong> ${fish.id}<br>
-      <strong style="color: #2d3748;">Sannsynlig Art (Totalt):</strong> ${fish.bestSpecies} (${(fish.maxSpeciesConf * 100).toFixed(1)}%)
+      <strong style="color: #2d3748;">Sannsynlig Art (Totalt):</strong> ${bestAvgSpecies} ${(bestAvgConf * 100).toFixed(1)}%<br>
     </div>
     <div style="margin-top: 15px;">
       <strong style="color: #2d3748;">For valgt bildeutklipp:</strong><br>
