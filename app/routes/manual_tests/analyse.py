@@ -4,9 +4,9 @@ from app.utils.processor import process_image
 
 analyse_bp = Blueprint("analyse", __name__)
 
-@analyse_bp.route("/analyse")
+@analyse_bp.route("/analyse", methods=["GET", "POST"])
 def analyse():
-    return render_template("analyse.html", slave_count = get_active_slaves_count())
+    return render_template("analyse.html", slave_count = get_active_slaves_count(), player_id='mainPlayer', fps=30, boxes=[])
 
 
 @analyse_bp.route('/upload-and-process', methods=['POST'])
@@ -20,9 +20,5 @@ def handle_upload():
 
     # This calls the background socket logic to talk to slaves
     print(f"Sending {file_type} to processing stations...")
-    result = process_image(media_data)
+    return process_image(media_data)
     
-    return jsonify({
-        "status": "success",
-        "slave_output": result
-    })

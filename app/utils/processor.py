@@ -1,5 +1,6 @@
-from app.socket_events import socketio, connected_slaves
+from app.extensions import socketio
 import threading
+from flask_socketio import SocketIO, emit, join_room, leave_room
 
 # Container for results (Key: request_id or just a global for simple use)
 result_container = {}
@@ -27,29 +28,22 @@ def process_image(image_data):
     # Create a unique event for THIS specific upload
     req_event = threading.Event()
     results[request_id] = {'event': req_event, 'data': None}
-
     # 1. Send to slaves
     socketio.emit('process_this', {
         'image': image_data,
         'request_id': request_id
     })
 
-    # 2. Wait (This now allows other threads to handle 'on_slave_response')
-    # If using eventlet, this sleep/wait is non-blocking to the hub
-    success = req_event.wait(timeout=15)
-
-    if success:
-        outcome = results[request_id]['data']
-    else:
-        outcome = "Error: Timeout"
-
-    # 3. Cleanup
-    del results[request_id]
-    return outcome
+    return {
+        "status": "Files uploaded, waiting for processing...",
+        "request_id": request_id
+    }
 
 # This function should be called by your SocketIO listener in socket_events.py
 def handle_incoming_result(data):
+    print("Received result from slave:", data)
     request_id = data.get('request_id')
+    emit('data', data, to=request_id) # This sends it back to the specific waiting thread
     if request_id in results:
         results[request_id]['data'] = data.get('result')
         results[request_id]['event'].set() # This wakes up the process_image function

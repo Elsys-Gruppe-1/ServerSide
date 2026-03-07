@@ -1,76 +1,85 @@
 {% extends "base.html" %}
 
-{% block title %}Home Page{% endblock %}
+{% block title %}Media Processing Dashboard{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h2>Media Processing</h2>
-    <p>Aktive prosesseringsenheter: <strong id="unit-count">{{ slave_count }}</strong></p>
+<link rel="stylesheet" href="{{ url_for('static', filename='analyse.css') }}">
+<div class="container" style="max-width: 1400px; margin: auto; padding: 20px;">
+  
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2 style="margin: 0; color: #1a202c;">Fish Analysis Dashboard <span style="font-size: 14px; font-weight: normal; color: #718096;">(Active nodes: <strong id="unit-count">{{ slave_count }}</strong>)</span></h2>
+    <button id="resetBtn" style="display: none; padding: 10px 20px; background-color: #2b6cb0; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: background 0.2s;" onclick="location.reload()">Analyser ny fil</button>
+  </div>
+  
+  <hr style="border: 0; height: 1px; background: #e2e8f0; margin-bottom: 30px;">
 
-    <hr>
-
-    <div class="upload-section">
-        <h3>Last opp bilde eller video</h3>
-        <input type="file" id="mediaInput" accept="image/*,video/*">
-        <button onclick="uploadMedia()" id="submitBtn">Send til prosessering</button>
+  <div id="upload-section" class="upload-section" style="max-width: 600px; margin: 0 auto; text-align: center; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);">
+    
+    <div style="background-color: #fffaf0; border-left: 4px solid #ed8936; padding: 15px; margin-bottom: 25px; text-align: left; border-radius: 4px;">
+      <h4 style="margin: 0 0 5px 0; color: #c05621; font-size: 14px;">⚠️ Modellbegrensninger</h4>
+      <p style="margin: 0; font-size: 13px; color: #7b341e; line-height: 1.5;">
+        Denne modellen er trent på spesifikk data for norske farvann med hvit bakgrunn. Den kan foreløpig kun gjenkjenne 4 arter (Pukkellaks, Sjøørret, Laks, Brunørret). Resultater på bilder utenfor disse rammene kan gi feilaktige resultater med høy (kunstig) sikkerhet.
+      </p>
     </div>
 
-    <div id="statusUpdate" style="margin-top: 20px; font-style: italic; color: #555;"></div>
-    <div id="resultDisplay" style="margin-top: 20px; padding: 10px; border: 1px solid #ddd; display: none;">
-        <h4>Resultat:</h4>
-        <pre id="resultText"></pre>
+    <h3 style="color: #2d3748; margin-bottom: 20px;">Last opp bilde eller video for analyse</h3>
+    
+    <label for="mediaInput" style="display: inline-block; padding: 12px 24px; background-color: #2b6cb0; color: white; border-radius: 6px; cursor: pointer; font-weight: bold; transition: background 0.2s;">
+      Velg fil
+    </label>
+    <input type="file" id="mediaInput" accept="image/*,video/*" style="display: none;">
+    
+    <div id="statusUpdate" style="margin-top: 20px; font-style: italic; color: #4a5568;"></div>
+
+    <div class="example-files-container">
+      <p>Eller velg en av våre eksempelfiler:</p>
+      <div class="example-buttons">
+        <button class="example-btn" data-url="/static/examples/salmon1_right.mp4">Salmon right camera</button>
+        <button class="example-btn" data-url="/static/examples/salmon1_left.mp4">Salmon left camera</button>
+        <button class="example-btn" data-url="/static/examples/seatrout1_left.mp4">Seatrout left camera</button>
+        <button class="example-btn" data-url="/static/examples/seatrout1_right.mp4">Seatrout right camera</button>
+        <button class="example-btn" data-url="/static/examples/sealmon_dual.mp4">Sealmon dual camera</button>
+        <button class="example-btn" data-url="/static/examples/seatrout1_dual.mp4">Seatrout dual camera</button>
+        <button class="example-btn" data-url="/static/examples/seatrout2_dual.mp4">Seatrout dual camera example 2</button>
+      </div>
     </div>
+  </div>
+
+  <div id="results-section" style="display: none; gap: 24px; align-items: flex-start;">
+    
+    <div style="flex: 2; min-width: 0; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+      {% set player_id = "mainPlayer" %}
+      {% include "components/video_player.html" %}
+      
+      <div id="fish-list-container" style="margin-top: 30px;">
+        <h3 style="color: #2d3748; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">Oppdagede Fisker</h3>
+        <div id="fish-list" style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
+        </div>
+      </div>
+    </div>
+
+    <div id="details-panel" style="flex: 1; min-width: 350px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); position: sticky; top: 20px;">
+      <h3 style="margin-top: 0; color: #2d3748; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">Detaljer</h3>
+      <p style="color: #718096; font-style: italic; font-size: 14px;" id="details-placeholder">Trykk på en fisk i videoen eller listen for å se detaljer.</p>
+      
+      <div id="details-content" style="display: none;">
+        <img id="detail-main-img" style="width: 100%; border-radius: 8px; margin-bottom: 15px; object-fit: contain; max-height: 250px; background: #edf2f7;" src="" alt="Selected Fish">
+        
+        <div id="detail-stats" style="margin-bottom: 20px; line-height: 1.6; font-size: 14px; color: #4a5568;"></div>
+        
+        <div id="chart-container" style="margin-bottom: 20px; display: none;">
+          <canvas id="confidenceChart" width="400" height="250"></canvas>
+        </div>
+
+        <h4 style="color: #2d3748; font-size: 14px; margin-bottom: 10px;">Alle opptak av denne fisken</h4>
+        <div id="detail-thumbnails" style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: thin;"></div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
-<script>
-    const socket = io();
-    const statusDiv = document.getElementById('statusUpdate');
-
-    // Update the unit count live
-    socket.on('station_count_update', function(data) {
-        document.getElementById('unit-count').innerText = data.count;
-    });
-
-    function uploadMedia() {
-        const fileInput = document.getElementById('mediaInput');
-        const file = fileInput.files[0];
-        
-        if (!file) {
-            alert("Vennligst velg en fil først.");
-            return;
-        }
-
-        statusDiv.innerText = "Konverterer fil...";
-        const reader = new FileReader();
-
-        reader.onload = function() {
-            const base64Data = reader.result;
-            statusDiv.innerText = "Sender til prosessering...";
-            
-            // Send to your Flask route via fetch
-            fetch('/upload-and-process', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    media: base64Data,
-                    filename: file.name,
-                    filetype: file.type 
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                statusDiv.innerText = "Ferdig!";
-                document.getElementById('resultDisplay').style.display = 'block';
-                document.getElementById('resultText').innerText = JSON.stringify(data.slave_output, null, 2);
-            })
-            .catch(err => {
-                statusDiv.innerText = "Feil under opplasting.";
-                console.error(err);
-            });
-        };
-
-        reader.readAsDataURL(file);
-    }
-</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='analyse.js') }}"></script>
 {% endblock %}

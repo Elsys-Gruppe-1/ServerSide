@@ -1,0 +1,87 @@
+
+
+h1, h2, h3, h4 {
+    color: #2d3748;
+}
+.fish-list-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.fish-list-item:hover {
+    background-color: #edf2f7;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transform: translateY(-1px);
+}
+
+/* Tvinger bildene til å ha lik størrelse uavhengig av sideforhold */
+.fish-list-item img {
+    width: 64px;
+    height: 64px;
+    object-fit: cover; /* Beholder bildeforholdet ved å beskjære det som stikker utenfor */
+    border-radius: 6px;
+    flex-shrink: 0; /* Hindrer at bildet klemmes sammen når det er lite plass */
+}
+
+.thumbnail-img {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: pointer;
+    flex-shrink: 0; 
+    border: 2px solid transparent;
+    transition: border-color 0.2s ease;
+}
+
+.thumbnail-img:hover {
+    border-color: #cbd5e0;
+}
+
+.thumbnail-img.active {
+    border-color: #3182ce;
+}
+
+/* --- Styling for de nye eksempel-knappene --- */
+.example-files-container {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px dashed #e2e8f0;
+}
+
+.example-files-container p {
+    font-size: 14px;
+    color: #718096;
+    margin-bottom: 12px;
+}
+
+.example-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.example-btn {
+    padding: 8px 16px;
+    background-color: #edf2f7;
+    color: #4a5568;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.example-btn:hover {
+    background-color: #e2e8f0;
+    border-color: #a0aec0;
+    color: #1a202c;
+}
