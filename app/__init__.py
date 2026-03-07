@@ -4,6 +4,7 @@ from .socket_events import socketio, init_socket_events
 
 def create_app():
     app = Flask(__name__)
+    app.config['MAX_CONTENT_LENGTH'] = 64 * 1024 * 1024 # 64 Megabytes
 
     from app.routes.health import health_bp
     from app.routes.home import home_bp

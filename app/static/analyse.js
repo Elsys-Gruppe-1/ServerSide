@@ -20,13 +20,15 @@ document.querySelectorAll('.example-btn').forEach(button => {
             statusDiv.innerText = "Henter eksempelfil...";
             
             // 1. Fetch the file from the static folder
+            console.log("Fetching example file from:", fileUrl);
             const response = await fetch(fileUrl);
+            console.log("Fetch response:", response);
             const blob = await response.blob();
-            
+            console.log("Fetched blob:", blob);
             // 2. Create a "File" object from the blob
             const fileName = fileUrl.split('/').pop();
             const file = new File([blob], fileName, { type: blob.type });
-
+            console.log("Created File object:", file);
             // 3. Trigger your existing analysis function
             // We pass the file directly to a slightly modified version of your upload logic
             processFile(file);
@@ -40,31 +42,47 @@ document.querySelectorAll('.example-btn').forEach(button => {
 
 // Helper function to bridge the gap
 function processFile(file) {
-    // This mimics your existing 'uploadMedia' logic but accepts a file object
-    const statusDiv = document.getElementById('statusUpdate');
+  const statusDiv = document.getElementById('statusUpdate');
     isVideo = file.type.startsWith('video/');
     statusDiv.innerText = "Konverterer fil og klargjør analyse...";
+    
+    const reader = new FileReader();
+    reader.onload = function () {
+      const base64Data = reader.result;
 
-    const formData = new FormData();
-    formData.append('file', file);
+      // Swap UI states immediately
+      document.getElementById('upload-section').style.display = 'none';
+      document.getElementById('resetBtn').style.display = 'block';
+      document.getElementById('results-section').style.display = 'flex';
 
-    fetch('/analyse', {
+      if (window.setVideoOverlaySource) {
+        window.setVideoOverlaySource(PLAYER_ID, base64Data, file.type);
+      }
+
+      fetch('/upload-and-process', {
         method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            statusDiv.innerText = "Analyse ferdig!";
-            // Call your existing functions to render the result
-            window.setVideoOverlaySource(PLAYER_ID, data.url, file.type);
-        } else {
-            statusDiv.innerText = "Feil under analyse: " + data.error;
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          media: base64Data,
+          filename: file.name,
+          filetype: file.type
+        })
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (socket && data.request_id) {
+          socket.emit('join', { room: data.request_id });
         }
-    })
-    .catch(err => {
-        statusDiv.innerText = "Systemfeil under opplasting.";
-    });
+        if (data.boxes) {
+          window.setVideoOverlayBoxes(PLAYER_ID, data.boxes);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Feil under opplasting av media.");
+      });
+    };
+    reader.readAsDataURL(file);
 }
 
 (function () {
@@ -91,12 +109,6 @@ function processFile(file) {
     const statusDiv = document.getElementById('statusUpdate');
     const file = fileInput.files[0];
 
-    if (!file) return;
-
-    if (file) {
-        processFile(file);
-    }
-    
     isVideo = file.type.startsWith('video/');
     statusDiv.innerText = "Konverterer fil og klargjør analyse...";
     
