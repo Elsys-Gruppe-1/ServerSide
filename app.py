@@ -5,7 +5,7 @@ import app.db
 from app.extensions import socketio
 
 app = create_app()
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # 16 Megabytes
+app.config['MAX_CONTENT_LENGTH'] = 64 * 1024 * 1024 # 64 Megabytes
 
 if __name__ == "__main__":
     socketio.run(app, debug=True, port=5555)
