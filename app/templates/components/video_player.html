@@ -1,0 +1,29 @@
+{# templates/components/video_player.html #}
+{# Include this with a pre-set player_id variable (see analyse.html) #}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='components/video_player.css') }}">
+<script src="{{ url_for('static', filename='components/video_player.js') }}"></script>
+
+<div class="player-wrap" id="{{ player_id }}" style="position:relative; display:inline-block; max-width:100%;">
+  <!-- video element (for video files) -->
+  <video id="{{ player_id }}-video" controls crossorigin="anonymous" style="display:none; max-width:100%; height:auto;" controlsList="nofullscreen"></video>
+
+  <!-- image element (for image preview) -->
+  <img id="{{ player_id }}-img" alt="preview" style="display:none; max-width:100%; height:auto;" />
+
+  <!-- overlay container (positioned over either the video or image) -->
+  <div id="{{ player_id }}-overlay" class="overlay" style="position:absolute; top:0; left:0; pointer-events:none; width:100%; height:100%;"></div>
+</div>
+
+{# If you want to pass server-side boxes, parent template should set `boxes` and `fps` before including. #}
+{% if boxes is defined %}
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    if (window.initVideoOverlay) {
+      window.initVideoOverlay({ playerId: "{{ player_id }}", fps: {{ fps|default(30) }}, boxes: {{ boxes|tojson }} });
+    } else {
+      console.warn("video_player.js not loaded yet");
+    }
+  });
+</script>
+{% endif %}

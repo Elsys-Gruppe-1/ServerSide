@@ -1,0 +1,10 @@
+/* static/components/video_player.css */
+.player-wrap { position: relative; display: inline-block; }
+.player-wrap img, .player-wrap video { display: block; max-width: 100%; height: auto; }
+
+/* overlay is absolutely positioned over the media */
+.player-wrap .overlay { position: absolute; top: 0; left: 0; pointer-events: none; width: 100%; height: 100%; }
+
+/* bounding box styles */
+.bbox { pointer-events: auto; box-sizing: border-box; }
+.bbox .bbox-label { font-weight: 600; font-size: 12px; }

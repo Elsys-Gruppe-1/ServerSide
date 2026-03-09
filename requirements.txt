@@ -7,3 +7,4 @@ python-socketio[client]
 websocket-client
 Pillow
 numpy
+eventlet
