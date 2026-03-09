@@ -11,7 +11,10 @@
                 background-color: cadetblue;
             }
             .navbar-custom .nav-link {
-                color: rgb(181, 0, 94);
+                color: white;
+                -webkit-text-stroke: 0.5px #FF00A6;
+                font-weight: bold;
+                font-size: 1.25rem
             }
             .navbar-custom .nav-link:hover {
                 color: pink;
@@ -32,12 +35,12 @@
 
             <a class="navbar-brand d-flex align-items-center" href="#">
                 
-                <img src="{{ url_for('static', filename='stimlelogo.png') }}" 
+                <img src="{{ url_for('static', filename='images/banner3.png') }}" 
                     alt="Logo" 
-                    width="40" 
-                    height="40"
+                    width="163.75" 
+                    height="45.625"
                     class="me-2">
-                STIMLE  
+
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
