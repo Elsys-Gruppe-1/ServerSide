@@ -24,74 +24,76 @@ mock_package = {
     }
     }
 
+base_ts = time.time()
+
 ny_mock_package = {
     'pi_id': -1, 
      'depth': 1, 
      'sensor_value': {'Tmp': -1000, 'TDS': -1.50478}, 
-     'ts': time.time() -270,
+     'ts': base_ts,
 }
 
 ny_mock_package_2 = {
     'pi_id': -1, 
      'depth': 2, 
      'sensor_value': {'Tmp': -10, 'TDS': -0.5}, 
-     'ts': time.time() -240,
+     'ts': base_ts + 30,
 }
 
 ny_mock_package_3 = {
     'pi_id': -1, 
      'depth': 3, 
      'sensor_value': {'Tmp': -5, 'TDS': -0.01}, 
-     'ts': time.time() -210,
+     'ts': base_ts + 60,
 }
 
 ny_mock_package_4 = {
     'pi_id': -1, 
      'depth': 5, 
      'sensor_value': {'Tmp': 10, 'TDS': 0.5}, 
-     'ts': time.time() -180,
+     'ts': base_ts + 90,
 }
 
 ny_mock_package_5 = {
     'pi_id': -1, 
      'depth': 9, 
      'sensor_value': {'Tmp': 100, 'TDS': 5}, 
-     'ts': time.time() -150,
+     'ts': base_ts + 120,
 }
 
 ny_mock_package_6 = {
     'pi_id': -1, 
      'depth': 9, 
      'sensor_value': {'Tmp': 110, 'TDS': 55}, 
-     'ts': time.time() -120,
+     'ts': base_ts + 150,
 }
 
 ny_mock_package_7 = {
     'pi_id': -1, 
      'depth': 11, 
      'sensor_value': {'Tmp': 15, 'TDS': 10}, 
-     'ts': time.time() -90,
+     'ts': base_ts + 180,
 }
 
 ny_mock_package_8 = {
     'pi_id': -1, 
      'depth': 8, 
      'sensor_value': {'Tmp': 12, 'TDS': 7}, 
-     'ts': time.time() -60,
+     'ts': base_ts + 210,
 }
 
 ny_mock_package_9 = {
     'pi_id': -1, 
      'depth': 7, 
      'sensor_value': {'Tmp': 67, 'TDS': 96}, 
-     'ts': time.time() -30,
+     'ts': base_ts + 240,
 }
 
 ny_mock_package_10 = {
     'pi_id': -1, 
      'depth': 9, 
      'sensor_value': {'Tmp': 100, 'TDS': 13}, 
-     'ts': time.time(),
+     'ts': base_ts + 270,
 }
 
 # Eksempel plan
@@ -235,6 +237,10 @@ if __name__ == "__main__":
 
 def run():
 
+    with Session() as session:
+        session.query(Measurements).delete()
+        session.commit()
+
     packages = [ny_mock_package, ny_mock_package_2, ny_mock_package_3, ny_mock_package_4, ny_mock_package_5, ny_mock_package_6, ny_mock_package_7, ny_mock_package_8, ny_mock_package_9, ny_mock_package_10]
 
     for pkg in packages:
@@ -265,7 +271,13 @@ def run():
                     )
 
     print("Insert OK")
-    print("\n==============================================\n".join([str(d) for d in get_data()]))
+    for pkg in packages:
+        print({
+            "pi_id": pkg["pi_id"],
+            "ts": pkg["ts"],
+            "sensor_values": pkg["sensor_value"],
+            "depth": pkg["depth"]
+        })
 
 
 if __name__ == "__main__":
