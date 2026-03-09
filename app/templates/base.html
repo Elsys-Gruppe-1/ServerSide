@@ -5,7 +5,7 @@
         <!--Link for "Include via CDN" CSS-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
         <title>
-            <!--lager ny variabel av type block som heter title-->
+            Stimlestimle
             {% block title %} {% endblock %}
         </title>
 
@@ -54,22 +54,11 @@
                 
                 </li>
                 
-                <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Sensor profil
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="{{ url_for('temperatur.temperatur') }}">Temperatur</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="{{ url_for('strømning.strømning') }}">Strømning</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="{{ url_for('totalt_oppløst.totalt_oppløst') }}">Totalt oppløste faste stoffer</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="{{ url_for('dybde.dybde') }}">Dybde</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">Turbiditet</a></li>
-                </ul>
+                <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('sensor.sensor') }}">Sensor profil</a>
                 </li>
+                
+
                 <li class="nav-item">
                 <a class="nav-link" href="#">Fisk info</a>
                 </li>

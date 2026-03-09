@@ -13,10 +13,7 @@ def create_app():
     from app.routes.siste_passert import siste_passert_bp
     from app.routes.oversikt_passering import oversikt_passering_bp
 
-    from app.routes.temperatur import temperatur_bp
-    from app.routes.strømning import strømning_bp
-    from app.routes.totalt_oppløst import totalt_oppløst_bp
-    from app.routes.dybde import dybde_bp
+    from app.routes.sensor import sensor_bp
 
     from app.routes.upload import upload_bp
     from app.routes.system_functions import system_bp
@@ -30,10 +27,7 @@ def create_app():
     app.register_blueprint(siste_passert_bp)
     app.register_blueprint(oversikt_passering_bp)
 
-    app.register_blueprint(temperatur_bp)
-    app.register_blueprint(strømning_bp)
-    app.register_blueprint(totalt_oppløst_bp)
-    app.register_blueprint(dybde_bp)
+    app.register_blueprint(sensor_bp)
 
     app.register_blueprint(upload_bp)
     app.register_blueprint(system_bp)
