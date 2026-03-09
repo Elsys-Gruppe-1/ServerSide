@@ -11,8 +11,24 @@
 Temperatur, strømning, totalt oppløst, dybde, turbiditet
 </p>
 
-{% endblock %}
+<h2>Temperatur</h2>
 
+<!--Temperatur-->
+<canvas id="temperaturChart" width="300" height="100"></canvas>
 
+<h2>Strømning</h2>
+<!--Strømning-->
+<canvas id="strømningChart" width="300" height="100"></canvas>
 
+<!--TDS-->
+<canvas id="tdsChart"></canvas>
+
+<!--Dybde-->
+<canvas id="dybdeChart"></canvas>
+
+<!--Turbiditet-->
+<canvas id="turbiditetChart"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ url_for('static', filename='sensor.js') }}"></script>
+{% endblock %}
