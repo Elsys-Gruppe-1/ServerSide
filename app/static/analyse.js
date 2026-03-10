@@ -6,7 +6,7 @@ let confidenceChartInstance = null;
 let isVideo = false;
 
 // Define the 4 species based on predict.py
-const ALL_SPECIES = ["Pink Salmon", "Sea Trout", "Salmon", "Brown Trout"];
+const ALL_SPECIES = ["Pukkel laks", "Ørret", "Laks", "Ingen Fisk"];
 
 // Store all aggregated data by Fish ID
 const fishTracker = new Map(); 
@@ -321,7 +321,7 @@ function renderDetailsPanel(fishId, specificFrameData = null) {
   let bestAvgConf = 0;
   
   if (fish.frames.length > 0) {
-      let sums = { "Pink Salmon": 0, "Sea Trout": 0, "Salmon": 0, "Brown Trout": 0 };
+      let sums = { "Pukkel laks": 0, "Ørret": 0, "Laks": 0, "Ingen Fisk": 0 };
       
       // Summer opp all sikkerhet
       fish.frames.forEach(frame => {
@@ -384,14 +384,14 @@ function renderChart(fish) {
   const labels = [];
   
   // Track running sums for the average calculation
-  const runningSums = { "Pink Salmon": 0, "Sea Trout": 0, "Salmon": 0, "Brown Trout": 0 };
+  const runningSums = { "Pukkel laks": 0, "Ørret": 0, "Laks": 0, "Ingen Fisk": 0 };
   
   // Prepare data arrays for each species
   const speciesData = {
-    "Pink Salmon": [],
-    "Sea Trout": [],
-    "Salmon": [],
-    "Brown Trout": []
+    "Pukkel laks": [],
+    "Ørret": [],
+    "Laks": [],
+    "Ingen Fisk": []
   };
 
   sortedFrames.forEach((frame, index) => {
@@ -410,10 +410,10 @@ function renderChart(fish) {
 
   // Chart styling colors
   const colors = {
-    "Pink Salmon": "rgb(236, 72, 153)", // Pink
-    "Sea Trout": "rgb(16, 185, 129)",   // Emerald Green
-    "Salmon": "rgb(245, 158, 11)",      // Amber/Orange
-    "Brown Trout": "rgb(139, 69, 19)"   // SaddleBrown
+    "Pukkel laks": "rgb(236, 72, 153)", // Pink
+    "Ørret": "rgb(16, 185, 129)",   // Emerald Green
+    "Laks": "rgb(245, 158, 11)",      // Amber/Orange
+    "Ingen Fisk": "rgb(139, 69, 19)"   // SaddleBrown
   };
 
   const datasets = ALL_SPECIES.map(sp => ({
