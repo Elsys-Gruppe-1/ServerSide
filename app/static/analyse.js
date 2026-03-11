@@ -96,6 +96,7 @@ function processFile(file) {
 
       socket.on('data', function(payload) {
         let p = window.getVideoOverlay(PLAYER_ID);
+        FPS = p.fps;
         if (p) p.fps = payload.fps || p.fps;
         window.handleSocketBoxData(payload.result);
       });
