@@ -283,10 +283,40 @@ function renderFishList() {
     const img = document.createElement('img');
     img.src = fish.bestImg || '';
 
+
+
+  let bestAvgSpecies = "Unknown";
+  let bestAvgConf = 0;
+  
+  if (fish.frames.length > 0) {
+      let sums = { "Pukkel laks": 0, "Ørret": 0, "Laks": 0, "Ingen Fisk": 0 };
+      
+      // Summer opp all sikkerhet
+      fish.frames.forEach(frame => {
+          ALL_SPECIES.forEach(sp => {
+              sums[sp] += (frame.Species_data && frame.Species_data[sp]) ? frame.Species_data[sp] : 0;
+          });
+      });
+
+      // Finn snittet og den vinnende arten
+      ALL_SPECIES.forEach(sp => {
+          let avg = sums[sp] / fish.frames.length;
+          if (avg > bestAvgConf) {
+              bestAvgConf = avg;
+              bestAvgSpecies = sp;
+          }
+      });
+  }
+
+
+
+
+
+
     const info = document.createElement('div');
     info.innerHTML = `
-      <strong style="font-size: 15px; color: #2d3748;">ID: ${fish.id} - ${fish.bestSpecies}</strong><br>
-      <span style="font-size: 13px; color: #718096;">Max Sikkerhet: ${(fish.maxSpeciesConf * 100).toFixed(1)}% | Tid: ${timeOnScreen} sek</span>
+      <strong style="font-size: 15px; color: #2d3748;">ID: ${fish.id} - ${bestAvgSpecies}</strong><br>
+      <span style="font-size: 13px; color: #718096;">Sannsynlighet: ${(bestAvgConf * 100).toFixed(1)}% | Tid: ${timeOnScreen} sek</span>
     `;
 
     div.appendChild(img);
