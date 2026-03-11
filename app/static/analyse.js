@@ -1,6 +1,6 @@
 
 const PLAYER_ID = 'mainPlayer';
-const FPS = 30;
+let FPS = 30;
 let socket = null;
 let confidenceChartInstance = null;
 let isVideo = false;
