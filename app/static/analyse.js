@@ -6,7 +6,7 @@ let confidenceChartInstance = null;
 let isVideo = false;
 
 // Define the 4 species based on predict.py
-const ALL_SPECIES = ["Pukkel laks", "Ørret", "Laks", "Ingen Fisk"];
+const ALL_SPECIES = ["Pukkel laks", "Ørret", "Laks", "Ingen fisk", "Ukjent fisk"];
 
 // Store all aggregated data by Fish ID
 const fishTracker = new Map(); 
@@ -289,7 +289,7 @@ function renderFishList() {
   let bestAvgConf = 0;
   
   if (fish.frames.length > 0) {
-      let sums = { "Pukkel laks": 0, "Ørret": 0, "Laks": 0, "Ingen Fisk": 0 };
+      let sums = { "Pukkel laks": 0, "Ørret": 0, "Laks": 0, "Ingen fisk": 0, "Ukjent fisk": 0 };
       
       // Summer opp all sikkerhet
       fish.frames.forEach(frame => {
@@ -414,14 +414,15 @@ function renderChart(fish) {
   const labels = [];
   
   // Track running sums for the average calculation
-  const runningSums = { "Pukkel laks": 0, "Ørret": 0, "Laks": 0, "Ingen Fisk": 0 };
+  const runningSums = { "Pukkel laks": 0, "Ørret": 0, "Laks": 0, "Ingen fisk": 0, "Ukjent fisk" : 0};
   
   // Prepare data arrays for each species
   const speciesData = {
     "Pukkel laks": [],
     "Ørret": [],
     "Laks": [],
-    "Ingen Fisk": []
+    "Ingen fisk": [],
+    "Ukjent fisk": []
   };
 
   sortedFrames.forEach((frame, index) => {
@@ -443,7 +444,8 @@ function renderChart(fish) {
     "Pukkel laks": "rgb(236, 72, 153)", // Pink
     "Ørret": "rgb(16, 185, 129)",   // Emerald Green
     "Laks": "rgb(245, 158, 11)",      // Amber/Orange
-    "Ingen Fisk": "rgb(139, 69, 19)"   // SaddleBrown
+    "Ingen fisk": "rgb(139, 69, 19)",   // SaddleBrown
+    "Ukjent fisk": "rgb(69, 69, 69)"   // Dimgray
   };
 
   const datasets = ALL_SPECIES.map(sp => ({
