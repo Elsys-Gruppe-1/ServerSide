@@ -351,7 +351,7 @@ function renderDetailsPanel(fishId, specificFrameData = null) {
   let bestAvgConf = 0;
   
   if (fish.frames.length > 0) {
-      let sums = { "Pukkel laks": 0, "Ørret": 0, "Laks": 0, "Ingen Fisk": 0 };
+      let sums = { "Pukkel laks": 0, "Ørret": 0, "Laks": 0, "Ingen fisk": 0, "Ukjent fisk": 0 };
       
       // Summer opp all sikkerhet
       fish.frames.forEach(frame => {
