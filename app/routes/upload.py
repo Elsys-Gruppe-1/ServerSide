@@ -153,7 +153,7 @@ def add_to_database(pi_id, sensor_name, ts, sensor_value, depth = None):
     """
     
 
-@upload_bp.route("/api/upload")
+@upload_bp.route("/api/upload", methods=["POST"])
 def upload():
     """
     Funksjon du kan nå fra api som tar inn en pakke
