@@ -283,3 +283,22 @@ def run():
 
 if __name__ == "__main__":
     run()
+"""
+    pkg = {
+        "pi_id": 1,
+        "depth": 0.5,
+        "sensor_value": {
+            "Temperatur": 22.3125,
+            "TDS": 0
+        },
+        "ts": "2026-03-12 13:23:25"
+    }
+
+    pi_id = pkg["pi_id"]
+    ts = pkg['ts']
+    sensor_dict = pkg['sensor_value']
+    depth = pkg['depth']
+
+    for sensor_name, sensor_value in sensor_dict.items():
+        print(pi_id, sensor_name, ts, sensor_value, depth)
+"""
