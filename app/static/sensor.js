@@ -26,7 +26,8 @@ function splitBytime(data) {
 }
 
 
-fetch("/api/data").then(response => response.json()).then(data => {const temperaturData = data.filter(m => m.sensor_name === "Temperatur");
+fetch("/api/data").then(response => response.json()).then(data => {
+    const temperaturData = data.filter(m => m.sensor_name === "Temperatur");
     const timeSplit = splitBytime(temperaturData); //output timeSplit.day og timeSplit.week
 
     // Temperaturgraf for siste døgn
@@ -80,10 +81,9 @@ fetch("/api/data").then(response => response.json()).then(data => {const tempera
         options: {
             responsive: true,
             maintainAspectRatio: false
-    }
+        }
     }); 
-*/
-
+});
 
 const labels = ["13:00", "13:10", "13:20", "13:30"];
 const values = [22.1, 22.3, 22.2, 22.4];
