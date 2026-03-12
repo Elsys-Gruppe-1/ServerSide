@@ -10,9 +10,9 @@ class Measurements(Base):
 
     id = Column(Integer, primary_key = True, autoincrement = True)
     pi_id = Column(Integer, nullable=False)
-    sensor_name = Column(String, nullable = False)
+    sensor_name = Column(Float, nullable = False)
 
-    ts = Column(Float, nullable = False)
+    ts = Column(String, nullable = False)
     sensor_value = Column(Float, nullable = False)
     depth = Column(Float, nullable = True)
 
