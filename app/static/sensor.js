@@ -7,8 +7,8 @@ fetch("/api/data").then(response => response.json()).then(data =>
 
     for (let i = 0; i < temperaturData.length; i++) {
         let m = temperaturData[i];
-        labels.push(i.ts)
-        values.push(i.sensor_value);
+        labels.push(m.ts)
+        values.push(m.sensor_value);
     }
 
     const temp = document.getElementById("temperaturChart");

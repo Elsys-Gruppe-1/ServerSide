@@ -7,7 +7,7 @@
 <div class="container" style="max-width: 1400px; margin: auto; padding: 20px;">
   
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-    <h2 style="margin: 0; color: #1a202c;">Fish Analysis Dashboard <span style="font-size: 14px; font-weight: normal; color: #718096;">(Active nodes: <strong id="unit-count">{{ slave_count }}</strong>)</span></h2>
+    <h2 style="margin: 0; color: #1a202c;">Fiske Analyse <span style="font-size: 14px; font-weight: normal; color: #718096;">(Aktive noder <strong id="unit-count">{{ slave_count }}</strong>)</span></h2>
     <button id="resetBtn" style="display: none; padding: 10px 20px; background-color: #2b6cb0; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: background 0.2s;" onclick="location.reload()">Analyser ny fil</button>
   </div>
   
@@ -18,7 +18,7 @@
     <div style="background-color: #fffaf0; border-left: 4px solid #ed8936; padding: 15px; margin-bottom: 25px; text-align: left; border-radius: 4px;">
       <h4 style="margin: 0 0 5px 0; color: #c05621; font-size: 14px;">⚠️ Modellbegrensninger</h4>
       <p style="margin: 0; font-size: 13px; color: #7b341e; line-height: 1.5;">
-        Denne modellen er trent på spesifikk data for norske farvann med hvit bakgrunn. Den kan foreløpig kun gjenkjenne 4 arter (Pukkellaks, Sjøørret, Laks, Brunørret). Resultater på bilder utenfor disse rammene kan gi feilaktige resultater med høy (kunstig) sikkerhet.
+        Denne modellen er trent på spesifikk data for norske farvann med hvit bakgrunn. Den kan foreløpig kun gjenkjenne 3 arter (Laks, Pukkellaks, Ørret). Resultater på bilder utenfor disse rammene kan gi feilaktige resultater med høy (kunstig) sikkerhet.
       </p>
     </div>
 
@@ -34,6 +34,7 @@
     <div class="example-files-container">
       <p>Eller velg en av våre eksempelfiler:</p>
       <div class="example-buttons">
+<<<<<<< HEAD
         <button class="example-btn" data-url="/static/examples/salmon_right.mp4">Salmon right camera</button>
         <button class="example-btn" data-url="/static/examples/salmon_left.mp4">Salmon left camera</button>
         <button class="example-btn" data-url="/static/examples/pink_salmon_left.mp4">Pink Salmon left camera</button>
@@ -44,6 +45,18 @@
         <button class="example-btn" data-url="/static/examples/pink_salmon.mp4">Pink Salmon dual camera</button>
         <button class="example-btn" data-url="/static/examples/seatrout1.mp4">Seatrout dual camera</button>
         <button class="example-btn" data-url="/static/examples/seatrout2.mp4">Seatrout dual camera example 2</button>
+=======
+        <button class="example-btn" data-url="/static/examples/salmon_right.mp4">Laks høyre kamera</button>
+        <button class="example-btn" data-url="/static/examples/salmon_left.mp4">Laks venstre camera</button>
+        <button class="example-btn" data-url="/static/examples/pink_salmon_left.mp4">Pukkellaks venstre kamera</button>
+        <button class="example-btn" data-url="/static/examples/pink_salmon_right.mp4">Pukkellaks høyre kamera</button>
+        <button class="example-btn" data-url="/static/examples/seatrout1_left.mp4">Ørret venstre kamera</button>
+        <button class="example-btn" data-url="/static/examples/seatrout1_right.mp4">Ørret høyre kamera</button>
+        <button class="example-btn" data-url="/static/examples/salmon1.mp4">Laks dual kamera</button>
+        <button class="example-btn" data-url="/static/examples/pink_salmon.mp4">Pukkellaks dual kamera</button>
+        <button class="example-btn" data-url="/static/examples/seatrout2.mp4">Ørret dual kamera</button>
+        <button class="example-btn" data-url="/static/examples/seatrout1.mp4">Ørret? dual kamera</button>
+>>>>>>> f745352b5068ffbbaf4e2d74fa1aeeb3150e1e7e
       </div>
     </div>
   </div>

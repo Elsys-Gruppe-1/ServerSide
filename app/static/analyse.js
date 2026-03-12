@@ -1,12 +1,12 @@
 
 const PLAYER_ID = 'mainPlayer';
-const FPS = 30;
+let FPS = 30;
 let socket = null;
 let confidenceChartInstance = null;
 let isVideo = false;
 
 // Define the 4 species based on predict.py
-const ALL_SPECIES = ["Pink Salmon", "Sea Trout", "Salmon", "Brown Trout"];
+const ALL_SPECIES = ["Pukkel laks", "Ørret", "Laks", "Ingen fisk", "Ukjent fisk"];
 
 // Store all aggregated data by Fish ID
 const fishTracker = new Map(); 
@@ -96,6 +96,7 @@ function processFile(file) {
 
       socket.on('data', function(payload) {
         let p = window.getVideoOverlay(PLAYER_ID);
+        FPS = p.fps;
         if (p) p.fps = payload.fps || p.fps;
         window.handleSocketBoxData(payload.result);
       });
@@ -283,10 +284,40 @@ function renderFishList() {
     const img = document.createElement('img');
     img.src = fish.bestImg || '';
 
+
+
+  let bestAvgSpecies = "Unknown";
+  let bestAvgConf = 0;
+  
+  if (fish.frames.length > 0) {
+      let sums = { "Pukkel laks": 0, "Ørret": 0, "Laks": 0, "Ingen fisk": 0, "Ukjent fisk": 0 };
+      
+      // Summer opp all sikkerhet
+      fish.frames.forEach(frame => {
+          ALL_SPECIES.forEach(sp => {
+              sums[sp] += (frame.Species_data && frame.Species_data[sp]) ? frame.Species_data[sp] : 0;
+          });
+      });
+
+      // Finn snittet og den vinnende arten
+      ALL_SPECIES.forEach(sp => {
+          let avg = sums[sp] / fish.frames.length;
+          if (avg > bestAvgConf) {
+              bestAvgConf = avg;
+              bestAvgSpecies = sp;
+          }
+      });
+  }
+
+
+
+
+
+
     const info = document.createElement('div');
     info.innerHTML = `
-      <strong style="font-size: 15px; color: #2d3748;">ID: ${fish.id} - ${fish.bestSpecies}</strong><br>
-      <span style="font-size: 13px; color: #718096;">Max Sikkerhet: ${(fish.maxSpeciesConf * 100).toFixed(1)}% | Tid: ${timeOnScreen} sek</span>
+      <strong style="font-size: 15px; color: #2d3748;">ID: ${fish.id} - ${bestAvgSpecies}</strong><br>
+      <span style="font-size: 13px; color: #718096;">Sannsynlighet: ${(bestAvgConf * 100).toFixed(1)}% | Tid: ${timeOnScreen} sek</span>
     `;
 
     div.appendChild(img);
@@ -321,7 +352,7 @@ function renderDetailsPanel(fishId, specificFrameData = null) {
   let bestAvgConf = 0;
   
   if (fish.frames.length > 0) {
-      let sums = { "Pink Salmon": 0, "Sea Trout": 0, "Salmon": 0, "Brown Trout": 0 };
+      let sums = { "Pukkel laks": 0, "Ørret": 0, "Laks": 0, "Ingen fisk": 0, "Ukjent fisk": 0 };
       
       // Summer opp all sikkerhet
       fish.frames.forEach(frame => {
@@ -384,14 +415,15 @@ function renderChart(fish) {
   const labels = [];
   
   // Track running sums for the average calculation
-  const runningSums = { "Pink Salmon": 0, "Sea Trout": 0, "Salmon": 0, "Brown Trout": 0 };
+  const runningSums = { "Pukkel laks": 0, "Ørret": 0, "Laks": 0, "Ingen fisk": 0, "Ukjent fisk" : 0};
   
   // Prepare data arrays for each species
   const speciesData = {
-    "Pink Salmon": [],
-    "Sea Trout": [],
-    "Salmon": [],
-    "Brown Trout": []
+    "Pukkel laks": [],
+    "Ørret": [],
+    "Laks": [],
+    "Ingen fisk": [],
+    "Ukjent fisk": []
   };
 
   sortedFrames.forEach((frame, index) => {
@@ -410,10 +442,11 @@ function renderChart(fish) {
 
   // Chart styling colors
   const colors = {
-    "Pink Salmon": "rgb(236, 72, 153)", // Pink
-    "Sea Trout": "rgb(16, 185, 129)",   // Emerald Green
-    "Salmon": "rgb(245, 158, 11)",      // Amber/Orange
-    "Brown Trout": "rgb(139, 69, 19)"   // SaddleBrown
+    "Pukkel laks": "rgb(236, 72, 153)", // Pink
+    "Ørret": "rgb(16, 185, 129)",   // Emerald Green
+    "Laks": "rgb(245, 158, 11)",      // Amber/Orange
+    "Ingen fisk": "rgb(139, 69, 19)",   // SaddleBrown
+    "Ukjent fisk": "rgb(69, 69, 69)"   // Dimgray
   };
 
   const datasets = ALL_SPECIES.map(sp => ({

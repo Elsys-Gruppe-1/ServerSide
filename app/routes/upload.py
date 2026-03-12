@@ -153,7 +153,7 @@ def add_to_database(pi_id, sensor_name, ts, sensor_value, depth = None):
     """
     
 
-@upload_bp.route("/api/upload")
+@upload_bp.route("/api/upload", methods=["POST"])
 def upload():
     """
     Funksjon du kan nå fra api som tar inn en pakke
@@ -166,11 +166,11 @@ def upload():
     #"extract" verdiene:
     pi_id = pkg["pi_id"]
     ts = pkg["ts"]
-    sensor_values = pkg["sensor_value"]
+    sensor_value = pkg["sensor_value"]
     depth = pkg["depth"]
 
     #legger til i database basert på typen på instance
-    for value in sensor_values.items():
+    for value in sensor_value.items():
         if isinstance(value, dict):
             for timeStamp, sensorValue in value.items():
                 add_to_database(pi_id, timeStamp, sensorValue, depth)
