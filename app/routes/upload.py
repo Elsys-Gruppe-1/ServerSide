@@ -159,8 +159,10 @@ def upload():
     Funksjon du kan nå fra api som tar inn en pakke
     """
 
+    print("1: inne i upload")
     #lese data sendt fra raspberry pi:
     pkg = request.get_json()
+    print("2: mottatt pkg", pkg)
     
 
     #"extract" verdiene:
@@ -168,13 +170,16 @@ def upload():
     ts = pkg["ts"]
     sensor_dict = pkg["sensor_value"]
     depth = pkg["depth"]
+    print("3: extracted values")
 
     #legger til i database basert på typen
     for sensor_name, sensor_value in sensor_dict.items():
+        print("4: skal lagre", sensor_name, sensor_value)
         add_to_database(pi_id, sensor_name, ts, sensor_value, depth)
 
     
     #returnerer respons
+    print("5: Ferdig med lagring")
     return {"status": "success"}
 
     # validate_package(..)
