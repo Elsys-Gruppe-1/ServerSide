@@ -27,6 +27,8 @@
     }); */
 
 
+alert("sensor.js kjører");
+
 const labels = ["13:00", "13:10", "13:20", "13:30"];
 const values = [22.1, 22.3, 22.2, 22.4];
 
