@@ -1,5 +1,5 @@
 
-fetch("/api/data").then(response => response.json()).then(data => 
+/*fetch("/api/data").then(response => response.json()).then(data => 
     {const temperaturData = data.filter(m => m.sensor_name === "Temperatur");
 
     const labels = [];
@@ -24,4 +24,21 @@ fetch("/api/data").then(response => response.json()).then(data =>
         }
     });
     
-    });
+    }); */
+
+
+const labels = ["13:00", "13:10", "13:20", "13:30"];
+const values = [22.1, 22.3, 22.2, 22.4];
+
+const temp = document.getElementById("temperaturChart");
+
+new Chart(temp, {
+    type: "line",
+    data: {
+        labels: labels,
+        datasets: [{
+            label: "Temperatur",
+            data: values
+        }]
+    }
+});
