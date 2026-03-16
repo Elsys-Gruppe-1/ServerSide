@@ -14,7 +14,7 @@ function splitBytime(data) {
         if (tidspunkt >= oneDayAgo) {
             dayData.push(m);
         }
-        if (tidspunkt <= oneWeekAgo) {
+        if (tidspunkt >= oneWeekAgo) {
             weekData.push(m);
         }
     }
@@ -36,7 +36,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
 
     for (let i = 0; i < timeSplit.day.length; i++) {
         let m = timeSplit.day[i];
-        dayLabels.push(m.ts)
+        dayLabels.push(new Date(m.ts.replace(" ", "T")).toLocaleTimeString());
         dayValues.push(m.sensor_value);
     }
 
@@ -47,7 +47,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
         data: {
             labels: dayLabels,
             datasets: [{
-                label: "Temperatur",
+                label: "Temperatur siste døgn",
                 data: dayValues
             }]
         },
@@ -74,7 +74,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
         data: {
             labels: weekLabels,
             datasets: [{
-                label: "Temperatur",
+                label: "Temperatur siste uke",
                 data: weekValues
             }]
         },
