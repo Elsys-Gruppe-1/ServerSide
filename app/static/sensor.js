@@ -7,7 +7,7 @@ function splitBytime(data) {
     const dayData = [];
     const weekData = [];
 
-    for (let i = 0; 1 < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
         let m = data[i];
         let tidspunkt = new Date(m.ts.replace(" ", "T"));
 
@@ -25,6 +25,7 @@ function splitBytime(data) {
     };
 }
 
+// TEMPERATUR
 
 fetch("/api/data").then(response => response.json()).then(data => {
     const temperaturData = data.filter(m => m.sensor_name === "Temperatur");
@@ -85,24 +86,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
     }); 
 });
 
-// TEST DATA
 
-const labels = ["13:00", "13:10", "13:20", "13:30"];
-const values = [22.1, 22.3, 22.2, 22.4];
 
-const temp = document.getElementById("temperaturDagChart");
+// STRØMNING
 
-new Chart(temp, {
-    type: "line",
-    data: {
-        labels: labels,
-        datasets: [{
-            label: "Temperatur",
-            data: values
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false
-    }
-});
