@@ -87,68 +87,6 @@ fetch("/api/data").then(response => response.json()).then(data => {
     }); 
 });
 
-//TURBIDITET
-
-fetch("/api/data").then(response => response.json()).then(data => {
-    const turbiditetData = data.filter(m => m.sensor_name === "Turbiditet");
-    const timeSplit = splitBytime(turbiditetData); //output timeSplit.day og timeSplit.week
-
-    alert("Turbiditet-blokka kjører");
-
-    // Turbiditetgraf for siste døgn
-    const dayLabels = [];
-    const dayValues = [];
-
-    for (let i = 0; i < timeSplit.day.length; i++) {
-        let m = timeSplit.day[i];
-        dayLabels.push(new Date(m.ts.replace(" ", "T")).toLocaleTimeString());
-        dayValues.push(m.sensor_value);
-    }
-
-    const turbiditetDag = document.getElementById("turbiditetDagChart");
-
-    new Chart(turbiditetDag, {
-        type: "line",
-        data: {
-            labels: dayLabels,
-            datasets: [{
-                label: "Turbiditet siste døgn",
-                data: dayValues
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-    }
-    });
-
-    // Turbiditetgraf for siste uke
-    const weekLabels = [];
-    const weekValues = [];
-
-    for (let i = 0; i < timeSplit.week.length; i++) {
-        let m = timeSplit.week[i];
-        weekLabels.push(m.ts);
-        weekValues.push(m.sensor_value);
-    }
-
-    const turbiditetUke = document.getElementById("turbiditetUkeChart");
-    
-    new Chart(turbiditetUke, {
-        type: "line",
-        data: {
-            labels: weekLabels,
-            datasets: [{
-                label: "Turbiditet siste uke",
-                data: weekValues
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    }); 
-});
 
 // TDS
 
