@@ -87,7 +87,6 @@ fetch("/api/data").then(response => response.json()).then(data => {
     }); 
 });
 
-
 // TDS
 
 fetch("/api/data").then(response => response.json()).then(data => {
