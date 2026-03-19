@@ -91,7 +91,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
 
 fetch("/api/data").then(response => response.json()).then(data => {
     const tdsData = data.filter(m => m.sensor_name === "TDS");
-    alert("Før splitByTime")
+    alert("Før splitByTime");
     const timeSplit = splitBytime(tdsData); //output timeSplit.day og timeSplit.week
     alert("etter splitBytime");
 
