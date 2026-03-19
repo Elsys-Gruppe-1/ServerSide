@@ -46,23 +46,6 @@
 </div>
 
 
-<!--Dybde-->
-<h2>Dybde</h2>
-
-<div style="display: flex; gap: 20px; margin-bottom: 50px;">
-
-    <!---Graf for siste døgn-->
-    <div style="width: 400px; height: 250px;">
-        <h3>Siste døgn</h3>
-        <canvas id="dybdeDagChart"></canvas>
-    </div>
-
-    <!---Graf for siste uke-->
-    <div style="width: 400px; height: 250px;">
-        <h3>Siste 7 dager</h3>
-        <canvas id="dybdeUkeChart"></canvas>
-    </div>
-</div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ url_for('static', filename='sensor.js') }}"></script>
