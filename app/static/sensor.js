@@ -25,20 +25,66 @@ function splitBytime(data) {
     };
 }
 
+
+function splitByDepth(data) {
+    const result = {}
+
+    for (let i = 0; i < data.length; i++) {
+        const m = data[i];
+        const dyb = Number(m.depth); //Number i tilfelle dybde kommer som en string
+
+        //Dersom dybden er 0.35, 0.5, eller 0.75 skal måleverdien legges i listen resultat
+        if (dyb === 0.25 || dyb === 0.5 || dyb === 0.75) {
+            
+            if (!result[dyb]) {
+                result[dyb] =[];
+            }
+
+            result[dyb].push(m);
+        }
+        return result; // Skal returnere {0.25: [{},{}], 0.5: [], 0.75: []}
+    }
+}
+
 // TEMPERATUR
 
 fetch("/api/data").then(response => response.json()).then(data => {
     const temperaturData = data.filter(m => m.sensor_name === "Temperatur");
     const timeSplit = splitBytime(temperaturData); //output timeSplit.day og timeSplit.week
+    const dayDepthSplit = splitByDepth(timeSplit.day);
+    const weekDepthSplit = splitByDepth(timeSplit.week);
+
 
     // Temperaturgraf for siste døgn
     const dayLabels = [];
-    const dayValues = [];
+    const dayDataset = [];
 
-    for (let i = 0; i < timeSplit.day.length; i++) {
-        let m = timeSplit.day[i];
+    let measurement = [];
+    if (dayDepthSplit[0.25]) {
+        measurement = dayDepthSplit[0.25];
+    } else if (dayDepthSplit[0.5]) {
+        measurement = dayDepthSplit[0.5];
+    } else if (dayDepthSplit[0.75]) {
+        measurement = dayDepthSplit[0.75];
+    }
+
+    // Løkke som endrer formatering av timestamp
+    for (let i = 0; i < measurement.length; i++) {
+        let m = measurement[i];
         dayLabels.push(new Date(m.ts.replace(" ", "T")).toLocaleTimeString());
-        dayValues.push(m.sensor_value);
+    }
+
+
+
+
+    //Løkke som fordeler data i ulike datasets basert på dybde
+    for (const dyb in dayDepthSplit) {
+        const measurement = dayDepthSplit[dyb];
+
+        dayDataset.push({
+            label: "Dybde " + dyb,
+            data: measurement.map(objekt => objekt.sensor_value)
+        });
     }
 
     const temperaturDag = document.getElementById("temperaturDagChart");
@@ -47,10 +93,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
         type: "line",
         data: {
             labels: dayLabels,
-            datasets: [{
-                label: "Temperatur siste døgn",
-                data: dayValues
-            }]
+            datasets: dayDataset
         },
         options: {
             responsive: true,
