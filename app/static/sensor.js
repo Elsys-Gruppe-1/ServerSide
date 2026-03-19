@@ -1,4 +1,5 @@
 
+alert("sensor.js lastet");
 function splitBytime(data) {
     const now = new Date();
     const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 *1000);
@@ -153,9 +154,9 @@ fetch("/api/data").then(response => response.json()).then(data => {
 
 fetch("/api/data").then(response => response.json()).then(data => {
     const tdsData = data.filter(m => m.sensor_name === "TDS");
+    alert("Før splitByTime")
     const timeSplit = splitBytime(tdsData); //output timeSplit.day og timeSplit.week
-
-    alert("TDS-blokka kjører");
+    alert("etter splitBytime");
 
     // TDSgraf for siste døgn
     const dayLabels = [];
