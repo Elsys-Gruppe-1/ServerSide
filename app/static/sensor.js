@@ -42,8 +42,8 @@ function splitByDepth(data) {
 
             result[dyb].push(m);
         }
-        return result; // Skal returnere {0.25: [{},{}], 0.5: [], 0.75: []}
     }
+    return result; // Skal returnere {0.25: [{},{}], 0.5: [], 0.75: []}
 }
 
 // TEMPERATUR
@@ -73,8 +73,6 @@ fetch("/api/data").then(response => response.json()).then(data => {
         let m = measurement[i];
         dayLabels.push(new Date(m.ts.replace(" ", "T")).toLocaleTimeString());
     }
-
-
 
 
     //Løkke som fordeler data i ulike datasets basert på dybde
