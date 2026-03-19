@@ -10,8 +10,6 @@ def create_app():
     from app.routes.home import home_bp
     from app.routes.index import index_bp
 
-    from app.routes.siste_passert import siste_passert_bp
-    from app.routes.oversikt_passering import oversikt_passering_bp
 
     from app.routes.sensor import sensor_bp
 
@@ -24,8 +22,6 @@ def create_app():
     app.register_blueprint(home_bp)
     app.register_blueprint(index_bp)
 
-    app.register_blueprint(siste_passert_bp)
-    app.register_blueprint(oversikt_passering_bp)
 
     app.register_blueprint(sensor_bp)
 
