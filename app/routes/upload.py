@@ -169,7 +169,11 @@ def upload():
     pi_id = pkg["pi_id"]
     ts = pkg["ts"]
     sensor_dict = pkg["sensor_value"]
-    depth = pkg["depth"]
+    if "depth" in pkg:
+        depth = pkg["depth"]
+    else:
+        depth = 0
+        
     print("3: extracted values")
 
     #legger til i database basert på typen
