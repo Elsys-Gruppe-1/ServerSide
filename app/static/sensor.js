@@ -59,18 +59,18 @@ fetch("/api/data").then(response => response.json()).then(data => {
     const dayLabels = [];
     const dayDataset = [];
 
-    let measurement = [];
+    let dayMeasurement = [];
     if (dayDepthSplit[0.25]) {
-        measurement = dayDepthSplit[0.25];
+        dayMeasurement = dayDepthSplit[0.25];
     } else if (dayDepthSplit[0.5]) {
-        measurement = dayDepthSplit[0.5];
+        dayMeasurement = dayDepthSplit[0.5];
     } else if (dayDepthSplit[0.75]) {
-        measurement = dayDepthSplit[0.75];
+        dayMeasurement = dayDepthSplit[0.75];
     }
 
     // Løkke som endrer formatering av timestamp
-    for (let i = 0; i < measurement.length; i++) {
-        let m = measurement[i];
+    for (let i = 0; i < dayMeasurement.length; i++) {
+        let m = dayMeasurement[i];
         dayLabels.push(new Date(m.ts.replace(" ", "T")).toLocaleTimeString());
     }
 
@@ -101,13 +101,34 @@ fetch("/api/data").then(response => response.json()).then(data => {
 
     // Temperaturgraf for siste uke
     const weekLabels = [];
-    const weekValues = [];
+    const weekDataset = [];
 
-    for (let i = 0; i < timeSplit.week.length; i++) {
-        let m = timeSplit.week[i];
-        weekLabels.push(m.ts);
-        weekValues.push(m.sensor_value);
+    let weekMeasurement = [];
+    if (weekDepthSplit[0.25]) {
+        weekMeasurement = weekDepthSplit[0.25];
+    } else if (weekDepthSplit[0.5]) {
+        weekMeasurement = weekDepthSplit[0.5];
+    } else if (weekDepthSplit[0.75]) {
+        weekMeasurement = weekDepthSplit[0.75];
     }
+
+    // Løkke som endrer formatering av timestamp
+    for (let i = 0; i < weekMeasurement.length; i++) {
+        let m = weekMeasurement[i];
+        weekLabels.push(new Date(m.ts.replace(" ", "T")).toLocaleTimeString());
+    }
+
+    //Løkke som fordeler data i ulike datasets basert på dybde
+    for (const dyb in weekDepthSplit) {
+        const measurement = weekDepthSplit[dyb];
+    
+        weekDataset.push({
+            label: "Dybde " + dyb,
+            data: measurement.map(objekt => objekt.sensor_value)
+        });
+    }
+
+
 
     const temperaturUke = document.getElementById("temperaturUkeChart");
     
@@ -115,10 +136,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
         type: "line",
         data: {
             labels: weekLabels,
-            datasets: [{
-                label: "Temperatur siste uke",
-                data: weekValues
-            }]
+            datasets: weekDataset
         },
         options: {
             responsive: true,
