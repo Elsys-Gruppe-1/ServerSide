@@ -173,13 +173,19 @@ def upload():
         depth = pkg["depth"]
     else:
         depth = 0
-        
+
     print("3: extracted values")
 
     #legger til i database basert på typen
     for sensor_name, sensor_value in sensor_dict.items():
-        print("4: skal lagre", sensor_name, sensor_value)
-        add_to_database(pi_id, sensor_name, ts, sensor_value, depth)
+        
+        if isinstance(sensor_value, dict):
+            for ts, val in sensor_value.items():
+                print("4: skal lagre", sensor_name, val)
+                add_to_database(pi_id, sensor_name, ts, val, depth)
+        else:
+            print("4: skal lagre", sensor_name, sensor_value)
+            add_to_database(pi_id, sensor_name, ts, sensor_value, depth)
 
     
     #returnerer respons
