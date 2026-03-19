@@ -16,25 +16,71 @@
     <!---Graf for siste døgn-->
     <div style="width: 400px; height: 250px;">
         <h3>Siste døgn</h3>
-        <canvas id="temperaturDagChart" width="300" height="200"></canvas>
+        <canvas id="temperaturDagChart"></canvas>
     </div>
 
     <!---Graf for siste uke-->
-    <div>
+    <div style="width: 400px; height: 250px;">
         <h3>Siste 7 dager</h3>
-        <canvas id="temperaturUkeChart" width="300" height="200"></canvas>
+        <canvas id="temperaturUkeChart"></canvas>
+    </div>
+</div>
+
+<!--Turbiditet-->
+<h2>Turbiditet</h2>
+
+<div style="display: flex; gap: 20px; margin-bottom: 50px;">
+
+    <!---Graf for siste døgn-->
+    <div style="width: 400px; height: 250px;">
+        <h3>Siste døgn</h3>
+        <canvas id="turbiditetDagChart"></canvas>
+    </div>
+
+    <!---Graf for siste uke-->
+    <div style="width: 400px; height: 250px;">
+        <h3>Siste 7 dager</h3>
+        <canvas id="turbiditetUkeChart"></canvas>
     </div>
 </div>
 
 
 <!--TDS-->
-<canvas id="tdsChart"></canvas>
+<h2>TDS</h2>
+
+<div style="display: flex; gap: 20px; margin-bottom: 50px;">
+
+    <!---Graf for siste døgn-->
+    <div style="width: 400px; height: 250px;">
+        <h3>Siste døgn</h3>
+        <canvas id="tdsDagChart"></canvas>
+    </div>
+
+    <!---Graf for siste uke-->
+    <div style="width: 400px; height: 250px;">
+        <h3>Siste 7 dager</h3>
+        <canvas id="tdsUkeChart"></canvas>
+    </div>
+</div>
+
 
 <!--Dybde-->
-<canvas id="dybdeChart"></canvas>
+<h2>Dybde</h2>
 
-<!--Turbiditet-->
-<canvas id="turbiditetChart"></canvas>
+<div style="display: flex; gap: 20px; margin-bottom: 50px;">
+
+    <!---Graf for siste døgn-->
+    <div style="width: 400px; height: 250px;">
+        <h3>Siste døgn</h3>
+        <canvas id="dybdeDagChart"></canvas>
+    </div>
+
+    <!---Graf for siste uke-->
+    <div style="width: 400px; height: 250px;">
+        <h3>Siste 7 dager</h3>
+        <canvas id="dybdeUkeChart"></canvas>
+    </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ url_for('static', filename='sensor.js') }}"></script>
