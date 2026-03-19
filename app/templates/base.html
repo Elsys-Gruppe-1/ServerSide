@@ -8,7 +8,7 @@
           <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
         <style>
             .navbar-custom {
-                background-color: cadetblue;
+                background-color: #5f9ea0;
 
             }
             .navbar-custom .nav-link {
@@ -22,7 +22,7 @@
             }
 
             body {
-                background-color: rgb(195, 230, 227);
+                background-color: #c3e6e3;
             }
 
             .btn {
@@ -91,6 +91,10 @@
 
                     <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('analyse.analyse') }}">Manuell analyse</a>
+                    </li>
+
+                    <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('ukas_fisk.ukas_fisk') }}">Ukas fisk</a>
                     </li>
                     <!--
                     <li class="nav-item">
