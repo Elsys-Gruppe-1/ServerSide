@@ -52,10 +52,10 @@ function splitByDepth(data) {
 function simpleMovingAverage(values, N) {
     const newValues = [];
 
-    for (let i = 0; i < values.length - N; i++) {
+    for (let i = 0; i <= values.length - N; i++) {
         let sum = 0;
 
-        for (let j = 0; j < N; i++) {
+        for (let j = 0; j < N; j++) {
             sum += values[i+j];
         }
 
@@ -226,9 +226,9 @@ fetch("/api/data").then(response => response.json()).then(data => {
         weekMeasurement = weekDepthSplit[0.75];
     }
 
-    for (let i = 0; i < weekMeasurement.length; i++) {
-        let m = weekMeasurement[i];
-        weekLabels.push(m.ts);
+    //Bruker nå den første målingen i grafen, bør endres til midt måling
+    for (let i = 0; i < weekMeasurement.length - 20; i++) {
+        weekLabels.push(weekMeasurement[i].ts);
     }
 
     for (const dyb in weekDepthSplit) {
