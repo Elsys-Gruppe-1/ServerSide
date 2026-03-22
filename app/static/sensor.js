@@ -240,9 +240,9 @@ fetch("/api/data").then(response => response.json()).then(data => {
     for (const dyb in weekDepthSplit) {
         const measurement = weekDepthSplit[dyb];
 
-        let color = "Blue"
-        if (dyb == 0.5) {color = "Purple"}
-        if (dyb == 0.75) {color = "Teal"}
+        let color = "DeepPink"
+        if (dyb == 0.5) {color = "Crimson"}
+        if (dyb == 0.75) {color = "DarkRed"}
 
         weekDataset.push({
             label: "Dybde " + dyb,
