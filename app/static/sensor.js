@@ -150,15 +150,34 @@ fetch("/api/data").then(response => response.json()).then(data => {
 fetch("/api/data").then(response => response.json()).then(data => {
     const tdsData = data.filter(m => m.sensor_name === "TDS");
     const timeSplit = splitBytime(tdsData); //output timeSplit.day og timeSplit.week
+    const dayDepthSplit = splitByDepth(timeSplit.day);
+    const weekDepthSplit = splitByDepth(timeSplit.week);
 
     // TDSgraf for siste døgn
     const dayLabels = [];
-    const dayValues = [];
+    const dayDataset = [];
 
-    for (let i = 0; i < timeSplit.day.length; i++) {
-        let m = timeSplit.day[i];
+    let dayMeasurement = [];
+    if (dayDepthSplit[0.25]) {
+        dayMeasurement = dayDepthSplit[0.25];
+    } else if (dayDepthSplit[0.5]) {
+        dayMeasurement = dayDepthSplit[0.5];
+    } else if (dayDepthSplit[0.75]) {
+        dayMeasurement = dayDepthSplit[0.75];
+    }
+
+    for (let i = 0; i < dayMeasurement.length; i++) {
+        let m = dayMeasurement[i];
         dayLabels.push(new Date(m.ts.replace(" ", "T")).toLocaleTimeString());
-        dayValues.push(m.sensor_value);
+    }
+
+    for (const dyb in dayDepthSplit) {
+        const measurement = dayDepthSplit[dyb];
+
+        dayDataset.push({
+            label: "Dybde" + dyb,
+            data: measurement.map(objekt => objekt.sensor_value)
+        });
     }
 
     const tdsDag = document.getElementById("tdsDagChart");
@@ -167,10 +186,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
         type: "line",
         data: {
             labels: dayLabels,
-            datasets: [{
-                label: "TDS siste døgn",
-                data: dayValues
-            }]
+            datasets: dayDataset
         },
         options: {
             responsive: true,
