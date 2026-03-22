@@ -196,12 +196,29 @@ fetch("/api/data").then(response => response.json()).then(data => {
 
     // TDSgraf for siste uke
     const weekLabels = [];
-    const weekValues = [];
+    const weekDataset = [];
 
-    for (let i = 0; i < timeSplit.week.length; i++) {
-        let m = timeSplit.week[i];
+    let weekMeasurement = [];
+    if (weekDepthSplit[0.25]) {
+        weekMeasurement = weekDepthSplit[0.25];
+    } else if (weekDepthSplit[0.5]) {
+        weekMeasurement = weekDepthSplit[0.5];
+    } else if (weekDepthSplit[0.75]) {
+        weekMeasurement = weekDepthSplit[0.75];
+    }
+
+    for (let i = 0; i < weekMeasurement.length; i++) {
+        let m = weekMeasurementk[i];
         weekLabels.push(m.ts);
-        weekValues.push(m.sensor_value);
+    }
+
+    for (const dyb in weekDepthSplit) {
+        const measurement = weekDepthSplit[dyb];
+
+        weekDataset.push({
+            label: "Dybde" + dyb,
+            data: measurement.map(objekt => objekt.sensor_value)
+        });
     }
 
     const tdsUke = document.getElementById("tdsUkeChart");
@@ -210,10 +227,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
         type: "line",
         data: {
             labels: weekLabels,
-            datasets: [{
-                label: "TDS siste uke",
-                data: weekValues
-            }]
+            datasets: weekDataset
         },
         options: {
             responsive: true,
