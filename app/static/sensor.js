@@ -100,7 +100,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
 
         dayDataset.push({
             label: "Dybde " + dyb,
-            data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value))
+            data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value), 20)
         });
     }
 
