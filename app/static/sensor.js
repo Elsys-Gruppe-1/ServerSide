@@ -175,7 +175,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
         const measurement = dayDepthSplit[dyb];
 
         dayDataset.push({
-            label: "Dybde" + dyb,
+            label: "Dybde " + dyb,
             data: measurement.map(objekt => objekt.sensor_value)
         });
     }
@@ -208,7 +208,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
     }
 
     for (let i = 0; i < weekMeasurement.length; i++) {
-        let m = weekMeasurementk[i];
+        let m = weekMeasurement[i];
         weekLabels.push(m.ts);
     }
 
@@ -216,7 +216,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
         const measurement = weekDepthSplit[dyb];
 
         weekDataset.push({
-            label: "Dybde" + dyb,
+            label: "Dybde " + dyb,
             data: measurement.map(objekt => objekt.sensor_value)
         });
     }
