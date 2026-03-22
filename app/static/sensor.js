@@ -100,7 +100,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
 
         dayDataset.push({
             label: "Dybde " + dyb,
-            data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value), 20)
+            data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value), 5)
         });
     }
 
@@ -143,7 +143,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
     
         weekDataset.push({
             label: "Dybde " + dyb,
-            data: measurement.map(objekt => objekt.sensor_value)
+            data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value), 20)
         });
     }
 
@@ -195,7 +195,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
 
         dayDataset.push({
             label: "Dybde " + dyb,
-            data: measurement.map(objekt => objekt.sensor_value)
+            data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value), 5)
         });
     }
 
