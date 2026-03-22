@@ -249,7 +249,8 @@ fetch("/api/data").then(response => response.json()).then(data => {
             data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value), 20),
 
             borderColor: color,
-            backgroundColor: color
+            backgroundColor: color,
+            fill: false
         });
     }
 
