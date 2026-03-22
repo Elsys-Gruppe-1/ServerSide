@@ -46,6 +46,25 @@ function splitByDepth(data) {
     return result; // Skal returnere {0.25: [{},{}], 0.5: [], 0.75: []}
 }
 
+
+
+// Simple Moving Average (SMA) N: antall målinger per gjennomsnitt
+function simpleMovingAverage(values, N) {
+    const newValues = [];
+
+    for (let i = 0; i < values.length - N; i++) {
+        let sum = 0;
+
+        for (let j = 0; j < N; i++) {
+            sum += values[i+j];
+        }
+
+        let average = sum / N;
+        newValues.push(average);
+    }
+    return newValues;
+}
+
 // TEMPERATUR
 
 fetch("/api/data").then(response => response.json()).then(data => {
@@ -81,7 +100,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
 
         dayDataset.push({
             label: "Dybde " + dyb,
-            data: measurement.map(objekt => objekt.sensor_value)
+            data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value))
         });
     }
 
