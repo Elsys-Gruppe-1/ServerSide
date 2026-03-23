@@ -97,9 +97,9 @@ fetch("/api/data").then(response => response.json()).then(data => {
     for (const dyb in dayDepthSplit) {
         const measurement = dayDepthSplit[dyb];
 
-        let color = "Blue"
-        if (dyb == 0.5) {color = "Purple"}
-        if (dyb == 0.75) {color = "Teal"}
+        let color = "DeepPink"
+        if (dyb == 0.5) {color = "Crimson"}
+        if (dyb == 0.75) {color = "DarkRed"}
 
         dayDataset.push({
             label: "Dybde " + dyb,
@@ -146,10 +146,17 @@ fetch("/api/data").then(response => response.json()).then(data => {
     //Løkke som fordeler data i ulike datasets basert på dybde
     for (const dyb in weekDepthSplit) {
         const measurement = weekDepthSplit[dyb];
+
+        let color = "DeepPink"
+        if (dyb == 0.5) {color = "Crimson"}
+        if (dyb == 0.75) {color = "DarkRed"}
     
         weekDataset.push({
             label: "Dybde " + dyb,
-            data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value), 20)
+            data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value), 20),
+
+            borderColor: color,
+            backgroundColor: color
         });
     }
 
@@ -199,9 +206,16 @@ fetch("/api/data").then(response => response.json()).then(data => {
     for (const dyb in dayDepthSplit) {
         const measurement = dayDepthSplit[dyb];
 
+        let color = "DeepPink"
+        if (dyb == 0.5) {color = "Crimson"}
+        if (dyb == 0.75) {color = "DarkRed"}
+
         dayDataset.push({
             label: "Dybde " + dyb,
-            data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value), 5)
+            data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value), 5),
+
+            borderColor: color,
+            backgroundColor: color
         });
     }
 
@@ -249,8 +263,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
             data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value), 20),
 
             borderColor: color,
-            backgroundColor: color,
-            fill: false
+            backgroundColor: color
         });
     }
 
