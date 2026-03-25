@@ -33,8 +33,8 @@ function splitByDepth(data) {
         const m = data[i];
         const dyb = Number(m.depth); //Number i tilfelle dybde kommer som en string
 
-        //Dersom dybden er 0.35, 0.5, eller 0.75 skal måleverdien legges i listen resultat
-        if (dyb === 0.25 || dyb === 0.5 || dyb === 0.75) {
+        //Dersom dybden er 0.5, 1.0, eller 1.5 skal måleverdien legges i listen resultat
+        if (dyb === 0.5 || dyb === 1.0 || dyb === 1.5) {
             
             if (!result[dyb]) {
                 result[dyb] =[];
@@ -43,7 +43,7 @@ function splitByDepth(data) {
             result[dyb].push(m);
         }
     }
-    return result; // Skal returnere {0.25: [{},{}], 0.5: [], 0.75: []}
+    return result; // Skal returnere {0.5: [{},{}], 1.0: [], 1.5: []}
 }
 
 
@@ -79,7 +79,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
     const dayDepthSplit = splitByDepth(timeSplit.day);
     const weekDepthSplit = splitByDepth(timeSplit.week);
     // splitByDepth() gir et array med data sortert basert på dybde.
-    // Eks. {0.25: [{},{}], 0.5: [], 0.75: []}
+    // Eks. {0.5: [{},{}], 1.0: [], 1.5: []}
 
 
     // Temperaturgraf for siste døgn
@@ -88,12 +88,12 @@ fetch("/api/data").then(response => response.json()).then(data => {
 
     // dayMeasurement brukes for å bestemme hvilke målinger som skal gi x-aksen
     let dayMeasurement = [];
-    if (dayDepthSplit[0.25]) {
-        dayMeasurement = dayDepthSplit[0.25];
-    } else if (dayDepthSplit[0.5]) {
+    if (dayDepthSplit[0.5]) {
         dayMeasurement = dayDepthSplit[0.5];
-    } else if (dayDepthSplit[0.75]) {
-        dayMeasurement = dayDepthSplit[0.75];
+    } else if (dayDepthSplit[1.0]) {
+        dayMeasurement = dayDepthSplit[1.0];
+    } else if (dayDepthSplit[1.5]) {
+        dayMeasurement = dayDepthSplit[1.5];
     }
 
     // Løkke som endrer formatering av timestamp og legger til ts (timestamp) i x-aksen
@@ -107,8 +107,8 @@ fetch("/api/data").then(response => response.json()).then(data => {
         const measurement = dayDepthSplit[dyb];
 
         let color = "#fe00a6"
-        if (dyb == 0.5) {color = "#ff7ccf"}
-        if (dyb == 0.75) {color = "#fdcbea"}
+        if (dyb == 1.0) {color = "#ff7ccf"}
+        if (dyb == 1.5) {color = "#fdcbea"}
 
         dayDataset.push({
             label: "Dybde " + dyb,
@@ -142,12 +142,12 @@ fetch("/api/data").then(response => response.json()).then(data => {
     const weekDataset = [];
 
     let weekMeasurement = [];
-    if (weekDepthSplit[0.25]) {
-        weekMeasurement = weekDepthSplit[0.25];
-    } else if (weekDepthSplit[0.5]) {
+    if (weekDepthSplit[0.5]) {
         weekMeasurement = weekDepthSplit[0.5];
-    } else if (weekDepthSplit[0.75]) {
-        weekMeasurement = weekDepthSplit[0.75];
+    } else if (weekDepthSplit[1.0]) {
+        weekMeasurement = weekDepthSplit[1.0];
+    } else if (weekDepthSplit[1.5]) {
+        weekMeasurement = weekDepthSplit[1.5];
     }
 
     // Løkke som endrer formatering av timestamp
@@ -161,8 +161,8 @@ fetch("/api/data").then(response => response.json()).then(data => {
         const measurement = weekDepthSplit[dyb];
 
         let color = "#fe00a6"
-        if (dyb == 0.5) {color = "#ff7ccf"}
-        if (dyb == 0.75) {color = "#fdcbea"}
+        if (dyb == 1.0) {color = "#ff7ccf"}
+        if (dyb == 1.5) {color = "#fdcbea"}
     
         weekDataset.push({
             label: "Dybde " + dyb,
@@ -203,12 +203,12 @@ fetch("/api/data").then(response => response.json()).then(data => {
     const dayDataset = [];
 
     let dayMeasurement = [];
-    if (dayDepthSplit[0.25]) {
-        dayMeasurement = dayDepthSplit[0.25];
-    } else if (dayDepthSplit[0.5]) {
+    if (dayDepthSplit[0.5]) {
         dayMeasurement = dayDepthSplit[0.5];
-    } else if (dayDepthSplit[0.75]) {
-        dayMeasurement = dayDepthSplit[0.75];
+    } else if (dayDepthSplit[1.0]) {
+        dayMeasurement = dayDepthSplit[1.0];
+    } else if (dayDepthSplit[1.5]) {
+        dayMeasurement = dayDepthSplit[1.5];
     }
 
     for (let i = 0; i < dayMeasurement.length; i++) {
@@ -220,8 +220,8 @@ fetch("/api/data").then(response => response.json()).then(data => {
         const measurement = dayDepthSplit[dyb];
 
         let color = "#fe00a6"
-        if (dyb == 0.5) {color = "#ff7ccf"}
-        if (dyb == 0.75) {color = "#fdcbea"}
+        if (dyb == 1.0) {color = "#ff7ccf"}
+        if (dyb == 1.5) {color = "#fdcbea"}
 
         dayDataset.push({
             label: "Dybde " + dyb,
@@ -251,12 +251,12 @@ fetch("/api/data").then(response => response.json()).then(data => {
     const weekDataset = [];
 
     let weekMeasurement = [];
-    if (weekDepthSplit[0.25]) {
-        weekMeasurement = weekDepthSplit[0.25];
-    } else if (weekDepthSplit[0.5]) {
+    if (weekDepthSplit[0.5]) {
         weekMeasurement = weekDepthSplit[0.5];
-    } else if (weekDepthSplit[0.75]) {
-        weekMeasurement = weekDepthSplit[0.75];
+    } else if (weekDepthSplit[1.0]) {
+        weekMeasurement = weekDepthSplit[1.0];
+    } else if (weekDepthSplit[1.5]) {
+        weekMeasurement = weekDepthSplit[1.5];
     }
 
     //Bruker nå den første målingen i grafen, bør endres til midt måling
@@ -268,8 +268,8 @@ fetch("/api/data").then(response => response.json()).then(data => {
         const measurement = weekDepthSplit[dyb];
 
         let color = "#fe00a6"
-        if (dyb == 0.5) {color = "#ff7ccf"}
-        if (dyb == 0.75) {color = "#fdcbea"}
+        if (dyb == 1.0) {color = "#ff7ccf"}
+        if (dyb == 1.5) {color = "#fdcbea"}
 
         weekDataset.push({
             label: "Dybde " + dyb,
