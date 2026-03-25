@@ -39,22 +39,28 @@ base_ts = time.time()
 
 # Validate the input
 def validate_package(pkg):
-    # Checks if pkg is "dict" type
+    # Sjekker om pkg er en dict
     if not isinstance(pkg, dict):
         raise TypeError("package must be a dict")
     
-    # Checks if the key is in the dictionary
+    # Sjekker om pi_id, ts, og sesor_value er i pkg
     for key in ("pi_id", "ts", "sensor_value"):
         if key not in pkg:
             raise ValueError(f"missing key: {key}")
+
+    # Type sjekk
+    if not isinstance(pkg["pi_id"], int):
+        raise TypeError("pi_id must be int")
     
-    # Checks if SensorValues is "dict" type
+    if not isinstance(pkg["ts"], str):
+        raise typeError("ts must be string")
+    
     if not isinstance(pkg["sensor_value"], dict):
         raise TypeError("sensor_value must be a dict")
- 
-    if not isinstance(pkg["sensor_value"], (int, float, dict)):
-        raise TypeError("Sensor value was of unknow type", type(pkg["sensor_value"]))
     
+    if "depth" in pkg and not isinstance(pkg["depth"], (float)):
+        raise TypeError("depth must be float")
+ 
     return True
     
 
@@ -96,7 +102,11 @@ def upload():
     #lese data sendt fra raspberry pi:
     pkg = request.get_json()
     print("2: mottatt pkg", pkg)
-    
+
+    try:
+        validate_package(pkg)
+    except Exception as e:
+        return {"status": "error", "message": str(e)}, 400
 
     #"extract" verdiene:
     pi_id = pkg["pi_id"]
