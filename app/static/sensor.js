@@ -67,17 +67,26 @@ function simpleMovingAverage(values, N) {
 
 // TEMPERATUR
 
+//fetch henter data sendt fra sensorene og filtrerer ut målingene for alt annet enn temperatur
 fetch("/api/data").then(response => response.json()).then(data => {
     const temperaturData = data.filter(m => m.sensor_name === "Temperatur");
-    const timeSplit = splitBytime(temperaturData); //output timeSplit.day og timeSplit.week
+    const timeSplit = splitBytime(temperaturData);
+    // splitByTime lager to lister med målinger fra siste døgn i den ene, 
+    // og fra siste 7 døgn i den andre.
+    // Har output timeSplit.day og timeSplit.week
+
+    
     const dayDepthSplit = splitByDepth(timeSplit.day);
     const weekDepthSplit = splitByDepth(timeSplit.week);
+    // splitByDepth() gir et array med data sortert basert på dybde.
+    // Eks. {0.25: [{},{}], 0.5: [], 0.75: []}
 
 
     // Temperaturgraf for siste døgn
     const dayLabels = [];
     const dayDataset = [];
 
+    // dayMeasurement brukes for å bestemme hvilke målinger som skal gi x-aksen
     let dayMeasurement = [];
     if (dayDepthSplit[0.25]) {
         dayMeasurement = dayDepthSplit[0.25];
@@ -87,7 +96,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
         dayMeasurement = dayDepthSplit[0.75];
     }
 
-    // Løkke som endrer formatering av timestamp
+    // Løkke som endrer formatering av timestamp og legger til ts (timestamp) i x-aksen
     for (let i = 0; i < dayMeasurement.length; i++) {
         dayLabels.push(new Date(dayMeasurement[i].ts.replace(" ", "T")).toLocaleTimeString());
     }
@@ -104,14 +113,18 @@ fetch("/api/data").then(response => response.json()).then(data => {
         dayDataset.push({
             label: "Dybde " + dyb,
             data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value), 5),
+                // simpleMovingAverage() regner ut gjennomsnittet av N målinger, 
+                // slik at vi får kurver som er lettere å lese i grafen
 
             borderColor: color,
             backgroundColor: color
         });
     }
 
+    // Finner html-elementet med navn "temperaturDagChart" som ligger i sensor.html
     const temperaturDag = document.getElementById("temperaturDagChart");
 
+    //Tegner grafen
     new Chart(temperaturDag, {
         type: "line",
         data: {
