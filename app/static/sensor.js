@@ -97,9 +97,9 @@ fetch("/api/data").then(response => response.json()).then(data => {
     for (const dyb in dayDepthSplit) {
         const measurement = dayDepthSplit[dyb];
 
-        let color = "DeepPink"
-        if (dyb == 0.5) {color = "Crimson"}
-        if (dyb == 0.75) {color = "DarkRed"}
+        let color = "#fe00a6"
+        if (dyb == 0.5) {color = "#ff7ccf"}
+        if (dyb == 0.75) {color = "#fdcbea"}
 
         dayDataset.push({
             label: "Dybde " + dyb,
@@ -147,9 +147,9 @@ fetch("/api/data").then(response => response.json()).then(data => {
     for (const dyb in weekDepthSplit) {
         const measurement = weekDepthSplit[dyb];
 
-        let color = "DeepPink"
-        if (dyb == 0.5) {color = "Crimson"}
-        if (dyb == 0.75) {color = "DarkRed"}
+        let color = "#fe00a6"
+        if (dyb == 0.5) {color = "#ff7ccf"}
+        if (dyb == 0.75) {color = "#fdcbea"}
     
         weekDataset.push({
             label: "Dybde " + dyb,
@@ -206,9 +206,9 @@ fetch("/api/data").then(response => response.json()).then(data => {
     for (const dyb in dayDepthSplit) {
         const measurement = dayDepthSplit[dyb];
 
-        let color = "DeepPink"
-        if (dyb == 0.5) {color = "Crimson"}
-        if (dyb == 0.75) {color = "DarkRed"}
+        let color = "#fe00a6"
+        if (dyb == 0.5) {color = "#ff7ccf"}
+        if (dyb == 0.75) {color = "#fdcbea"}
 
         dayDataset.push({
             label: "Dybde " + dyb,
@@ -254,9 +254,9 @@ fetch("/api/data").then(response => response.json()).then(data => {
     for (const dyb in weekDepthSplit) {
         const measurement = weekDepthSplit[dyb];
 
-        let color = "DeepPink"
-        if (dyb == 0.5) {color = "Crimson"}
-        if (dyb == 0.75) {color = "DarkRed"}
+        let color = "#fe00a6"
+        if (dyb == 0.5) {color = "#ff7ccf"}
+        if (dyb == 0.75) {color = "#fdcbea"}
 
         weekDataset.push({
             label: "Dybde " + dyb,

@@ -26,75 +26,7 @@ mock_package = {
 
 base_ts = time.time()
 
-ny_mock_package = {
-    'pi_id': -1, 
-     'depth': 1, 
-     'sensor_value': {'Tmp': -1000, 'TDS': -1.50478}, 
-     'ts': base_ts,
-}
 
-ny_mock_package_2 = {
-    'pi_id': -1, 
-     'depth': 2, 
-     'sensor_value': {'Tmp': -10, 'TDS': -0.5}, 
-     'ts': base_ts + 30,
-}
-
-ny_mock_package_3 = {
-    'pi_id': -1, 
-     'depth': 3, 
-     'sensor_value': {'Tmp': -5, 'TDS': -0.01}, 
-     'ts': base_ts + 60,
-}
-
-ny_mock_package_4 = {
-    'pi_id': -1, 
-     'depth': 5, 
-     'sensor_value': {'Tmp': 10, 'TDS': 0.5}, 
-     'ts': base_ts + 90,
-}
-
-ny_mock_package_5 = {
-    'pi_id': -1, 
-     'depth': 9, 
-     'sensor_value': {'Tmp': 100, 'TDS': 5}, 
-     'ts': base_ts + 120,
-}
-
-ny_mock_package_6 = {
-    'pi_id': -1, 
-     'depth': 9, 
-     'sensor_value': {'Tmp': 110, 'TDS': 55}, 
-     'ts': base_ts + 150,
-}
-
-ny_mock_package_7 = {
-    'pi_id': -1, 
-     'depth': 11, 
-     'sensor_value': {'Tmp': 15, 'TDS': 10}, 
-     'ts': base_ts + 180,
-}
-
-ny_mock_package_8 = {
-    'pi_id': -1, 
-     'depth': 8, 
-     'sensor_value': {'Tmp': 12, 'TDS': 7}, 
-     'ts': base_ts + 210,
-}
-
-ny_mock_package_9 = {
-    'pi_id': -1, 
-     'depth': 7, 
-     'sensor_value': {'Tmp': 67, 'TDS': 96}, 
-     'ts': base_ts + 240,
-}
-
-ny_mock_package_10 = {
-    'pi_id': -1, 
-     'depth': 9, 
-     'sensor_value': {'Tmp': 100, 'TDS': 13}, 
-     'ts': base_ts + 270,
-}
 
 # Eksempel plan
 # Finne ut av hvordan man setter opp database og kobler den til flask
@@ -203,6 +135,7 @@ def upload():
     """
 
 
+# Til grafene
 def get_data():
     with Session() as session:
         measurements = session.query(Measurements).all()
@@ -246,53 +179,9 @@ if __name__ == "__main__":
 """
 # TEST
 
-def run():
-
-    with Session() as session:
-        session.query(Measurements).delete()
-        session.commit()
-
-    packages = [ny_mock_package, ny_mock_package_2, ny_mock_package_3, ny_mock_package_4, ny_mock_package_5, ny_mock_package_6, ny_mock_package_7, ny_mock_package_8, ny_mock_package_9, ny_mock_package_10]
-
-    for pkg in packages:
-
-        validate_package(pkg)
-        pi_id = pkg["pi_id"]
-        package_ts = pkg["ts"]
-
-        for sensor_name, sensor_val in pkg["sensor_value"].items():
-            if isinstance(sensor_val, (int, float)):
-                print("Trying to add to database", pi_id, package_ts, sensor_val)
-                add_to_database(
-                    pi_id = pi_id,
-                    ts = package_ts,
-                    sensor_name=sensor_name,
-                    sensor_value=float(sensor_val)
-                )
-
-            elif isinstance(sensor_val, dict):
-
-                for name, val in sensor_val.items():
-                    print("Trying to add to database", pi_id, package_ts, sensor_val)
-                    add_to_database(
-                        pi_id = pi_id,
-                        sensor_name= name,
-                        ts=package_ts,
-                        sensor_value=float(val)
-                    )
-
-    print("Insert OK")
-    for pkg in packages:
-        print({
-            "pi_id": pkg["pi_id"],
-            "ts": pkg["ts"],
-            "sensor_values": pkg["sensor_value"],
-            "depth": pkg["depth"]
-        })
 
 
-if __name__ == "__main__":
-    run()
+
 """
     pkg = {
         "pi_id": 1,
