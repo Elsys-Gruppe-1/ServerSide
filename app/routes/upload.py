@@ -99,6 +99,7 @@ def upload():
     """
 
     print("1: inne i upload")
+
     #lese data sendt fra raspberry pi:
     pkg = request.get_json()
     print("2: mottatt pkg", pkg)
@@ -107,6 +108,7 @@ def upload():
         validate_package(pkg)
     except Exception as e:
         return {"status": "error", "message": str(e)}, 400
+    print("3: Pakke validert")
 
     #"extract" verdiene:
     pi_id = pkg["pi_id"]
@@ -116,28 +118,17 @@ def upload():
         depth = pkg["depth"]
     else:
         depth = 0
-
-    print("3: extracted values")
+    print("4: 'extracted' verdier")
 
     #legger til i database basert på typen.
     for sensor_name, sensor_value in sensor_dict.items():
-        print("4: skal lagre", sensor_name, sensor_value)
+        print("5: skal lagre", sensor_name, sensor_value)
         add_to_database(pi_id, sensor_name, ts, sensor_value, depth)
 
     
     #returnerer respons
-    print("5: Ferdig med lagring")
+    print("6: Ferdig med lagring")
     return {"status": "success"}
-
-    # validate_package(..)
-    # add_to_database(...)
-
-    """
-    Ta imot request
-    Lese JSON?
-    Sjekke med validate_package()
-    Trekke ut verdier og sende videre med add_to_database()
-    """
 
 
 # Til grafene
