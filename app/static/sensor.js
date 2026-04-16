@@ -96,7 +96,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
     // Temperaturgraf for siste døgn
     const dayLabels = [];
     const dayDataset = [];
-    const N = 5;
+    const N_dag = 5;
 
     // dayMeasurement brukes for å bestemme hvilke målinger som skal gi x-aksen
     let dayMeasurement = [];
@@ -109,9 +109,9 @@ fetch("/api/data").then(response => response.json()).then(data => {
     }
 
     // Løkke som endrer formatering av timestamp og legger til ts (timestamp) i x-aksen
-    for (let i = 0; i < dayMeasurement.length - N; i++) {
+    for (let i = 0; i < dayMeasurement.length - N_dag; i++) {
         dayLabels.push(
-            localDate(dayMeasurement[i + Math.floor(N / 2)].ts)
+            localDate(dayMeasurement[i + Math.floor(N_dag / 2)].ts)
             .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit"}));
     }
 
@@ -126,7 +126,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
 
         dayDataset.push({
             label: "Dybde " + dyb,
-            data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value), N),
+            data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value), N_dag),
                 // simpleMovingAverage() regner ut gjennomsnittet av N målinger, 
                 // slik at vi får kurver som er lettere å lese i grafen
 
@@ -147,13 +147,21 @@ fetch("/api/data").then(response => response.json()).then(data => {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    ticks: {
+                        maxTicksLimit: 6
+                    }
+                }
+            }
     }
     });
 
     // Temperaturgraf for siste uke
     const weekLabels = [];
     const weekDataset = [];
+    const N_uke = 20;
 
     let weekMeasurement = [];
     if (weekDepthSplit[0.5]) {
@@ -165,9 +173,10 @@ fetch("/api/data").then(response => response.json()).then(data => {
     }
 
     // Løkke som endrer formatering av timestamp
-    for (let i = 0; i < weekMeasurement.length; i++) {
-        let m = weekMeasurement[i];
-        weekLabels.push(new Date(m.ts.replace(" ", "T")).toLocaleTimeString());
+    for (let i = 0; i < weekMeasurement.length - N_uke; i++) {
+        weekLabels.push(
+            localDate(dayMeasurement[i + Math.floor(N / 2)],ts)
+            .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit"}));
     }
 
     //Løkke som fordeler data i ulike datasets basert på dybde
@@ -180,7 +189,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
     
         weekDataset.push({
             label: "Dybde " + dyb,
-            data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value), 20),
+            data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value), N_uke),
 
             borderColor: color,
             backgroundColor: color
@@ -199,7 +208,14 @@ fetch("/api/data").then(response => response.json()).then(data => {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    ticks: {
+                        maxTicksLimit: 8
+                    }
+                }
+            }
         }
     }); 
 });
@@ -215,7 +231,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
     // TDSgraf for siste døgn
     const dayLabels = [];
     const dayDataset = [];
-    const N = 5;
+    const N_dag = 5;
 
     let dayMeasurement = [];
     if (dayDepthSplit[0.5]) {
@@ -226,9 +242,10 @@ fetch("/api/data").then(response => response.json()).then(data => {
         dayMeasurement = dayDepthSplit[1.5];
     }
 
-    for (let i = 0; i < dayMeasurement.length - N; i++) {
-        let m = dayMeasurement[i];
-        dayLabels.push(new Date(m.ts.replace(" ", "T")).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit"}));
+    for (let i = 0; i < dayMeasurement.length - N_dag; i++) {
+        dayLabels.push(
+            localDate(dayMeasurement[i + Math.floor(N_dag / 2)])
+            .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit"}));
     }
 
     for (const dyb in dayDepthSplit) {
@@ -240,7 +257,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
 
         dayDataset.push({
             label: "Dybde " + dyb,
-            data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value), N),
+            data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value), N_dag),
 
             borderColor: color,
             backgroundColor: color
@@ -271,6 +288,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
     // TDSgraf for siste uke
     const weekLabels = [];
     const weekDataset = [];
+    const N_uke = 20;
 
     let weekMeasurement = [];
     if (weekDepthSplit[0.5]) {
@@ -282,8 +300,10 @@ fetch("/api/data").then(response => response.json()).then(data => {
     }
 
     //Bruker nå den første målingen i grafen, bør endres til midt måling
-    for (let i = 0; i < weekMeasurement.length - 20; i++) {
-        weekLabels.push(weekMeasurement[i].ts);
+    for (let i = 0; i < weekMeasurement.length - N_uke; i++) {
+        weekLabels.push(
+            localDate(weekMeasurement[i + Math.floor(N_uke / 2)].ts)
+            .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit"}));
     }
 
     for (const dyb in weekDepthSplit) {
@@ -295,7 +315,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
 
         weekDataset.push({
             label: "Dybde " + dyb,
-            data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value), 20),
+            data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value), N_uke),
 
             borderColor: color,
             backgroundColor: color
