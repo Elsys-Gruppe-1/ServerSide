@@ -242,7 +242,14 @@ fetch("/api/data").then(response => response.json()).then(data => {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    ticks: {
+                        maxTicksLimits: 6
+                    }
+                }
+            }
     }
     });
 
@@ -290,7 +297,14 @@ fetch("/api/data").then(response => response.json()).then(data => {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    ticks: {
+                        maxTicksLimits: 8
+                    }
+                }
+            }
         }
     }); 
 });
