@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, jsonify, send_file
 from app.db import Session, Measurements
 from io import StringIO, BytesIO
 import csv
+from datetime import datetime
 
 sensor_bp = Blueprint("sensor", __name__)
 
@@ -37,6 +38,10 @@ def csv_download():
     writer.writerow(["pi_id", "sensor_name", "ts", "sensor_value", "depth"])
 
     for m in measurements:
+        if isinstance(m.ts, (int, float)):
+            readable_ts = datetime.fromtimestamp(m.ts). strftime("%Y-%m-%d %H:%M-%S")
+        else:
+            readable_ts = m-ts
         writer.writerow([m.pi_id, m.sensor_name, m.ts, m.sensor_value, m.depth])
     
     memory_file = BytesIO()
