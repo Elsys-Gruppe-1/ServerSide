@@ -130,21 +130,3 @@ def upload():
     print("6: Ferdig med lagring")
     return {"status": "success"}
 
-
-"""
-# Til grafene
-def get_data():
-    with Session() as session:
-        measurements = session.query(Measurements).all()
-        result = []
-    
-        for m in measurements:
-            result.append({"pi_id":m.pi_id,
-                        "sensor_name":m.sensor_name,
-                        "ts":m.ts,
-                        "sensor_value":m.sensor_value,
-                        "depth":m.depth})
-        return result
-
-"""
-
