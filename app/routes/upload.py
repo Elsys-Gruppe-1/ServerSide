@@ -58,8 +58,8 @@ def validate_package(pkg):
     if not isinstance(pkg["sensor_value"], dict):
         raise TypeError("sensor_value must be a dict")
     
-    if "depth" in pkg and not isinstance(pkg["depth"], (float)):
-        raise TypeError("depth must be float")
+    if "depth" in pkg and not isinstance(pkg["depth"], (int, float)):
+        raise TypeError("depth must be number")
  
     return True
     
