@@ -131,6 +131,7 @@ def upload():
     return {"status": "success"}
 
 
+"""
 # Til grafene
 def get_data():
     with Session() as session:
@@ -145,5 +146,5 @@ def get_data():
                         "depth":m.depth})
         return result
 
-
+"""
 
