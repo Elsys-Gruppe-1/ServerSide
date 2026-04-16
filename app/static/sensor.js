@@ -120,7 +120,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
     for (const dyb in dayDepthSplit) {
         const measurement = dayDepthSplit[dyb];
 
-        let color = "#fe00a6"
+        let color = "#fd10a7"
         if (dyb == 1) {color = "#ff7ccf"}
         if (dyb == 1.5) {color = "#fdcbea"}
 
@@ -174,7 +174,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
     for (const dyb in weekDepthSplit) {
         const measurement = weekDepthSplit[dyb];
 
-        let color = "#fe00a6"
+        let color = "#fd10a7"
         if (dyb == 1) {color = "#ff7ccf"}
         if (dyb == 1.5) {color = "#fdcbea"}
     
@@ -234,7 +234,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
     for (const dyb in dayDepthSplit) {
         const measurement = dayDepthSplit[dyb];
 
-        let color = "#fe00a6"
+        let color = "#fd10a7"
         if (dyb == 1) {color = "#ff7ccf"}
         if (dyb == 1.5) {color = "#fdcbea"}
 
@@ -289,7 +289,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
     for (const dyb in weekDepthSplit) {
         const measurement = weekDepthSplit[dyb];
 
-        let color = "#fe00a6"
+        let color = "#fd10a7"
         if (dyb == 1) {color = "#ff7ccf"}
         if (dyb == 1.5) {color = "#fdcbea"}
 
