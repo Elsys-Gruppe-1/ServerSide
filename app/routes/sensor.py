@@ -41,8 +41,8 @@ def csv_download():
         if isinstance(m.ts, (int, float)):
             readable_ts = datetime.fromtimestamp(m.ts). strftime("%Y-%m-%d %H:%M-%S")
         else:
-            readable_ts = m-ts
-        writer.writerow([m.pi_id, m.sensor_name, m.ts, m.sensor_value, m.depth])
+            readable_ts = m.ts
+        writer.writerow([m.pi_id, m.sensor_name, m.readable_ts, m.sensor_value, m.depth])
     
     memory_file = BytesIO()
     memory_file.write(output.getvalue().encode("utf-8"))
