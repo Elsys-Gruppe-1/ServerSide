@@ -53,7 +53,7 @@ def validate_package(pkg):
         raise TypeError("pi_id must be int")
     
     if not isinstance(pkg["ts"], str):
-        raise typeError("ts must be string")
+        raise TypeError("ts must be string")
     
     if not isinstance(pkg["sensor_value"], dict):
         raise TypeError("sensor_value must be a dict")
