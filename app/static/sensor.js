@@ -201,6 +201,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
     // TDSgraf for siste døgn
     const dayLabels = [];
     const dayDataset = [];
+    N = 5;
 
     let dayMeasurement = [];
     if (dayDepthSplit[0.5]) {
@@ -211,9 +212,9 @@ fetch("/api/data").then(response => response.json()).then(data => {
         dayMeasurement = dayDepthSplit[1.5];
     }
 
-    for (let i = 0; i < dayMeasurement.length; i++) {
+    for (let i = 0; i < dayMeasurement.length - N; i++) {
         let m = dayMeasurement[i];
-        dayLabels.push(new Date(m.ts.replace(" ", "T")).toLocaleTimeString());
+        dayLabels.push(new Date(m.ts.replace(" ", "T")).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit"}));
     }
 
     for (const dyb in dayDepthSplit) {
@@ -225,7 +226,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
 
         dayDataset.push({
             label: "Dybde " + dyb,
-            data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value), 5),
+            data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value), N),
 
             borderColor: color,
             backgroundColor: color
