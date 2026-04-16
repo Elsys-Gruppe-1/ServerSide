@@ -9,7 +9,7 @@ function splitBytime(data) {
 
     for (let i = 0; i < data.length; i++) {
         let m = data[i];
-        let tidspunkt = new Date(m.ts.replace(" ", "T"));
+        let tidspunkt = localDate(m.ts);
 
         if (tidspunkt >= oneDayAgo) {
             dayData.push(m);
@@ -67,7 +67,7 @@ function simpleMovingAverage(values, N) {
 
 
 
-//Funskjon for å oppnå riktig tidssone
+//Funksjon for å oppnå riktig tidssone
 function localDate(ts) {
     const [datePart, timePart] = ts.split(" ");
     const [year, month, day] = datePart.split("-").map(Number);
@@ -96,6 +96,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
     // Temperaturgraf for siste døgn
     const dayLabels = [];
     const dayDataset = [];
+    const N = 5;
 
     // dayMeasurement brukes for å bestemme hvilke målinger som skal gi x-aksen
     let dayMeasurement = [];
@@ -108,8 +109,10 @@ fetch("/api/data").then(response => response.json()).then(data => {
     }
 
     // Løkke som endrer formatering av timestamp og legger til ts (timestamp) i x-aksen
-    for (let i = 0; i < dayMeasurement.length; i++) {
-        dayLabels.push(localDate(dayMeasurement[i].ts).toLocaleTimeString());
+    for (let i = 0; i < dayMeasurement.length - N; i++) {
+        dayLabels.push(
+            localDate(dayMeasurement[i + Math.floor(N / 2)].ts)
+            .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit"}));
     }
 
 
@@ -123,7 +126,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
 
         dayDataset.push({
             label: "Dybde " + dyb,
-            data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value), 5),
+            data: simpleMovingAverage(measurement.map(objekt => objekt.sensor_value), N),
                 // simpleMovingAverage() regner ut gjennomsnittet av N målinger, 
                 // slik at vi får kurver som er lettere å lese i grafen
 
@@ -212,7 +215,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
     // TDSgraf for siste døgn
     const dayLabels = [];
     const dayDataset = [];
-    N = 5;
+    const N = 5;
 
     let dayMeasurement = [];
     if (dayDepthSplit[0.5]) {
@@ -258,7 +261,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
             scales: {
                 x: {
                     ticks: {
-                        maxTicksLimits: 6
+                        maxTicksLimit: 6
                     }
                 }
             }
@@ -313,7 +316,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
             scales: {
                 x: {
                     ticks: {
-                        maxTicksLimits: 8
+                        maxTicksLimit: 8
                     }
                 }
             }
