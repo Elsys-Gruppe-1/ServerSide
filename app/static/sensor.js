@@ -65,6 +65,17 @@ function simpleMovingAverage(values, N) {
     return newValues;
 }
 
+
+
+//Funskjon for å oppnå riktig tidssone
+function localDate(ts) {
+    const [datePart, timePart] = ts.split(" ");
+    const [year, month, day] = datePart.split("-").map(Number);
+    const [hour, minute, second] = timePart.split(":").map(Number);
+
+    return new Date(year, month - 1, day, hour, minute, second);
+}
+
 // TEMPERATUR
 
 //fetch henter data sendt fra sensorene og filtrerer ut målingene for alt annet enn temperatur
@@ -98,7 +109,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
 
     // Løkke som endrer formatering av timestamp og legger til ts (timestamp) i x-aksen
     for (let i = 0; i < dayMeasurement.length; i++) {
-        dayLabels.push(new Date(dayMeasurement[i].ts.replace(" ", "T")).toLocaleTimeString());
+        dayLabels.push(localDate(dayMeasurement[i].ts).toLocaleTimeString());
     }
 
 
