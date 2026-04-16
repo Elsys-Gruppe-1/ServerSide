@@ -109,7 +109,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
     }
 
     // Løkke som endrer formatering av timestamp og legger til ts (timestamp) i x-aksen
-    for (let i = 0; i < dayMeasurement.length - N_dag; i++) {
+    for (let i = 0; i <= dayMeasurement.length - N_dag; i++) {
         dayLabels.push(
             localDate(dayMeasurement[i + Math.floor(N_dag / 2)].ts)
             .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit"}));
@@ -173,9 +173,9 @@ fetch("/api/data").then(response => response.json()).then(data => {
     }
 
     // Løkke som endrer formatering av timestamp
-    for (let i = 0; i < weekMeasurement.length - N_uke; i++) {
+    for (let i = 0; i <= weekMeasurement.length - N_uke; i++) {
         weekLabels.push(
-            localDate(dayMeasurement[i + Math.floor(N / 2)],ts)
+            localDate(weekMeasurement[i + Math.floor(N_uke / 2)].ts)
             .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit"}));
     }
 
@@ -242,9 +242,9 @@ fetch("/api/data").then(response => response.json()).then(data => {
         dayMeasurement = dayDepthSplit[1.5];
     }
 
-    for (let i = 0; i < dayMeasurement.length - N_dag; i++) {
+    for (let i = 0; i <= dayMeasurement.length - N_dag; i++) {
         dayLabels.push(
-            localDate(dayMeasurement[i + Math.floor(N_dag / 2)])
+            localDate(dayMeasurement[i + Math.floor(N_dag / 2)].ts)
             .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit"}));
     }
 
@@ -300,7 +300,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
     }
 
     //Bruker nå den første målingen i grafen, bør endres til midt måling
-    for (let i = 0; i < weekMeasurement.length - N_uke; i++) {
+    for (let i = 0; i <= weekMeasurement.length - N_uke; i++) {
         weekLabels.push(
             localDate(weekMeasurement[i + Math.floor(N_uke / 2)].ts)
             .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit"}));
