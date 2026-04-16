@@ -73,7 +73,7 @@ function localDate(ts) {
     const [year, month, day] = datePart.split("-").map(Number);
     const [hour, minute, second] = timePart.split(":").map(Number);
 
-    return new Date(year, month - 1, day, hour, minute, second);
+    return new Date(year, month - 1, day, hour, minute, second); // month - 1 fordi js bruker 0 = januar
 }
 
 // TEMPERATUR
