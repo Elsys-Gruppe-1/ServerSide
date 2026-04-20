@@ -49,7 +49,7 @@ def csv_download():
                 "timestamp": readable_ts,
                 "Temperatur": "",
                 "TDS": "",
-                "Depth": m.depth
+                "depth": m.depth
             }
         
         if m.sensor_name == "Temperatur":
