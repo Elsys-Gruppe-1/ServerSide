@@ -13,7 +13,7 @@ def sensor():
 # Til grafene
 def get_data():
     with Session() as session:
-        measurements = session.query(Measurements).all()
+        measurements = session.query(Measurements).all() #Henter målinger fra tabellen Measurements
         result = []
     
         for m in measurements:
@@ -22,7 +22,7 @@ def get_data():
                         "ts":m.ts,
                         "sensor_value":m.sensor_value,
                         "depth":m.depth})
-        return result
+        return result #Liste med navn og tilhørende verdier
 
 @sensor_bp.route("/api/data")
 def api_data():
@@ -32,13 +32,13 @@ def api_data():
 #Funksjon som lager CSV-fil som kan lastes ned
 def csv_download():
     with Session() as session: #Åpner en database-session
-        measurements = session.query(Measurements).all() #Henter radene fra tabellen Measurements
+        measurements = session.query(Measurements).all() #Henter målinger fra tabellen Measurements
     
     group = {}
 
     for m in measurements:
         if isinstance(m.ts, (int, float)): #Gjør timestamp lesbar
-            readable_ts = datetime.fromtimestamp(m.ts). strftime("%Y-%m-%d %H:%M-%S")
+            readable_ts = datetime.fromtimestamp(m.ts). strftime("%Y-%m-%d %H:%M:%S")
         else:
             readable_ts = m.ts
         
@@ -49,8 +49,8 @@ def csv_download():
                 "pi_id": m.pi_id,
                 "timestamp": readable_ts,
                 "depth": m.depth,
-                "Temperatur": "", #Tom fordi det skal være mulig å fylle verdien senere
-                "TDS": ""
+                "Temperatur": "", #Tom verdi somfylles når vi finner temperatur-målingen
+                "TDS": "" #Tom verdi som fylles når vi finner TDS-målingen
             }
         
         if m.sensor_name == "Temperatur":
@@ -62,7 +62,7 @@ def csv_download():
     writer = csv.writer(output)
     writer.writerow(["Pi-id", "Timestamp", "Dybde", "Temperatur", "TDS"]) #Første rad i CSV-fila
 
-    for row in group.values():
+    for row in group.values(): #group.values gir radene fra dictionaryen group. Itererer gjennom de ferdige radene og skriver dem til CSV
         writer.writerow([
             row["pi_id"],
             row["timestamp"],
@@ -71,15 +71,15 @@ def csv_download():
             row["TDS"],
         ])
     
-    memory_file = BytesIO()
-    memory_file.write(output.getvalue().encode("utf-8"))
-    memory_file.seek(0)
+    memory_file = BytesIO() #Midlertidig fil for bytes istedenfor tekst.
+    memory_file.write(output.getvalue().encode("utf-8")) #Henter tekst fra StringIO-fila og gjør om til bytes
+    memory_file.seek(0) #Flytter pekeren fra slutten av filen til starten slik at send_file leser fra starten
 
     return send_file(
-        memory_file,
-        mimetype="text/csv",
-        as_attachment=True,
-        download_name="sensor_data.csv"
+        memory_file, #Filen som skal lastes ned
+        mimetype="text/csv", #At filen er av typen CSV
+        as_attachment=True, #Nettleseren skal laste ned
+        download_name="sensor_data.csv" #Filnavn
     )
 
 @sensor_bp.route("/api/download")
