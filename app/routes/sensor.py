@@ -29,26 +29,27 @@ def api_data():
     return jsonify(get_data())
 
 
+#Funksjon som lager CSV-fil som kan lastes ned
 def csv_download():
-    with Session() as session:
-        measurements = session.query(Measurements).all()
+    with Session() as session: #Åpner en database-session
+        measurements = session.query(Measurements).all() #Henter radene fra tabellen Measurements
     
     group = {}
 
     for m in measurements:
-        if isinstance(m.ts, (int, float)):
+        if isinstance(m.ts, (int, float)): #Gjør timestamp lesbar
             readable_ts = datetime.fromtimestamp(m.ts). strftime("%Y-%m-%d %H:%M-%S")
         else:
             readable_ts = m.ts
         
-        k = (m.pi_id, readable_ts, m.depth)
+        k = (m.pi_id, readable_ts, m.depth) #Ønsker at målinger med samme pi_id, timestamp, og depth skal havne på samme rad
 
         if k not in group:
             group[k] = {
                 "pi_id": m.pi_id,
                 "timestamp": readable_ts,
                 "depth": m.depth,
-                "Temperatur": "",
+                "Temperatur": "", #Tom fordi det skal være mulig å fylle verdien senere
                 "TDS": ""
             }
         
@@ -57,9 +58,9 @@ def csv_download():
         elif m.sensor_name == "TDS":
             group[k]["TDS"] = m.sensor_value
     
-    output = StringIO()
+    output = StringIO() #Midlertidig tekstfil
     writer = csv.writer(output)
-    writer.writerow(["pi_id", "timestamp", "depth", "Temperatur", "TDS"])
+    writer.writerow(["Pi-id", "Timestamp", "Dybde", "Temperatur", "TDS"]) #Første rad i CSV-fila
 
     for row in group.values():
         writer.writerow([
