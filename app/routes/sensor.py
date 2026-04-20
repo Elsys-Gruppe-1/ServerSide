@@ -41,15 +41,15 @@ def csv_download():
         else:
             readable_ts = m.ts
         
-        k = (m.pi_id, readable_ts)
+        k = (m.pi_id, readable_ts, m.depth)
 
         if k not in group:
             group[k] = {
                 "pi_id": m.pi_id,
                 "timestamp": readable_ts,
+                "depth": m.depth,
                 "Temperatur": "",
-                "TDS": "",
-                "depth": m.depth
+                "TDS": ""
             }
         
         if m.sensor_name == "Temperatur":
@@ -59,7 +59,7 @@ def csv_download():
     
     output = StringIO()
     writer = csv.writer(output)
-    writer.writerow(["pi_id", "timestamp", "Temperatur", "TDS", "depth"])
+    writer.writerow(["pi_id", "depth", "timestamp", "Temperatur", "TDS"])
 
     for row in group.values():
         writer.writerow([
