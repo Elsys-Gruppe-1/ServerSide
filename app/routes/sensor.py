@@ -33,16 +33,42 @@ def csv_download():
     with Session() as session:
         measurements = session.query(Measurements).all()
     
-    output = StringIO()
-    writer = csv.writer(output)
-    writer.writerow(["pi_id", "sensor_name", "ts", "sensor_value", "depth"])
+    group = {}
 
     for m in measurements:
         if isinstance(m.ts, (int, float)):
             readable_ts = datetime.fromtimestamp(m.ts). strftime("%Y-%m-%d %H:%M-%S")
         else:
             readable_ts = m.ts
-        writer.writerow([m.pi_id, m.sensor_name, readable_ts, m.sensor_value, m.depth])
+        
+        k = (m.pi_id, readable_ts)
+
+        if k not in group:
+            group[k] = {
+                "pi_id": m.pi_id,
+                "timestamp": readable_ts,
+                "Temperatur": "",
+                "TDS": "",
+                "Depth": m.depth
+            }
+        
+        if m.sensor_name == "Temperatur":
+            group[k]["Temperatur"] = m.sensor_value
+        elif m.sensor_name == "TDS":
+            group[k]["TDS"] = m.sensor_value
+    
+    output = StringIO()
+    writer = csv.writer(output)
+    writer.writerow(["pi_id", "timestamp", "Temperatur", "TDS", "depth"])
+
+    for row in group.values():
+        writer.writerow([
+            row["pi_id"],
+            row["timestamp"],
+            row["Temperatur"],
+            row["TDS"],
+            row["depth"]
+        ])
     
     memory_file = BytesIO()
     memory_file.write(output.getvalue().encode("utf-8"))
