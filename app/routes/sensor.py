@@ -59,15 +59,15 @@ def csv_download():
     
     output = StringIO()
     writer = csv.writer(output)
-    writer.writerow(["pi_id", "depth", "timestamp", "Temperatur", "TDS"])
+    writer.writerow(["pi_id", "timestamp", "depth", "Temperatur", "TDS"])
 
     for row in group.values():
         writer.writerow([
             row["pi_id"],
             row["timestamp"],
+            row["depth"],
             row["Temperatur"],
             row["TDS"],
-            row["depth"]
         ])
     
     memory_file = BytesIO()
