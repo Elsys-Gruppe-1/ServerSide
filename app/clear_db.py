@@ -1,4 +1,4 @@
-from app.database import Session
+from app.db import Session
 from app.models import Measurements
 
 with Session() as session:
