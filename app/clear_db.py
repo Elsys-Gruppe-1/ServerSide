@@ -1,5 +1,4 @@
-from app.db import Session
-from app.models import Measurements
+from app.db import Session, Measurements
 
 with Session() as session:
     session.query(Measurements).delete()
