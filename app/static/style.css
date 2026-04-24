@@ -33,9 +33,6 @@ h3 {
     padding: 20px;
     border-radius: 12px;
     box-sizing: border-box;
-
-    display: felx;
-    flex-direction: column;
 }
 
 .chart-card h3 {
@@ -45,7 +42,6 @@ h3 {
 
 .chart-box {
     height: 280px;
-    width: 100%;
     position: relative;
 }
 
