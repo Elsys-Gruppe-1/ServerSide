@@ -8,50 +8,55 @@
 {% block content %}
 
 <div class="container" style="max-width: 1400px; margin: auto; padding: 20px;">
-    <h1>Sensor</h1>
 
-    <a href="{{ url_for('sensor.download_data') }}" class="download-btn">
-        Last ned data
-    </a>
+    <div style="display: flex; align-items: center; gap: 30px; margin-bottom: 30px;">
+        <h1>Sensor</h1>
+
+        <a href="{{ url_for('sensor.download_data') }}" class="download-btn">
+            Last ned data
+        </a>
+    </div>
 
     <!--Temperatur-->
-    <h2>Temperatur</h2>
+
+    <section style="margin-bottom: 60px;">
+        <h2>Temperatur</h2>
 
 
-    <div style="display: flex; gap: 20px; margin-bottom: 50px;">
+        <div style="display: flex; gap: 20px;">
+            <!---Graf for siste døgn-->
+            <div style="flex: 1; height: 300px;">
+                <h3>Siste døgn</h3>
+                <canvas id="temperaturDagChart"></canvas>
+            </div>
 
-        <!---Graf for siste døgn-->
-        <div style="flex: 1; height: 300px;">
-            <h3>Siste døgn</h3>
-            <canvas id="temperaturDagChart"></canvas>
+            <!---Graf for siste uke-->
+            <div style="flex: 1; height: 300px;">
+                <h3>Siste 7 dager</h3>
+                <canvas id="temperaturUkeChart"></canvas>
+            </div>
         </div>
-
-        <!---Graf for siste uke-->
-        <div style="flex: 1; height: 300px;">
-            <h3>Siste 7 dager</h3>
-            <canvas id="temperaturUkeChart"></canvas>
-        </div>
-    </div>
+    </section>
 
 
     <!--TDS-->
-    <h2>TDS</h2>
+    <section style="margin-bottom: 60px;">
+        <h2>TDS</h2>
 
-    <div style="display: flex; gap: 20px; margin-bottom: 50px;">
+        <div style="display: flex; gap: 20px;">
+            <!---Graf for siste døgn-->
+            <div style="flex: 1; height: 300px;">
+                <h3>Siste døgn</h3>
+                <canvas id="tdsDagChart"></canvas>
+            </div>
 
-        <!---Graf for siste døgn-->
-        <div style="flex: 1; height: 300px;">
-            <h3>Siste døgn</h3>
-            <canvas id="tdsDagChart"></canvas>
+            <!---Graf for siste uke-->
+            <div style="flex: 1; height: 300px;">
+                <h3>Siste 7 dager</h3>
+                <canvas id="tdsUkeChart"></canvas>
+            </div>
         </div>
-
-        <!---Graf for siste uke-->
-        <div style="flex: 1; height: 300px;">
-            <h3>Siste 7 dager</h3>
-            <canvas id="tdsUkeChart"></canvas>
-        </div>
-    </div>
-
+    </section>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
