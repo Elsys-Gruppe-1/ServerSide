@@ -36,6 +36,11 @@ h3 {
     box-sizing: border-box;
 }
 
+.chart-card canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
 .home-container {
     display: flex;
     align-items: flex-start;
