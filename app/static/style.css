@@ -33,6 +33,7 @@ h3 {
     background-color: #FFEBF9;
     padding: 20px;
     border-radius: 12px;
+    box-sizing: border-box;
 }
 
 .home-container {
