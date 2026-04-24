@@ -29,7 +29,6 @@ h3 {
 
 .chart-card {
     flex: 1;
-    height: 320px;
     background-color: #FFEBF9;
     padding: 20px;
     border-radius: 12px;
@@ -47,12 +46,12 @@ h3 {
 .chart-box {
     height: 280px;
     width: 100%;
+    position: relative;
 }
 
 .chart-box canvas {
-    flex: 1;
     width: 100% !important;
-    height: auto !important;
+    height: 100% !important;
 }
 
 
