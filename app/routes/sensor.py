@@ -8,7 +8,7 @@ sensor_bp = Blueprint("sensor", __name__)
 
 @sensor_bp.route("/sensor")
 def sensor():
-    return render_template("sensor.html")
+    return render_template("sensor.html", active_page="sensor")
 
 # Til grafene
 def get_data():

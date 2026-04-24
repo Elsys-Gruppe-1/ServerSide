@@ -20,8 +20,18 @@
                 font-weight: bold;
                 font-size: 1.25rem
             }
+
+            
+
             .navbar-custom .nav-link:hover {
                 color: pink;
+            }
+
+            .navbar-custom .nav-tabs .nav-link.active {
+                color: black !important;
+                background-color: cadetblue !important;
+                border-color: cadetblue !important;
+                -webkit-text-stroke: 0 !important;
             }
 
             body {
@@ -46,11 +56,7 @@
                 border-color: rgb(195, 230, 227);
             }
 
-            .nav-tabs .nav-link.active {
-                background-color: cadetblue;
-                border-color: cadetblue;
-            }
-
+            
         </style>
 
     </head>
@@ -78,24 +84,19 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ url_for('home.home') }}">Home</a>
+                    <a class="nav-link {% if active_page == 'home' %}active{% endif %}" href="{{ url_for('home.home') }}">Home</a>
                     </li>
                     
-
-                    
                     <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('sensor.sensor') }}">Sensorprofil</a>
+                    <a class="nav-link {% if active_page == 'sensor' %}active{% endif %}" href="{{ url_for('sensor.sensor') }}">Sensorprofil</a>
                     </li>
                     
-
-
-
                     <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('analyse.analyse') }}">Manuell analyse</a>
+                    <a class="nav-link {% if active_page == 'analyse' %}active{% endif %}" href="{{ url_for('analyse.analyse') }}">Manuell analyse</a>
                     </li>
 
                     <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('ukas_fisk.ukas_fisk') }}">Ukas fisk</a>
+                    <a class="nav-link {% if active_page == 'ukas_fisk' %}active{% endif %}" href="{{ url_for('ukas_fisk.ukas_fisk') }}">Ukas fisk</a>
                     </li>
                     <!--
                     <li class="nav-item">

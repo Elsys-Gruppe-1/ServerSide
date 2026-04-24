@@ -6,7 +6,7 @@ analyse_bp = Blueprint("analyse", __name__)
 
 @analyse_bp.route("/analyse", methods=["GET", "POST"])
 def analyse():
-    return render_template("analyse.html", slave_count = get_active_slaves_count(), player_id='mainPlayer', fps=30, boxes=[])
+    return render_template("analyse.html", active_page="analyse", slave_count = get_active_slaves_count(), player_id='mainPlayer', fps=30, boxes=[])
 
 
 @analyse_bp.route('/upload-and-process', methods=['POST'])
