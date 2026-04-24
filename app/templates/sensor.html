@@ -12,7 +12,7 @@
     <div style="display: flex; align-items: center; gap: 30px; margin-bottom: 30px;">
         <h1>Sensordata</h1>
 
-        <a href="{{ url_for('sensor.download_data') }}" class="download-btn">
+        <a href="{{ url_for('sensor.download_data') }}" class="download-button">
             Last ned data
         </a>
     </div>
@@ -25,13 +25,13 @@
 
         <div style="display: flex; gap: 20px;">
             <!---Graf for siste døgn-->
-            <div style="flex: 1; height: 300px;">
+            <div class="chart-card">
                 <h3>Siste døgn</h3>
                 <canvas id="temperaturDagChart"></canvas>
             </div>
 
             <!---Graf for siste uke-->
-            <div style="flex: 1; height: 300px;">
+            <div class="chart-card">
                 <h3>Siste 7 dager</h3>
                 <canvas id="temperaturUkeChart"></canvas>
             </div>
@@ -45,13 +45,13 @@
 
         <div style="display: flex; gap: 20px;">
             <!---Graf for siste døgn-->
-            <div style="flex: 1; height: 300px;">
+            <div class="chart-card">
                 <h3>Siste døgn</h3>
                 <canvas id="tdsDagChart"></canvas>
             </div>
 
             <!---Graf for siste uke-->
-            <div style="flex: 1; height: 300px;">
+            <div class="chart-card">
                 <h3>Siste 7 dager</h3>
                 <canvas id="tdsUkeChart"></canvas>
             </div>
