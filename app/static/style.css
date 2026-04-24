@@ -76,3 +76,19 @@ h3 {
 }
 
 
+.ukas_fisk-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.ukas_fisk-container  > img {
+    flex: 1;
+    width: 45%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 10px;
+}
