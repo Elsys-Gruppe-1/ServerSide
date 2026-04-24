@@ -6,51 +6,53 @@
 
 <!--Blokk for content-->
 {% block content %}
-<h1>Sensor</h1>
 
-<a href="{{ url_for('sensor.download_data') }}" class="download-btn">
-    Last ned data
-</a>
+<div class="container" style="max-width: 1400px; margin: auto; padding: 20px;">
+    <h1>Sensor</h1>
 
-<!--Temperatur-->
-<h2>Temperatur</h2>
+    <a href="{{ url_for('sensor.download_data') }}" class="download-btn">
+        Last ned data
+    </a>
+
+    <!--Temperatur-->
+    <h2>Temperatur</h2>
 
 
-<div style="display: flex; gap: 20px; margin: auto;">
+    <div style="display: flex; gap: 20px; margin-bottom: 50px;">
 
-    <!---Graf for siste døgn-->
-    <div style="width: 48%; height: 300px;">
-        <h3>Siste døgn</h3>
-        <canvas id="temperaturDagChart"></canvas>
+        <!---Graf for siste døgn-->
+        <div style="width: 48%; height: 300px;">
+            <h3>Siste døgn</h3>
+            <canvas id="temperaturDagChart"></canvas>
+        </div>
+
+        <!---Graf for siste uke-->
+        <div style="width: 48%; height: 300px;">
+            <h3>Siste 7 dager</h3>
+            <canvas id="temperaturUkeChart"></canvas>
+        </div>
     </div>
 
-    <!---Graf for siste uke-->
-    <div style="width: 48%; height: 300px;">
-        <h3>Siste 7 dager</h3>
-        <canvas id="temperaturUkeChart"></canvas>
+
+    <!--TDS-->
+    <h2>TDS</h2>
+
+    <div style="display: flex; gap: 20px; margin-bottom: 50px;">
+
+        <!---Graf for siste døgn-->
+        <div style="width: 48%; height: 300px;">
+            <h3>Siste døgn</h3>
+            <canvas id="tdsDagChart"></canvas>
+        </div>
+
+        <!---Graf for siste uke-->
+        <div style="width: 48%; height: 300px;">
+            <h3>Siste 7 dager</h3>
+            <canvas id="tdsUkeChart"></canvas>
+        </div>
     </div>
+
 </div>
-
-
-<!--TDS-->
-<h2>TDS</h2>
-
-<div style="display: flex; gap: 20px; margin-bottom: 50px; margin-left: 50px;">
-
-    <!---Graf for siste døgn-->
-    <div style="width: 48%; height: 300px;">
-        <h3>Siste døgn</h3>
-        <canvas id="tdsDagChart"></canvas>
-    </div>
-
-    <!---Graf for siste uke-->
-    <div style="width: 48%; height: 300px;">
-        <h3>Siste 7 dager</h3>
-        <canvas id="tdsUkeChart"></canvas>
-    </div>
-</div>
-
-
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ url_for('static', filename='sensor.js') }}"></script>
