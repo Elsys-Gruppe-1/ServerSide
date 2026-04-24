@@ -29,17 +29,13 @@ h3 {
 
 .chart-card {
     flex: 1;
-    height: 380px;
+    height: 400px;
     background-color: #FFEBF9;
     padding: 20px;
     border-radius: 12px;
     box-sizing: border-box;
 }
 
-.chart-card canvas {
-    width: 100% !important;
-    height: 100% !important;
-}
 
 .home-container {
     display: flex;
