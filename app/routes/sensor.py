@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, jsonify, send_file
-from app.db import Session, Measurements
+from flask import Blueprint, render_template, jsonify, send_file, send_from_directory
+from app.db import Session, Measurements, Detections
 from io import StringIO, BytesIO
 import csv
 from datetime import datetime
@@ -27,6 +27,32 @@ def get_data():
 @sensor_bp.route("/api/data")
 def api_data():
     return jsonify(get_data())
+
+@sensor_bp.route("/api/detections")
+def api_detections():
+    with Session() as session:
+        detections = session.query(Detections).all()
+
+        result = []
+
+        for d in detections:
+            filename = d.image_path.split("/")[-1]
+            result.append(({
+                "id": d.id,
+                "pi_id": d.pi_id,
+                "fish_id": d.fish_id,
+                "data": d.data,
+                "image_path": d.image_path,
+                "image_url": f"/detection-image/{filename}",
+                "ts": d.ts
+            }))
+
+        return jsonify(result)
+
+#Denne må sees på!
+@sensor_bp.route("/detection-image/<path:filename>")
+def detection_image(filename):
+    return send_from_directory("../instance/save_prediction_images", filename)
 
 
 #Funksjon som lager CSV-fil som kan lastes ned
@@ -60,7 +86,7 @@ def csv_download():
     
     output = StringIO() #Midlertidig tekstfil
     writer = csv.writer(output)
-    writer.writerow(["Pi-id", "Timestamp", "Dybde", "Temperatur", "TDS"]) #Første rad i CSV-fila
+    writer.writerow(["Pi-id", "Timestamp", "Dybde", "Temperatur", "TDS"]) #Første rad i CSV-filen
 
     for row in group.values(): #group.values gir radene fra dictionaryen group. Itererer gjennom de ferdige radene og skriver dem til CSV
         writer.writerow([
@@ -85,3 +111,33 @@ def csv_download():
 @sensor_bp.route("/api/download")
 def download_data():
     return csv_download()
+
+def detections_csv():
+    with Session() as session:
+        detections = session.query(Detections).all() #Henter verdiene fra tabellen Detections
+
+    
+    output = StringIO()
+    writer = csv.writer(output)
+    writer.writerow(["ID", "Pi-id", "Fish-id", "Data", "Image path", "Timestamp"]) #Første rad i csv-filen
+
+    for d in detections:
+        writer.writerow([
+            d.id, d.pi_id, d.fish_id, d.data, d.image_path, d.ts
+        ])
+    
+    memory_file = BytesIO()
+    memory_file.write(output.getvalue().encode("utf-8"))
+    memory_file.seek(0)
+
+    return send_file(
+        memory_file,
+        mimetype="text/csv",
+        as_attachment=True,
+        download_name="detections.csv"
+    )
+
+
+@sensor_bp.route("/download/detections")
+def download_detections():
+    return detections_csv()

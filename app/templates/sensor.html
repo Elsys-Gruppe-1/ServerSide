@@ -13,7 +13,7 @@
         <h1>Sensordata</h1>
 
         <a href="{{ url_for('sensor.download_data') }}" class="download-button">
-            Last ned data
+            Last ned sensordata (CSV)
         </a>
     </div>
 
@@ -65,8 +65,21 @@
             </div>
         </div>
     </section>
+
+
+    <section id="detections-section">
+        <h2>Deteksjoner</h2>
+
+        <a href="{{ url_for('sensor.download_detections') }}" class="download-button">
+            Last ned deteksjoner (CSV)
+        </a>
+
+        <div id="detections-table"></div>
+    </section>
 </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ url_for('static', filename='sensor.js') }}"></script>
+<script src="{{ url_for('static', filename='data.js') }}"></script>
 {% endblock %}
