@@ -106,7 +106,7 @@ def detections_csv():
     return send_file(
         memory_file,
         mimetype="text/csv",
-        as_attachement=True,
+        as_attachment=True,
         download_name="detections.csv"
     )
 
