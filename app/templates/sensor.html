@@ -74,19 +74,7 @@
             Last ned deteksjoner (CSV)
         </a>
 
-        <div id="fish-list"></div>
-        <div id="details-placeholder">
-            <p>Velg en fisk for å se detaljene.</p>
-        </div>
-
-        <div id="details-content" style="display: none;">
-            <img id="detail-main-img" alt="Bilde av deteksjon">
-            <div id="details-stats"></div>
-            <div id="detail-thumbnails"></div>
-            <div id="chart-container" style="display: none;">
-                <canvas id="confidenceChart"></canvas>
-            </div>
-        </div>
+        <div id="detections-table"></div>
     </section>
 </div>
 
@@ -94,4 +82,5 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ url_for('static', filename='sensor.js') }}"></script>
 <script src="{{ url_for('static', filename='analyse.js') }}"></script>
+<script src="{{ url_for('static', filename='data.js') }}"></script>
 {% endblock %}

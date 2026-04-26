@@ -28,6 +28,8 @@ def get_data():
 def api_data():
     return jsonify(get_data())
 
+@sensor_bp.route("/api/detections")
+
 
 #Funksjon som lager CSV-fil som kan lastes ned
 def csv_download():
