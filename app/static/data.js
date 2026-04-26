@@ -35,7 +35,6 @@ function loadDetections() {
 
                         <div>
                             <p><strong>Fish ID:</strong> ${d.fish_id}</p>
-                            <p><strong>Pi ID:</strong> ${d.pi_id}</p>
                             <p><strong>Tid:</strong> ${readableTime}</p>
                         </div>
                     `;
