@@ -109,6 +109,13 @@ h3 {
     border-radius: 10px;
 }
 
+#detections-table {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
 .detection-row {
     display: flex;
     gap: 15px;
@@ -116,12 +123,11 @@ h3 {
     background-color: #FFEBF9;
     padding: 15px;
     border-radius: 12px;
-    margin-bottom: 12px;
 }
 
 .detection-img {
-    width: 120px;
-    height: 80px;
+    width: 160px;
+    height: 110px;
     object-fit: cover;
     border-radius: 8px;
 }

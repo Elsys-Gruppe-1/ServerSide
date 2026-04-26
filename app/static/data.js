@@ -7,7 +7,7 @@ function loadDetections() {
 
             container.innerHTML = "";
 
-            detections.forEach(d => {
+            detections.slice(-6).reverse().forEach(d => {
                 const row = document.createElement("div");
                 row.className = "detection-row";
 
