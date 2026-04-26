@@ -26,7 +26,7 @@ def handle_upload():
     return process_image(media_data)
     
 @analyse_bp.route('/upload-and-process-raw', methods=['POST'])
-def handle_upload():
+def handle_upload_raw():
     data = request.get_json()
     if not data or 'media' not in data:
         return jsonify({"error": "Ingen data mottatt"}), 400
@@ -34,6 +34,6 @@ def handle_upload():
     media_data = data['media']
     file_type = data.get('filetype', 'unknown')
     pi_id = data.get('pi_id', 0)
-    
+
     print(f"Sending {file_type} to raw processing stations...")
     return process_image_raw(media_data, pi_id)
