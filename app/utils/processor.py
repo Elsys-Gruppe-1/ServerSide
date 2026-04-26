@@ -1,6 +1,10 @@
 from app.extensions import socketio
 import threading
 from flask_socketio import SocketIO, emit, join_room, leave_room
+import time
+import os
+import base64
+from app.db import Session, Detections, IMAGE_DIR
 
 # Container for results (Key: request_id or just a global for simple use)
 result_container = {}
@@ -39,6 +43,29 @@ def process_image(image_data):
         "request_id": request_id
     }
 
+
+def process_image_raw(image_data, pi_id): 
+    request_id = str(uuid.uuid4())
+    req_event = threading.Event()
+    
+    # Store the image and pi_id so the DB save function can access them later
+    results[request_id] = {
+        'event': req_event, 
+        'data': None,
+        'original_image': image_data,
+        'pi_id': pi_id
+    }
+
+    socketio.emit('process_this_raw', {
+        'image': image_data,
+        'request_id': request_id
+    })
+
+    return {
+        "status": "Files uploaded, waiting for processing...",
+        "request_id": request_id
+    }
+
 # This function should be called by your SocketIO listener in socket_events.py
 def handle_incoming_result(data):
     print("Received result from slave:", data)
@@ -47,3 +74,43 @@ def handle_incoming_result(data):
     if request_id in results:
         results[request_id]['data'] = data.get('result')
         results[request_id]['event'].set() # This wakes up the process_image function
+
+
+def save_detection_to_db(pi_id, prediction_data, image_data):
+    """Helper function to handle file saving and DB insertion"""
+    
+    # 1. Save the image to the disk
+    # Assuming image_data is base64 encoded from the initial HTTP request
+    timestamp = str(int(time.time()))
+    filename = f"detection_pi_{pi_id}_{timestamp}.jpg"
+    filepath = os.path.join(IMAGE_DIR, filename)
+    
+    try:
+        # If your image data includes the "data:image/jpeg;base64," prefix, strip it
+        if "," in image_data:
+            image_data = image_data.split(",")[1]
+            
+        with open(filepath, "wb") as fh:
+            fh.write(base64.b64decode(image_data))
+            
+    except Exception as e:
+        print(f"Failed to save image to disk: {e}")
+        return # Abort DB save if image save fails
+
+    # 2. Save the record to the database
+    db_session = Session()
+    try:
+        new_detection = Detections(
+            pi_id=pi_id,
+            data=prediction_data, # Dumps the dict right into the JSON column
+            image_path=filepath,
+            ts=timestamp
+        )
+        db_session.add(new_detection)
+        db_session.commit()
+        print(f"Saved detection {new_detection.id} to database.")
+    except Exception as e:
+        db_session.rollback()
+        print(f"Database insertion failed: {e}")
+    finally:
+        db_session.close()

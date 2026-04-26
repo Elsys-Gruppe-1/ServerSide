@@ -1,6 +1,10 @@
-from sqlalchemy import create_engine, JSON, Column, Integer, String, Float
+import os
+from sqlalchemy import create_engine, JSON, Column, Integer, String, Float, BINARY
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+
+IMAGE_DIR = os.path.join("instance", "save_prediction_images")
+os.makedirs(IMAGE_DIR, exist_ok=True)
 
 engine = create_engine("sqlite:///instance/database.db")
 Base = declarative_base()
@@ -17,6 +21,16 @@ class Measurements(Base):
     depth = Column(Float, nullable = True)
 
     #values = Column(JSON, nullable = False)
+
+class Detections(Base):
+    __tablename__ = "detections"
+
+    id = Column(Integer, primary_key = True, autoincrement = True)
+    pi_id = Column(Integer, nullable=False)
+    data = Column(JSON, nullable = False)
+    image_path = Column(String, nullable=False)
+    ts = Column(String, nullable = False)
+    
 
 
 """

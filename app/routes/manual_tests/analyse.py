@@ -1,6 +1,9 @@
 from flask import Blueprint, redirect, url_for, render_template, request, jsonify
-from app.socket_events import get_active_slaves_count
-from app.utils.processor import process_image
+from app.socket_events import get_active_slaves_count, add_raw_process_id, pop_raw_process_id
+from app.utils.processor import process_image, process_image_raw
+from app.extensions import socketio
+import uuid
+import threading
 
 analyse_bp = Blueprint("analyse", __name__)
 
@@ -22,3 +25,15 @@ def handle_upload():
     print(f"Sending {file_type} to processing stations...")
     return process_image(media_data)
     
+@analyse_bp.route('/upload-and-process-raw', methods=['POST'])
+def handle_upload():
+    data = request.get_json()
+    if not data or 'media' not in data:
+        return jsonify({"error": "Ingen data mottatt"}), 400
+
+    media_data = data['media']
+    file_type = data.get('filetype', 'unknown')
+    pi_id = data.get('pi_id', 0)
+    
+    print(f"Sending {file_type} to raw processing stations...")
+    return process_image_raw(media_data, pi_id)
