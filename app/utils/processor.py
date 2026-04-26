@@ -63,11 +63,12 @@ def raw_processing_result(data):
 
         original_image = results[request_id].get('original_image')
         pi_id = results[request_id].get('pi_id', 0) # Fallback to 0 if not provided
-            
+        fish_id = results[request_id].get('fish_id', 0) # Fallback to 0 if not provided
+
         if processed_data and original_image:
-            save_detection_to_db(pi_id, processed_data, original_image)
+            save_detection_to_db(pi_id, processed_data, original_image, fish_id)
             
-def process_image_raw(image_data, pi_id): 
+def process_image_raw(image_data, pi_id, fish_id): 
     request_id = str(uuid.uuid4())
     req_event = threading.Event()
     
@@ -76,7 +77,8 @@ def process_image_raw(image_data, pi_id):
         'event': req_event, 
         'data': None,
         'original_image': image_data,
-        'pi_id': pi_id
+        'pi_id': pi_id,
+        'fish_id': fish_id
     })
     # 2. Send to slaves
     socketio.emit('process_this_raw', {
@@ -89,7 +91,7 @@ def process_image_raw(image_data, pi_id):
     
     if not event_is_set:
         # Worker took too long or crashed. Clean up and return 504.
-        pop_raw_process_id(request_id, None)
+        pop_raw_process_id(request_id)
         return jsonify({"error": "Worker processing timed out"}), 504
 
     # 4. The worker responded! Grab the data and clean up the dictionary
@@ -111,7 +113,7 @@ def handle_incoming_result(data):
         results[request_id]['event'].set() # This wakes up the process_image function
 
 
-def save_detection_to_db(pi_id, prediction_data, image_data):
+def save_detection_to_db(pi_id, prediction_data, image_data, fish_id):
     """Helper function to handle file saving and DB insertion"""
     
     # 1. Save the image to the disk
@@ -137,6 +139,7 @@ def save_detection_to_db(pi_id, prediction_data, image_data):
     try:
         new_detection = Detections(
             pi_id=pi_id,
+            fish_id=fish_id,
             data=prediction_data, # Dumps the dict right into the JSON column
             image_path=filepath,
             ts=timestamp

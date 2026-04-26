@@ -34,6 +34,7 @@ def handle_upload_raw():
     media_data = data['media']
     file_type = data.get('filetype', 'unknown')
     pi_id = data.get('pi_id', 0)
+    fish_id = data.get('fish_id', 0)
 
     print(f"Sending {file_type} to raw processing stations...")
-    return process_image_raw(media_data, pi_id)
+    return process_image_raw(media_data, pi_id, fish_id)
