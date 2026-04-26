@@ -27,6 +27,7 @@ class Detections(Base):
 
     id = Column(Integer, primary_key = True, autoincrement = True)
     pi_id = Column(Integer, nullable=False)
+    fish_id = Column(Integer, nullable=False)
     data = Column(JSON, nullable = False)
     image_path = Column(String, nullable=False)
     ts = Column(String, nullable = False)
