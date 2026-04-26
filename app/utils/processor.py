@@ -1,6 +1,8 @@
 from app.extensions import socketio
 import threading
 from flask_socketio import SocketIO, emit, join_room, leave_room
+from flask import jsonify
+from app.socket_events import add_raw_process_id, pop_raw_process_id
 import time
 import os
 import base64
@@ -48,23 +50,35 @@ def process_image_raw(image_data, pi_id):
     request_id = str(uuid.uuid4())
     req_event = threading.Event()
     
-    # Store the image and pi_id so the DB save function can access them later
-    results[request_id] = {
+
+    add_raw_process_id(request_id, {
         'event': req_event, 
         'data': None,
         'original_image': image_data,
         'pi_id': pi_id
-    }
-
+    })
+    # 2. Send to slaves
     socketio.emit('process_this_raw', {
         'image': image_data,
         'request_id': request_id
     })
 
-    return {
-        "status": "Files uploaded, waiting for processing...",
-        "request_id": request_id
-    }
+    # 3. Block this HTTP thread until the slave responds (or 30 seconds pass)
+    event_is_set = req_event.wait(timeout=30.0)
+    
+    if not event_is_set:
+        # Worker took too long or crashed. Clean up and return 504.
+        pop_raw_process_id(request_id, None)
+        return jsonify({"error": "Worker processing timed out"}), 504
+
+    # 4. The worker responded! Grab the data and clean up the dictionary
+    processed_result = pop_raw_process_id(request_id)
+    
+    if processed_result['data'] is None:
+         return jsonify({"error": "Worker failed to process image"}), 500
+         
+    # 5. Return the final data back to your simple HTTP client
+    return jsonify({"status": "success", "data": processed_result['data']}), 200
 
 # This function should be called by your SocketIO listener in socket_events.py
 def handle_incoming_result(data):

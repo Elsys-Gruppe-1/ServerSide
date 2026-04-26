@@ -11,8 +11,8 @@ def get_active_slaves_count():
     """Returns the current number of connected processing units."""
     return len(connected_slaves)
 
-def add_raw_process_id(request_id, req_event):
-    results[request_id] = {'event': req_event, 'data':None}
+def add_raw_process_id(request_id, data):
+    results[request_id] = data
 
     
 def pop_raw_process_id(request_id):
