@@ -80,7 +80,7 @@ function localDate(ts) {
 // TEMPERATUR
 
 //fetch henter data sendt fra sensorene og filtrerer ut målingene for alt annet enn temperatur
-fetch("/api/data").then(response => response.json()).then(data => {
+fetch("/api/data").then(response => response.json()).then(data => { alert("Antall målinger: " + data.length);
     const temperaturData = data.filter(m => m.sensor_name === "Temperatur");
     const timeSplit = splitBytime(temperaturData);
     // splitByTime lager to lister med målinger fra siste døgn i den ene, 
