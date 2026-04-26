@@ -35,7 +35,7 @@ function loadDetections() {
 
                     if (d.data) {
                         for (const [species, conf] of Object.entries(d.data)) {
-                            if (species === "fish_length") continue; // Ignorerer fish length fra data
+                            if (species === "Fish_length") continue; // Ignorerer fish length fra data
                             if (conf > bestConf) {
                                 bestConf = conf;
                                 bestSpecies = species;
