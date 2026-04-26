@@ -6,7 +6,7 @@ function getBestSpecies(detection) {
     let bestConf = 0;
 
     if (detection.data) {
-        for (const [species, conf] of Object.entries(deetection.data)) {
+        for (const [species, conf] of Object.entries(detection.data)) {
             if (!all_species.includes(species)) continue;
 
             if (conf > bestConf) {
@@ -31,8 +31,15 @@ function loadDetections() {
             const grouped = {}; // Objekt hvor alle deteksjoner med samme fish-id skal samles
 
             detections.forEach(d => { // Her beholdes kun nyeste måling for hver fisk
-                if (!grouped[d.fish_id] || Number(d.ts) > Number(grouped[d.fish_id].ts)) {
+                const current = getBestSpecies(d);
+
+                if (!grouped[d.fish_id]) {
                     grouped[d.fish_id] = d;
+                } else {
+                    const saved = getBestSpecies(grouped[d.fish_id]);
+                    if (current.bestConf > saved.bestConf) {
+                        grouped[d.fish_id] = d;
+                    }
                 }
             });
 
