@@ -4,14 +4,12 @@ function getBestSpecies(detection) {
     let bestSpecies = "Ukjent";
     let bestConf = 0;
 
-    if (detection.data) {
-        for (const [species, conf] of Object.entries(detection.data)) {
-            if (!all_species.includes(species)) continue;
+    const speciesData = detection.data.Species_data;
 
-            if (conf > bestConf) {
-                bestConf = conf;
-                bestSpecies = species;
-            }
+    for (const [species, conf] of Object.entries(speciesData)) {
+        if (conf > bestConf) {
+            bestConf = conf;
+            bestSpecies = species;
         }
     }
 
