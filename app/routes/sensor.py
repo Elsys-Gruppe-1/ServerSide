@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify, send_file
+from flask import Blueprint, render_template, jsonify, send_file, send_from_directory
 from app.db import Session, Measurements, Detections
 from io import StringIO, BytesIO
 import csv
@@ -36,16 +36,23 @@ def api_detections():
         result = []
 
         for d in detections:
+            filename = d.image_path.split("/")[-1]
             result.append(({
                 "id": d.id,
                 "pi_id": d.pi_id,
                 "fish_id": d.fish_id,
                 "data": d.data,
                 "image_path": d.image_path,
+                "image_url": f"/detection-image/{filename}",
                 "ts": d.ts
             }))
 
         return jsonify(result)
+
+#Denne må sees på!
+@sensor_bp.route("/detection-image/<path:filename>")
+def detection_image(filename):
+    return send_from_directory("../instance/save_prediction_images", filename)
 
 
 #Funksjon som lager CSV-fil som kan lastes ned
