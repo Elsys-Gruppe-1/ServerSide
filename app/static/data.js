@@ -1,12 +1,11 @@
-
-const all_species = ["Pukkellaks", "Ørret", "Laks", "Ingen fisk", "Ukjent fisk"];
+const all_species = ["Pukkel laks", "Ørret", "Laks", "Ingen fisk", "Ukjent fisk"];
 
 function getBestSpecies(detection) {
     let bestSpecies = "Ukjent";
     let bestConf = 0;
 
     if (detection.data) {
-        for (const [species, conf] of Object.entries(deetection.data)) {
+        for (const [species, conf] of Object.entries(detection.data)) {
             if (!all_species.includes(species)) continue;
 
             if (conf > bestConf) {
@@ -15,52 +14,47 @@ function getBestSpecies(detection) {
             }
         }
     }
-    return { bestSpecies, bestConf};
+
+    return { bestSpecies, bestConf };
 }
 
-// Henter og viser deteksjoner
 function loadDetections() {
     fetch("/api/detections")
-        .then(response => response.json()) // Endre svar fra flask til js
+        .then(response => response.json())
         .then(detections => {
             const container = document.getElementById("detections-table");
             if (!container) return;
 
-            container.innerHTML = ""; // For å unngå duplikater
+            container.innerHTML = "";
 
-            const grouped = {}; // Objekt hvor alle deteksjoner med samme fish-id skal samles
+            const grouped = {};
 
-            detections.forEach(d => { // Her beholdes kun nyeste måling for hver fisk
-                if (!grouped[d.fish_id] || Number(d.ts) > Number(grouped[d.fish_id].ts)) {
+            detections.forEach(d => {
+                const current = getBestSpecies(d);
+
+                if (!grouped[d.fish_id]) {
                     grouped[d.fish_id] = d;
+                } else {
+                    const saved = getBestSpecies(grouped[d.fish_id]);
+
+                    if (current.bestConf > saved.bestConf) {
+                        grouped[d.fish_id] = d;
+                    }
                 }
             });
 
-            // Sorter og ta 6 nyeste fisk
             Object.values(grouped)
                 .sort((a, b) => Number(b.ts) - Number(a.ts))
                 .slice(0, 6)
                 .forEach(d => {
-
                     const row = document.createElement("div");
                     row.className = "detection-row";
+
+                    const { bestSpecies, bestConf } = getBestSpecies(d);
 
                     let readableTime = d.ts;
                     if (!isNaN(Number(d.ts))) {
                         readableTime = new Date(Number(d.ts) * 1000).toLocaleString();
-                    }
-
-                    let bestSpecies = "Ukjent";
-                    let bestConf = 0;
-
-                    if (d.data) {
-                        for (const [species, conf] of Object.entries(d.data)) {
-                            if (species === "Fish_length") continue; // Ignorerer fish length fra data
-                            if (conf > bestConf) {
-                                bestConf = conf;
-                                bestSpecies = species;
-                            }
-                        }
                     }
 
                     row.innerHTML = `
