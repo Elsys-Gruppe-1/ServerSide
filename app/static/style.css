@@ -130,3 +130,18 @@ h3 {
     height: 110px;
     object-fit: contain;
 }
+
+@media (max-width: 768px) {
+    .home-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .home-container > img {
+        width: 100%;
+    }
+
+    .text-box {
+        width: 100%;
+    }
+}
