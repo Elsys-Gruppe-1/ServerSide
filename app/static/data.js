@@ -1,16 +1,16 @@
+// Henter og viser deteksjoner
 function loadDetections() {
     fetch("/api/detections")
-        .then(response => response.json())
+        .then(response => response.json()) // Endre svar fra flask til js
         .then(detections => {
             const container = document.getElementById("detections-table");
             if (!container) return;
 
-            container.innerHTML = "";
+            container.innerHTML = ""; // For å unngå duplikater
 
-            // Gruppér på fish_id (nyeste per fisk)
-            const grouped = {};
+            const grouped = {}; // Objekt hvor alle deteksjoner med samme fish-id skal samles
 
-            detections.forEach(d => {
+            detections.forEach(d => { // Her beholdes kun nyeste måling for hver fisk
                 if (!grouped[d.fish_id] || Number(d.ts) > Number(grouped[d.fish_id].ts)) {
                     grouped[d.fish_id] = d;
                 }
@@ -35,6 +35,7 @@ function loadDetections() {
 
                         <div>
                             <p><strong>Fish ID:</strong> ${d.fish_id}</p>
+                            <p><strong>Art:</strong> ${d.data}</p>
                             <p><strong>Tid:</strong> ${readableTime}</p>
                         </div>
                     `;
