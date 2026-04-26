@@ -6,7 +6,6 @@ function getBestSpecies(detection) {
 
     if (detection.data) {
         for (const [species, conf] of Object.entries(detection.data)) {
-        for (const [species, conf] of Object.entries(detection.data)) {
             if (!all_species.includes(species)) continue;
 
             if (conf > bestConf) {
@@ -29,9 +28,6 @@ function loadDetections() {
             container.innerHTML = "";
 
             const grouped = {};
-
-            detections.forEach(d => {
-                const current = getBestSpecies(d);
 
             detections.forEach(d => { // Her beholdes kun nyeste måling for hver fisk
                 const current = getBestSpecies(d);
