@@ -1,3 +1,23 @@
+
+const all_species = ["Pukkellaks", "Ørret", "Laks", "Ingen fisk", "Ukjent fisk"];
+
+function getBestSpecies(detection) {
+    let bestSpecies = "Ukjent";
+    let bestConf = 0;
+
+    if (detection.data) {
+        for (const [species, conf] of Object.entries(deetection.data)) {
+            if (!all_species.includes(species)) continue;
+
+            if (conf > bestConf) {
+                bestConf = conf;
+                bestSpecies = species;
+            }
+        }
+    }
+    return { bestSpecies, bestConf};
+}
+
 // Henter og viser deteksjoner
 function loadDetections() {
     fetch("/api/detections")
