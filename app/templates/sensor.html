@@ -67,15 +67,15 @@
     </section>
 
 
-    <section id="detections-section">
-        <h2>Deteksjoner</h2>
+    <div style="display: flex; align-items: center; gap: 30px; margin-bottom: 30px;">
+        <h1>Deteksjoner</h1>
 
         <a href="{{ url_for('sensor.download_detections') }}" class="download-button">
             Last ned deteksjoner (CSV)
         </a>
 
         <div id="detections-table"></div>
-    </section>
+    </div>
 </div>
 
 
