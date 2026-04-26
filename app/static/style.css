@@ -108,3 +108,20 @@ h3 {
     object-fit: contain;
     border-radius: 10px;
 }
+
+.detection-row {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    background-color: #FFEBF9;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+.detection-img {
+    width: 120px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+}

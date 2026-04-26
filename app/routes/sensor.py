@@ -29,6 +29,23 @@ def api_data():
     return jsonify(get_data())
 
 @sensor_bp.route("/api/detections")
+def api_detections():
+    with Session() as session:
+        detections = session.query(Detections).all()
+
+        result = []
+
+        for d in detections:
+            result.append(({
+                "id": d.id,
+                "pi_id": d.pi_id,
+                "fish_id": d.fish_id,
+                "data": d.data,
+                "image_path": d.image_path,
+                "ts": d.ts
+            }))
+
+        return jsonify(result)
 
 
 #Funksjon som lager CSV-fil som kan lastes ned
@@ -91,6 +108,7 @@ def download_data():
 def detections_csv():
     with Session() as session:
         detections = session.query(Detections).all() #Henter verdiene fra tabellen Detections
+
     
     output = StringIO()
     writer = csv.writer(output)
