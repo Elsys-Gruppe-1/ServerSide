@@ -1,5 +1,5 @@
 from flask import Blueprint, redirect, url_for, render_template, request, jsonify
-from app.socket_events import get_active_slaves_count, add_raw_process_id, pop_raw_process_id
+from app.socket_events import get_active_slaves_count
 from app.utils.processor import process_image, process_image_raw
 from app.extensions import socketio
 import uuid

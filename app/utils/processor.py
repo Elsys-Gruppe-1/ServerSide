@@ -2,7 +2,7 @@ from app.extensions import socketio
 import threading
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from flask import jsonify
-from app.socket_events import add_raw_process_id, pop_raw_process_id
+#from app.socket_events import add_raw_process_id, pop_raw_process_id
 import time
 import os
 import base64
@@ -45,7 +45,28 @@ def process_image(image_data):
         "request_id": request_id
     }
 
+def add_raw_process_id(request_id, data):
+    results[request_id] = data
 
+    
+def pop_raw_process_id(request_id):
+    return results.pop(request_id, None)
+
+def raw_processing_result(data):
+    request_id = data.get('request_id')
+    processed_data = data.get('data')
+
+        # If this request is still waiting, give it the data and wake it up
+    if request_id in results:
+        results[request_id]['data'] = processed_data
+        results[request_id]['event'].set()
+
+        original_image = results[request_id].get('original_image')
+        pi_id = results[request_id].get('pi_id', 0) # Fallback to 0 if not provided
+            
+        if processed_data and original_image:
+            save_detection_to_db(pi_id, processed_data, original_image)
+            
 def process_image_raw(image_data, pi_id): 
     request_id = str(uuid.uuid4())
     req_event = threading.Event()
