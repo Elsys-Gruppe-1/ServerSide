@@ -30,12 +30,24 @@ function loadDetections() {
                         readableTime = new Date(Number(d.ts) * 1000).toLocaleString();
                     }
 
+                    let bestSpecies = "Ukjent";
+                    let bestConf = 0;
+
+                    if (d.data) {
+                        for (const [species, conf] of Object.entries(d.data)) {
+                            if (conf > bestConf) {
+                                bestConf = conf;
+                                bestSpecies = species;
+                            }
+                        }
+                    }
+
                     row.innerHTML = `
                         <img src="${d.image_url}" class="detection-img">
 
                         <div>
                             <p><strong>Fish ID:</strong> ${d.fish_id}</p>
-                            <p><strong>Art:</strong> ${d.data}</p>
+                            <p><strong>Art:</strong> ${bestSpecies} ($(bestConf * 100).toFixed(1)}%)</p>
                             <p><strong>Tid:</strong> ${readableTime}</p>
                         </div>
                     `;
