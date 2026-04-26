@@ -29,13 +29,14 @@ function loadDetections() {
 
             const grouped = {};
 
-            detections.forEach(d => { // Her beholdes kun nyeste måling for hver fisk
+            detections.forEach(d => {
                 const current = getBestSpecies(d);
 
                 if (!grouped[d.fish_id]) {
                     grouped[d.fish_id] = d;
                 } else {
                     const saved = getBestSpecies(grouped[d.fish_id]);
+
                     if (current.bestConf > saved.bestConf) {
                         grouped[d.fish_id] = d;
                     }
