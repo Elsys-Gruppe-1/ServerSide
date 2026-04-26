@@ -111,7 +111,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
     for (let i = 0; i <= dayMeasurement.length - N_dag; i++) {
         dayLabels.push(
             localDate(dayMeasurement[i + Math.floor(N_dag / 2)].ts)
-            .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit"}));
+            .toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"}));
     }
 
 
@@ -175,7 +175,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
     for (let i = 0; i <= weekMeasurement.length - N_uke; i++) {
         weekLabels.push(
             localDate(weekMeasurement[i + Math.floor(N_uke / 2)].ts)
-            .toLocaleDateString([], { day: "2-digit", month: "2-digit"}));
+            .toLocaleDateString([], {day: "2-digit", month: "2-digit"}));
     }
 
     //Løkke som fordeler data i ulike datasets basert på dybde
@@ -244,7 +244,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
     for (let i = 0; i <= dayMeasurement.length - N_dag; i++) {
         dayLabels.push(
             localDate(dayMeasurement[i + Math.floor(N_dag / 2)].ts)
-            .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit"}));
+            .toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"}));
     }
 
     for (const dyb in dayDepthSplit) {
@@ -302,7 +302,7 @@ fetch("/api/data").then(response => response.json()).then(data => {
     for (let i = 0; i <= weekMeasurement.length - N_uke; i++) {
         weekLabels.push(
             localDate(weekMeasurement[i + Math.floor(N_uke / 2)].ts)
-            .toLocaleDateString([], { day: "2-digit", month: "2-digit"}));
+            .toLocaleDateString([], {day: "2-digit", month: "2-digit"}));
     }
 
     for (const dyb in weekDepthSplit) {
