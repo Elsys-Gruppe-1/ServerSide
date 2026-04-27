@@ -26,6 +26,22 @@ h3 {
     font-weight: bold;
 }
 
+.charts-div{
+    display: flex;
+    gap: 20px;
+}
+
+@media (max-width: 1000px) {
+    .charts-div {
+        flex-direction: column;
+        gap: 15px; /* Optional: slightly tighter gap for mobile */
+    }
+
+    /* This ensures any canvas or chart inside takes up the full width */
+    .charts-div > * {
+        width: 100% !important;
+    }
+}
 
 .chart-card {
     flex: 1;
@@ -60,6 +76,25 @@ h3 {
     padding: 0 20px;
 }
 
+.home-container  > img {
+    flex: 1;
+    width: 45%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+
+@media (max-width: 1000px) {
+    .home-container {
+        flex-direction: column;
+        align-items: center; /* Optional: centers the items horizontally when stacked */
+    }
+    .home-container  > img {
+    width: 100%;
+}
+
+}
 
 .text-box {
     flex: 1;
@@ -69,13 +104,6 @@ h3 {
 }
 
 
-.home-container  > img {
-    flex: 1;
-    width: 45%;
-    height: auto;
-    object-fit: contain;
-    border-radius: 10px;
-}
 
 
 .text-box img {
