@@ -5,10 +5,10 @@ let socket = null;
 let confidenceChartInstance = null;
 let isVideo = false;
 
-// Define the 4 species based on predict.py
+// define 4 species based on predict.py
 const ALL_SPECIES = ["Pukkel laks", "Ørret", "Laks", "Ingen fisk", "Ukjent fisk"];
 
-// Store all aggregated data by Fish ID
+// store all aggregated data by Fish ID
 const fishTracker = new Map(); 
 
 document.querySelectorAll('.example-btn').forEach(button => {
@@ -19,18 +19,18 @@ document.querySelectorAll('.example-btn').forEach(button => {
         try {
             statusDiv.innerText = "Henter eksempelfil...";
             
-            // 1. Fetch the file from the static folder
+            // 1. fetch the file from the static folder
             console.log("Fetching example file from:", fileUrl);
             const response = await fetch(fileUrl);
             console.log("Fetch response:", response);
             const blob = await response.blob();
             console.log("Fetched blob:", blob);
-            // 2. Create a "File" object from the blob
+            // 2. create a "File" object from the blob
             const fileName = fileUrl.split('/').pop();
             const file = new File([blob], fileName, { type: blob.type });
             console.log("Created File object:", file);
-            // 3. Trigger your existing analysis function
-            // We pass the file directly to a slightly modified version of your upload logic
+            // 3. trigger existing analysis function
+            // pass file directly to a slightly modified version of upload logic
             processFile(file);
             
         } catch (error) {
@@ -40,7 +40,7 @@ document.querySelectorAll('.example-btn').forEach(button => {
     });
 });
 
-// Helper function to bridge the gap
+// helper function to bridge gap
 function processFile(file) {
   const statusDiv = document.getElementById('statusUpdate');
     isVideo = file.type.startsWith('video/');
@@ -158,7 +158,7 @@ function processFile(file) {
     }
     initSocket();
     
-    // Auto trigger upload when file is selected
+    // auto trigger upload when file is selected
     const fileInput = document.getElementById('mediaInput');
     if (fileInput) {
       fileInput.addEventListener('change', uploadMedia);
@@ -224,7 +224,7 @@ function processFile(file) {
       }
     }
 
-    // Keep the single best crop as the thumbnail reference
+    // keep single best crop as the thumbnail reference
     if (topSpeciesConfFrame > fish.maxSpeciesConf) {
       fish.maxSpeciesConf = topSpeciesConfFrame;
       fish.bestSpecies = topSpeciesFrame;
@@ -292,14 +292,14 @@ function renderFishList() {
   if (fish.frames.length > 0) {
       let sums = { "Pukkel laks": 0, "Ørret": 0, "Laks": 0, "Ingen fisk": 0, "Ukjent fisk": 0 };
       
-      // Summer opp all sikkerhet
+      // summer opp all sikkerhet
       fish.frames.forEach(frame => {
           ALL_SPECIES.forEach(sp => {
               sums[sp] += (frame.Species_data && frame.Species_data[sp]) ? frame.Species_data[sp] : 0;
           });
       });
 
-      // Finn snittet og den vinnende arten
+      // finn snittet og den vinnende arten
       ALL_SPECIES.forEach(sp => {
           let avg = sums[sp] / fish.frames.length;
           if (avg > bestAvgConf) {
@@ -354,14 +354,14 @@ function renderDetailsPanel(fishId, specificFrameData = null) {
   if (fish.frames.length > 0) {
       let sums = { "Pukkel laks": 0, "Ørret": 0, "Laks": 0, "Ingen fisk": 0, "Ukjent fisk": 0 };
       
-      // Summer opp all sikkerhet
+      // summer opp all sikkerhet
       fish.frames.forEach(frame => {
           ALL_SPECIES.forEach(sp => {
               sums[sp] += (frame.Species_data && frame.Species_data[sp]) ? frame.Species_data[sp] : 0;
           });
       });
 
-      // Finn snittet og den vinnende arten
+      // finn snittet og den vinnende arten
       ALL_SPECIES.forEach(sp => {
           let avg = sums[sp] / fish.frames.length;
           if (avg > bestAvgConf) {
@@ -414,7 +414,7 @@ function renderChart(fish) {
   const sortedFrames = [...fish.frames].sort((a, b) => a.Frame - b.Frame);
   const labels = [];
   
-  // Track running sums for the average calculation
+  // Track running sums for average calculation
   const runningSums = { "Pukkel laks": 0, "Ørret": 0, "Laks": 0, "Ingen fisk": 0, "Ukjent fisk" : 0};
   
   // Prepare data arrays for each species
@@ -456,7 +456,7 @@ function renderChart(fish) {
     backgroundColor: 'transparent',
     borderWidth: 2,
     tension: 0.3,
-    pointRadius: 0 // Hide dots for a cleaner line graph
+    pointRadius: 0 // Hide dots for cleaner line graph
   }));
 
   confidenceChartInstance = new Chart(ctx, {

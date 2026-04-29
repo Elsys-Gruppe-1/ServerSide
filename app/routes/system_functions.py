@@ -8,9 +8,9 @@ def webhook():
     """
     Endpoint to handle GitHub webhook for automatic updates
     """
-    # Optional: Add a secret token check here for security
+    # Optional: Add secret token check here for security
     try:
-        # Pull the latest code
+        # Pull latest code
         subprocess.run(['git', 'pull', 'origin', 'main'], check=True)
         # Restart the systemd service to apply changes
         # Note: The 'root' user or sudoers permissions are required for this
