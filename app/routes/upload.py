@@ -10,7 +10,7 @@ upload_bp = Blueprint("upload", __name__)
 base_ts = time.time()
 
 
-# Validate the input
+# Validere input
 def validate_package(pkg):
     # Sjekker om pkg er en dict
     if not isinstance(pkg, dict):

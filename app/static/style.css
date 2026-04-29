@@ -34,10 +34,8 @@ h3 {
 @media (max-width: 1000px) {
     .charts-div {
         flex-direction: column;
-        gap: 15px; /* Optional: slightly tighter gap for mobile */
+        gap: 15px; 
     }
-
-    /* This ensures any canvas or chart inside takes up the full width */
     .charts-div > * {
         width: 100% !important;
     }
@@ -88,7 +86,7 @@ h3 {
 @media (max-width: 1000px) {
     .home-container {
         flex-direction: column;
-        align-items: center; /* Optional: centers the items horizontally when stacked */
+        align-items: center; 
     }
     .home-container  > img {
     width: 100%;
