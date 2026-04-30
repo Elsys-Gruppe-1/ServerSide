@@ -11,7 +11,7 @@ def create_app():
 
 
 
-    from app.routes.sensor import data_bp
+    from app.routes.data import data_bp
 
     from app.routes.upload import upload_bp
     
