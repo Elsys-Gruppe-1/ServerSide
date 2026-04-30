@@ -12,7 +12,7 @@
     <div style="display: flex; align-items: center; gap: 30px; margin-bottom: 30px;">
         <h1>Sensordata</h1>
 
-        <a href="{{ url_for('sensor.download_data') }}" class="download-button">
+        <a href="{{ url_for('data.download_data') }}" class="download-button">
             Last ned sensordata (CSV)
         </a>
     </div>
@@ -70,7 +70,7 @@
         <div style="display: flex; align-items: center; gap: 30px; margin-bottom: 30px;">
          <h1>Deteksjoner</h1>
 
-            <a href="{{ url_for('sensor.download_detections') }}" class="download-button">
+            <a href="{{ url_for('data.download_detections') }}" class="download-button">
                 Last ned deteksjoner (CSV)
             </a>
         </div>
