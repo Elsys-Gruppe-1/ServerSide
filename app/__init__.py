@@ -11,7 +11,7 @@ def create_app():
 
 
 
-    from app.routes.sensor import sensor_bp
+    from app.routes.sensor import data_bp
 
     from app.routes.upload import upload_bp
     
@@ -26,7 +26,7 @@ def create_app():
   
 
 
-    app.register_blueprint(sensor_bp)
+    app.register_blueprint(data_bp)
 
     app.register_blueprint(upload_bp)
     app.register_blueprint(system_bp)

@@ -4,11 +4,11 @@ from io import StringIO, BytesIO
 import csv
 from datetime import datetime
 
-sensor_bp = Blueprint("sensor", __name__)
+data_bp = Blueprint("data", __name__)
 
-@sensor_bp.route("/sensor")
-def sensor():
-    return render_template("sensor.html", active_page="sensor")
+@data_bp.route("/data")
+def data():
+    return render_template("data.html", active_page="data")
 
 # Til grafene
 def get_data():
@@ -24,11 +24,11 @@ def get_data():
                         "depth":m.depth})
         return result #Liste med navn og tilhørende verdier
 
-@sensor_bp.route("/api/data")
+@data_bp.route("/api/data")
 def api_data():
     return jsonify(get_data())
 
-@sensor_bp.route("/api/detections")
+@data_bp.route("/api/detections")
 def api_detections():
     with Session() as session:
         detections = session.query(Detections).all()
@@ -50,7 +50,7 @@ def api_detections():
         return jsonify(result)
 
 #Denne må sees på!
-@sensor_bp.route("/detection-image/<path:filename>")
+@data_bp.route("/detection-image/<path:filename>")
 def detection_image(filename):
     return send_from_directory("../instance/save_prediction_images", filename)
 
@@ -108,7 +108,7 @@ def csv_download():
         download_name="sensor_data.csv" #Filnavn
     )
 
-@sensor_bp.route("/api/download")
+@data_bp.route("/api/download")
 def download_data():
     return csv_download()
 
@@ -138,6 +138,6 @@ def detections_csv():
     )
 
 
-@sensor_bp.route("/download/detections")
+@data_bp.route("/download/detections")
 def download_detections():
     return detections_csv()
