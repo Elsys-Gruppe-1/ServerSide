@@ -63,7 +63,7 @@ function loadDetections() {
 
                         <div>
                             <p><strong>Fish ID:</strong> ${d.fish_id}</p>
-                            <p><strong>Art:</strong> ${bestSpecies} (${(bestConf * 100).toFixed(1)}%)</p>
+                            <p><strong>Art:</strong> ${best.bestSpecies} (${(best.bestConf * 100).toFixed(1)}%)</p>
                             <p><strong>Tid:</strong> ${readableTime}</p>
                         </div>
                     `;
