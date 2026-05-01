@@ -127,11 +127,11 @@ def detections_csv():
     
     output = StringIO()
     writer = csv.writer(output)
-    writer.writerow(["ID", "Pi-id", "Data", "Image path", "Timestamp"]) #Første rad i csv-filen
+    writer.writerow(["ID", "Pi-id", "Fish-id", "Data", "Image path", "Timestamp"]) #Første rad i csv-filen
 
     for d in detections:
         writer.writerow([
-            d.id, d.pi_id, d.data, d.image_path, readable_ts
+            d.id, d.pi_id, d.fish_id, d.data, d.image_path, readable_ts
         ])
     
     memory_file = BytesIO()
