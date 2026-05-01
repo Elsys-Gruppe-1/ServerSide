@@ -115,6 +115,14 @@ def download_data():
 def detections_csv():
     with Session() as session:
         detections = session.query(Detections).all() #Henter verdiene fra tabellen Detections
+    
+
+
+    for d in detections:
+        if isinstance(d.ts, (int, float)): #Gjør timestamp lesbar
+            readable_ts = datetime.fromtimestamp(d.ts). strftime("%Y-%m-%d %H:%M:%S")
+        else:
+            readable_ts = d.ts
 
     
     output = StringIO()
@@ -123,7 +131,7 @@ def detections_csv():
 
     for d in detections:
         writer.writerow([
-            d.id, d.pi_id, d.fish_id, d.data, d.image_path, d.ts
+            d.id, d.pi_id, d.fish_id, d.data, d.image_path, readable_ts
         ])
     
     memory_file = BytesIO()
