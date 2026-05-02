@@ -54,9 +54,6 @@ def api_detections():
 def detection_image(filename):
     return send_from_directory("../instance/save_prediction_images", filename)
 
-@data_bp.route("/images/<file>")
-def serve_image(file):
-    return send_from_directory("instance/save_prediction_images", file)
 
 
 #Funksjon som lager CSV-fil som kan lastes ned
@@ -124,7 +121,7 @@ def detections_csv():
     
     output = StringIO()
     writer = csv.writer(output)
-    writer.writerow(["ID", "Pi-id", "Fish-id", "Data", "Image path", "Timestamp"]) #Første rad i csv-filen
+    writer.writerow(["ID", "Pi-id", "Fish-id", "Data", "Timestamp"]) #Første rad i csv-filen
 
     for d in detections:
         if isinstance(d.ts, (int, float)): #Gjør timestamp lesbar
@@ -135,11 +132,9 @@ def detections_csv():
         else:
             readable_ts = d.ts
         
-        file = os.path.basename(d.image_path)
-        image_url = f"/images/{file}"
 
         writer.writerow([
-            d.id, d.pi_id, d.fish_id, d.data, image_url, readable_ts
+            d.id, d.pi_id, d.fish_id, d.data, readable_ts
         ])
     
     memory_file = BytesIO()
