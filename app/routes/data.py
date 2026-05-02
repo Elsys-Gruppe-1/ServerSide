@@ -125,6 +125,9 @@ def detections_csv():
     for d in detections:
         if isinstance(d.ts, (int, float)): #Gjør timestamp lesbar
             readable_ts = datetime.fromtimestamp(d.ts). strftime("%Y-%m-%d %H:%M:%S")
+        
+        elif isinstance(d.ts, str) and d.ts.isdigit():
+            readable_ts = datetime.fromtimestamp(int(d.ts)).strftime("%Y-%m-%d %H:%M:%S")
         else:
             readable_ts = d.ts
 
