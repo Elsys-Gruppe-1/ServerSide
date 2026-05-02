@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, jsonify, send_file, send_from_directory
 from app.db import Session, Measurements, Detections
 from io import StringIO, BytesIO
-import csv
+import csv, os
 from datetime import datetime
 
 data_bp = Blueprint("data", __name__)
@@ -53,6 +53,10 @@ def api_detections():
 @data_bp.route("/detection-image/<path:filename>")
 def detection_image(filename):
     return send_from_directory("../instance/save_prediction_images", filename)
+
+@data_bp.route("/images/<file>")
+def serve_image(file):
+    return send_from_directory("instance/save_prediction_images", file)
 
 
 #Funksjon som lager CSV-fil som kan lastes ned
@@ -130,9 +134,12 @@ def detections_csv():
             readable_ts = datetime.fromtimestamp(int(d.ts)).strftime("%Y-%m-%d %H:%M:%S")
         else:
             readable_ts = d.ts
+        
+        file = os.path.basename(d.image_path)
+        image_url = f"/images/{file}"
 
         writer.writerow([
-            d.id, d.pi_id, d.fish_id, d.data, d.image_path, readable_ts
+            d.id, d.pi_id, d.fish_id, d.data, image_url, readable_ts
         ])
     
     memory_file = BytesIO()
