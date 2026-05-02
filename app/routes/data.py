@@ -117,6 +117,10 @@ def detections_csv():
         detections = session.query(Detections).all() #Henter verdiene fra tabellen Detections
     
 
+    
+    output = StringIO()
+    writer = csv.writer(output)
+    writer.writerow(["ID", "Pi-id", "Fish-id", "Data", "Image path", "Timestamp"]) #Første rad i csv-filen
 
     for d in detections:
         if isinstance(d.ts, (int, float)): #Gjør timestamp lesbar
@@ -124,12 +128,6 @@ def detections_csv():
         else:
             readable_ts = d.ts
 
-    
-    output = StringIO()
-    writer = csv.writer(output)
-    writer.writerow(["ID", "Pi-id", "Fish-id", "Data", "Image path", "Timestamp"]) #Første rad i csv-filen
-
-    for d in detections:
         writer.writerow([
             d.id, d.pi_id, d.fish_id, d.data, d.image_path, readable_ts
         ])
